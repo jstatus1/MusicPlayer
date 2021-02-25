@@ -10,7 +10,7 @@ export const FAILURE = {
 
 export const success = () => {
     return {
-        type: ACTION_TYPES.SUCCESS
+    type: ACTION_TYPES.SUCCESS
     }
 }
 

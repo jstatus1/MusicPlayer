@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import Routes from './routes'
 
 class App extends React.Component
 {
@@ -19,7 +20,7 @@ class App extends React.Component
     render()
     {
         return(<div>
-            {this.state.hello ? <div> {this.state.hello} </div>: null}
+            <Routes/>
         </div>)
     }
 }
