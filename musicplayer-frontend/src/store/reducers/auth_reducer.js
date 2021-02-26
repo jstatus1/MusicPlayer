@@ -3,7 +3,7 @@ import * as ACTION_TYPES from '../actions/action_types'
 const initialState = {
   is_authenticated: false,
   profile: null,
-  db_profile: null 
+  db_profile: null
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -11,9 +11,7 @@ const AuthReducer = (state = initialState, action) => {
       case ACTION_TYPES.LOGIN_SUCCESS:
         return {
           ...state,
-          is_authenticated: true,
-          profile: null,
-          db_profile: null
+          is_authenticated: true
         }
       case ACTION_TYPES.LOGIN_FAILURE:
         return {

@@ -11,6 +11,12 @@ import Profile from './containers/profile'
 import history from './utils/history'
 import AuthCheck from './utils/authcheck'
 import Auth from './utils/auth';
+
+import Posts from './Blog/posts'
+import AddPost from './Blog/addpost'
+import ShowPost from './Blog/showpost'
+import EditPost from './Blog/editpost'
+
 import UnauthRedirect from './functional/unauthredirect'
 import ProtectedRoute from './functional/protectedroute'
 
@@ -57,10 +63,16 @@ class Routes extends Component{
                     <Header auth={auth}/>
                         <Switch>
                             <Route exact path='/' render={(props)=><Container1 auth={auth}/>}></Route>
-                            <Route path='/authcheck' render={(props)=> <AuthCheck auth={auth}/>} />
+                            <Route path='/authcheck' render={() => <AuthCheck auth={auth} /> } />
                             <Route path='/redirect' component={UnauthRedirect}/>
                             <Route path='/callback' render={(props) => {handleAuthentication(props); return Callback}}/>
                             <Route path="/component/:id" render={(props)=><Component1 {...props}/>}/>
+
+                            <Route path="/posts" component={Posts}/>
+                            <Route path="/post/:pid" component={ShowPost} />
+                            <Route path="/addpost" component={AddPost}/>
+                            <Route path = "/editpost/:pid" component={EditPost}/>
+
                             <PrivateRoute path="/privateroute" auth={auth} component={ProtectedRoute}/>
                             <PrivateRoute path="/profile" auth={auth} component={Profile}/>
                         </Switch>
