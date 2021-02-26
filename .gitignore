@@ -3,6 +3,7 @@
 # dependencies
 /.musicplayer-frontend/node_modules
 /musicplayer-backend/node_modules
+/musicplayer-backend/main/db.js
 /.pnp
 .pnp.js
 

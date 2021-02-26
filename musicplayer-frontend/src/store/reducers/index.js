@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   reducer1: Reducer1,
   auth_reducer: AuthReducer,
   user_reducer: UserReducer,
-  posts_reducer: PostsReducer
+  posts_reducer: PostsReducer 
 })
 
 export default rootReducer;
