@@ -2,7 +2,8 @@ import * as ACTION_TYPES from '../actions/action_types'
 
 const initialState = {
   is_authenticated: false,
-  profile: null
+  profile: null,
+  db_profile: null 
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -10,7 +11,9 @@ const AuthReducer = (state = initialState, action) => {
       case ACTION_TYPES.LOGIN_SUCCESS:
         return {
           ...state,
-          is_authenticated: true
+          is_authenticated: true,
+          profile: null,
+          db_profile: null
         }
       case ACTION_TYPES.LOGIN_FAILURE:
         return {
@@ -26,6 +29,16 @@ const AuthReducer = (state = initialState, action) => {
         return {
           ...state,
           profile: null
+        }
+      case ACTION_TYPES.SET_DB_PROFILE:
+        return {
+          ...state,
+          db_profile: action.payload
+        }
+      case ACTION_TYPES.REMOVE_DB_PROFILE:
+        return {
+          ...state,
+          db_profile: null
         }
       default:
         return state
