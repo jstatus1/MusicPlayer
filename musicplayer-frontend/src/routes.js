@@ -20,6 +20,8 @@ import EditPost from './Blog/editpost'
 import UnauthRedirect from './functional/unauthredirect'
 import ProtectedRoute from './functional/protectedroute'
 
+import axios from 'axios';
+ 
 
 
 import {Router, Route, Switch, Redirect} from 'react-router'
@@ -42,15 +44,27 @@ const PrivateRoute = ({component: Component, auth }) => (
 )
 
 class Routes extends Component{
+  send_profile_to_db = (profile) => {
+    const data = profile
+    
+    axios.post('/api/posts/userprofiletodb', data )
+      .then(axios.get('/api/get/userprofilefromdb', {params: {email: profile.profile.email}})
+        .then(res => this.props.set_db_profile(res.data)) )
+  }
+
   componentDidMount() {
     if(auth.isAuthenticated()) {
       this.props.login_success()
       auth.getProfile()
-      setTimeout(() => {this.props.add_profile(auth.userProfile)}, 2000)
+      
+      setTimeout(() => {this.props.add_profile(auth.userProfile)}, 400)
+      setTimeout(() => {this.send_profile_to_db(auth.userProfile)}, 400)
     }
     else {
       this.props.login_failure()
       this.props.remove_profile()
+      this.props.remove_db_profile()
+      history.replace('/')
     }
   }
 
@@ -88,7 +102,9 @@ function mapDispatchToProps (dispatch) {
     login_success: () => dispatch(ACTIONS.login_success()),
     login_failure: () => dispatch(ACTIONS.login_failure()),
     add_profile: (profile) => dispatch(ACTIONS.add_profile(profile)),
-    remove_profile: () => dispatch(ACTIONS.remove_profile())
+    remove_profile: () => dispatch(ACTIONS.remove_profile()),
+    set_db_profile: (profile) => dispatch(ACTIONS.set_db_profile(profile)),
+    remove_db_profile: () => dispatch(ACTIONS.remove_db_profile())
   }
 }
 

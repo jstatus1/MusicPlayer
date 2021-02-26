@@ -14,14 +14,14 @@ router.get('/api/get/allposts', (req, res, next ) => {
   })
   
   
-  // router.post('/api/post/posttodb', (req, res, next) => {
-  //   const values = [req.body.title, req.body.body, req.body.uid, req.body.username]
-  //   pool.query(`INSERT INTO posts(title, body, user_id, author, date_created)
-  //               VALUES($1, $2, $3, $4, NOW() )`, values, (q_err, q_res) => {
-  //           if(q_err) return next(q_err);
-  //           res.json(q_res.rows)
-  //     })
-  // })
+  router.post('/api/post/posttodb', (req, res, next) => {
+    const values = [req.body.title, req.body.body, req.body.uid, req.body.username]
+    pool.query(`INSERT INTO posts(title, body, user_id, author, date_created)
+                VALUES($1, $2, $3, $4, NOW() )`, values, (q_err, q_res) => {
+            if(q_err) return next(q_err);
+            res.json(q_res.rows)
+      })
+  })
   
   router.put('/api/put/post', (req, res, next) => {
     const values = [req.body.title, req.body.body, req.body.uid, req.body.pid, req.body.username]
