@@ -80,11 +80,16 @@ class ShowPost extends Component {
         axios.post('/api/post/commenttodb', data)
           .then(res => console.log(res))
           .catch((err) => console.log(err))
-          .then(setTimeout(() => history.replace('/posts'), 700))
         window.scroll({top: 0, left: 0, behavior: 'smooth'})
         this.handleCommentSubmit(submitted_comment)
       }
-    
+      
+      handleCommentSubmit = (submitted_comment) => {
+        setTimeout(() =>
+          this.setState({comments_motion: [submitted_comment, ...this.state.comments_motion]}),
+          50
+       )};
+       
       handleUpdate = () => {
         const comment = this.state.comment
         const cid = this.state.cid
@@ -188,7 +193,7 @@ class ShowPost extends Component {
 function mapStateToProps(state)
 {
     return{
-        comments: state.props_reducer.comments,
+        comments: state.posts_reducer.comments,
         db_profile: state.auth_reducer.db_profile
     }
 }

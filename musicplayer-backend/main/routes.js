@@ -111,24 +111,24 @@ router.get('/api/get/allposts', (req, res, next ) => {
 */
 
 router.post('/api/posts/userprofiletodb', (req, res, next) => {
-  const values = [req.body.profile.nickname, req.body.profile.email, req.body.profile.email_verified]
-  pool.query(`INSERT INTO users(username, email, email_verified, date_created)
-              VALUES($1, $2, $3, NOW())
-              ON CONFLICT DO NOTHING`, values,
-              (q_err, q_res) => {
-                res.json(q_res.rows)
-      })
-} )
-
-router.get('/api/get/userprofilefromdb', (req, res, next) => {
-  const email = req.query.email
-  console.log(email)
-  pool.query(`SELECT * FROM users
-              WHERE email=$1`, [ email ],
-              (q_err, q_res) => {
-                res.json(q_res.rows)
-      })
-} )
+    const values = [req.body.profile.nickname, req.body.profile.email, req.body.profile.email_verified]
+    pool.query(`INSERT INTO users(username, email, email_verified, date_created)
+                VALUES($1, $2, $3, NOW())
+                ON CONFLICT DO NOTHING`, values,
+                (q_err, q_res) => {
+                  res.json(q_res.rows)
+        })
+  } )
+  
+  router.get('/api/get/userprofilefromdb', (req, res, next) => {
+    const email = String(req.query.email)
+    console.log(email)
+    pool.query(`SELECT * FROM users
+                WHERE email=$1`, [ email ],
+                (q_err, q_res) => {
+                  res.json(q_res.rows)
+        })
+  } )
   
   router.get('/api/get/userposts', (req, res, next) => {
     const user_id = req.query.user_id

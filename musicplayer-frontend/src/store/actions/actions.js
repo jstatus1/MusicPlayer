@@ -81,6 +81,19 @@ export const remove_db_posts = () => {
   }
 }
 
+export const fetch_user_posts = (posts) => {
+  return {
+    type: ACTION_TYPES.FETCH_USER_POSTS,
+    payload: posts
+  }
+}
+
+export const remove_user_posts = () => {
+  return {
+    type: ACTION_TYPES.REMOVE_USER_POSTS
+  }
+}
+
 
 export const fetch_post_comments = (comments) => {
   return {
