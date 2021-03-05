@@ -2,7 +2,7 @@
 
 CREATE TABLE users(
     uid SERIAL PRIMARY KEY,
-    username VARCHAR(20) UNIQUE,
+    username VARCHAR(30) UNIQUE,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(50) UNIQUE,

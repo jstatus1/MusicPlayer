@@ -88,7 +88,8 @@ const keys = require('../../config/keys')
       new GoogleStrategy({
           clientID: keys.googleClientID,
           clientSecret: keys.googleClientSecret,
-          callbackURL: '/auth/google/callback'
+          callbackURL: '/auth/google/callback',
+          proxy: true
       }, 
       (accessToken, refreshToken, profile, done)=> {
           pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],

@@ -21,7 +21,7 @@ app.use(
     })
 );
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); 
 
 app.use(logger('dev'));
 app.use(express.json());
