@@ -40,3 +40,16 @@ CREATE TABLE comments(
     post_id INT REFERENCES posts(pid),
     date_created TIMESTAMP
 );
+
+CREATE TABLE listener(
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  user_name VARCHAR(30) UNIQUE,
+  register_date DATE,
+  instagram VARCHAR(200),
+  twitter VARCHAR(200),
+  facebook VARCHAR(200),
+  about_me VARCHAR(350),
+  avatar VARCHAR(100),
+  password VARCHAR(255)
+);
