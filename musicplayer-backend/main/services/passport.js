@@ -4,15 +4,7 @@ const keys = require('../../config/keys')
 
 var pool = require('../db')
 
-passport.serializeUser((user, done) => {
-    done(null, user.uid)
-});
 
-passport.deserializeUser((uid, done) => {
-   pool.query(`SELECT * FROM users WHERE uid=$1 LIMIT 1)`, [uid], (q_err, q_res) => {
-    done(null, q_res.rows[0])
-   })
-});
 
 //passport OAuth
 passport.use(
@@ -52,13 +44,22 @@ passport.use(
         //     }
         //})
 
-       
-        pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1)`, [(profile.id).toString()]).then((res) => {
-            console.log(res.rows[0])
-            done(null, res.rows[0])
-        }).catch((err) => {
-            console.log(err)
-        })
+        
+        pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
+            (q_err, q_res)=> {
+                if(q_err)
+                {
+                    return done(q_err);
+                }
+
+                if(q_res.rows.length > 0)
+                {
+                    console.log((profile.id).toString())
+                    return done(null, q_res.rows[0]);
+                }
+            }
+        )
 
     })
 )
+

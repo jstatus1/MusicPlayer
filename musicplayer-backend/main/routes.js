@@ -34,23 +34,23 @@ const { json } = require('body-parser');
 
 router.post("/register",async (req,res)=> {
   const email = req.body.email
-  console.log(email)
   //check to see if email already exists
   await pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email], 
                  async (q_err, q_res) => {
+                  
                   if(q_res.rows.length > 0)
                   {
+                    console.log(q_res.rows[0])
                     return res.status(400).send({message: 'This User Already Exists'})
                   }else{
                       //if Does Not exist send profile to database
                       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                      console.log("Hashed Password: " + hashedPassword)
                       const values = [req.body.username, req.body.email, req.body.email_verified, hashedPassword]
                       await pool.query(`INSERT INTO users(username, email, email_verified, password, date_created)
                                   VALUES($1, $2, $3, $4, NOW())
                                   ON CONFLICT DO NOTHING`, values,
                                   (q_err, q_res) => {
-                                    return res.json("User Created")
+                                    return res.send(q_res.rows[0])
                         })
                   }  
     })
