@@ -29,6 +29,16 @@ const PostsReducer = (state = initialState, action) => {
           ...state,
           comments: []
         }
+      case ACTION_TYPES.FETCH_USER_POSTS:
+        return {
+          ...state,
+          user_posts: action.payload
+        }
+      case ACTION_TYPES.REMOVE_USER_POSTS:
+        return {
+          ...state,
+          user_posts: []
+        }
 
       default:
         return state

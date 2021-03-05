@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import * as ACTIONS from '../store/actions/actions'
 import axios from 'axios'
-
+import moment from 'moment';
 import {Button, Table, TableBody, TableCell, TableHead, TableRow, Paper} from '@material-ui/core'
 
 
@@ -23,7 +23,7 @@ class Posts extends Component{
 
     componentDidMount() {
         axios.get('/api/get/allposts')
-          .then(res => this.props.set_posts(res.data))
+          .then(res => {this.props.set_posts(res.data); console.log(res.data)})
           .catch((err) => console.log(err))
       }
 

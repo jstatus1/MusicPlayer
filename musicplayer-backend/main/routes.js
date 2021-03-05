@@ -1,7 +1,68 @@
 var express = require('express')
 var router = express.Router()
 var pool = require('./db')
+const bcrypt = require("bcryptjs");
+const { json } = require('body-parser');
 
+
+
+
+
+/*
+   Passport Registration
+*/
+
+// router.post('/api/posts/userprofiletodb', (req, res, next) => {
+//   const values = [req.body.profile.nickname, req.body.profile.email, req.body.profile.email_verified]
+//   pool.query(`INSERT INTO users(username, email, email_verified, date_created)
+//               VALUES($1, $2, $3, NOW())
+//               ON CONFLICT DO NOTHING`, values,
+//               (q_err, q_res) => {
+//                 res.json(q_res.rows)
+//       })
+// } )
+
+// router.get('/api/get/userprofilefromdb', (req, res, next) => {
+//   const email = String(req.query.email)
+//   console.log(email)
+//   pool.query(`SELECT * FROM users
+//               WHERE email=$1`, [ email ],
+//               (q_err, q_res) => {
+//                 res.json(q_res.rows)
+//       })
+// } )
+
+router.post("/register",async (req,res)=> {
+  const email = req.body.email
+  //check to see if email already exists
+  await pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email], 
+                 async (q_err, q_res) => {
+                  
+                  if(q_res.rows.length > 0)
+                  {
+                    console.log(q_res.rows[0])
+                    return res.status(400).send({message: 'This User Already Exists'})
+                  }else{
+                      //if Does Not exist send profile to database
+                      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+                      const values = [req.body.username, req.body.email, req.body.email_verified, hashedPassword]
+                      await pool.query(`INSERT INTO users(username, email, email_verified, password, date_created)
+                                  VALUES($1, $2, $3, $4, NOW())
+                                  ON CONFLICT DO NOTHING`, values,
+                                  (q_err, q_res) => {
+                                    return res.send(q_res.rows[0])
+                        })
+                  }  
+    })
+})
+
+router.post('/login', (req, res)=> {
+
+})
+
+router.get('/user', (req, res)=> {
+  
+})
 
 /*
     POSTS ROUTES SECTION
@@ -111,24 +172,24 @@ router.get('/api/get/allposts', (req, res, next ) => {
 */
 
 router.post('/api/posts/userprofiletodb', (req, res, next) => {
-  const values = [req.body.profile.nickname, req.body.profile.email, req.body.profile.email_verified]
-  pool.query(`INSERT INTO users(username, email, email_verified, date_created)
-              VALUES($1, $2, $3, NOW())
-              ON CONFLICT DO NOTHING`, values,
-              (q_err, q_res) => {
-                res.json(q_res.rows)
-      })
-} )
-
-router.get('/api/get/userprofilefromdb', (req, res, next) => {
-  const email = req.query.email
-  console.log(email)
-  pool.query(`SELECT * FROM users
-              WHERE email=$1`, [ email ],
-              (q_err, q_res) => {
-                res.json(q_res.rows)
-      })
-} )
+    const values = [req.body.profile.nickname, req.body.profile.email, req.body.profile.email_verified]
+    pool.query(`INSERT INTO users(username, email, email_verified, date_created)
+                VALUES($1, $2, $3, NOW())
+                ON CONFLICT DO NOTHING`, values,
+                (q_err, q_res) => {
+                  res.json(q_res.rows)
+        })
+  } )
+  
+  router.get('/api/get/userprofilefromdb', (req, res, next) => {
+    const email = String(req.query.email)
+    console.log(email)
+    pool.query(`SELECT * FROM users
+                WHERE email=$1`, [ email ],
+                (q_err, q_res) => {
+                  res.json(q_res.rows)
+        })
+  } )
   
   router.get('/api/get/userposts', (req, res, next) => {
     const user_id = req.query.user_id

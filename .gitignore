@@ -2,7 +2,7 @@
 
 # dependencies
 /.musicplayer-frontend/node_modules
-/musicplayer-backend/node_modules
+/.musicplayer-backend/node_modules
 /.pnp
 .pnp.js
 
@@ -11,8 +11,8 @@
 
 # production
 /build
-
 # misc
+helpfulLinks.txt
 .DS_Store
 .env.local
 .env.development.local

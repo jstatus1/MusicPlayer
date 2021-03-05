@@ -14,6 +14,9 @@ class Header extends Component {
           <Link to='/profile' style={{padding: '5px'}}>
             Profile
           </Link>
+          <Link to='/musicProfile' style={{padding: '5px'}}>
+            Music Profile
+          </Link>
           <Link to='/component1' style={{padding: '5px'}}>
             Component 1
           </Link>
@@ -29,10 +32,23 @@ class Header extends Component {
           <Link to='/privateroute' style={{padding: '5px'}}>
             Private Route
           </Link>
-          {!this.props.is_authenticated
-            ? <button onClick={() => this.props.auth.login()}>Login</button>
+
+
+          {/* {!this.props.is_authenticated
+            ? <button onClick={() => this.props.auth.login()}>Login With Auth0</button>
             : <button onClick={() => this.props.auth.logout()}>Logout</button>
+          } */}
+
+          {
+            !this.props.is_authenticated
+            ? <React.Fragment>
+                <button onClick={() => this.props.auth.login()}>Sign In</button>
+                <button onClick={() => this.props.auth.logout()}>Create Account</button>
+            </React.Fragment> : <React.Fragment>
+
+            </React.Fragment>
           }
+
           <br />
           <br />
           <br />
