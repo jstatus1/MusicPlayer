@@ -20,6 +20,27 @@ CREATE TABLE users(
     socialMedia VARCHAR[] DEFAULT ARRAY[]::VARCHAR[]
 );
 
+CREATE TABLE musicians(
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    avatar VARCHAR(100),
+    num_listeners INT DEFAULT 0,
+    awards VARCHAR[],
+    sex VARCHAR(2),
+    age INT(100),
+    register_date DATE,
+    socialMedia_fb VARCHAR(200),
+    socialMedia_tw VARCHAR(200),
+    socialMedia_in VARCHAR(200),
+    record_label VARCHAR[] ARRAY,
+    followers INT DEFAULT 0,
+    username VARCHAR(30) UNIQUE,
+    genre VARCHAR(20),
+    password VARCHAR(255),
+    albums VARCHAR(100),
+    singles VARCHAR(50)
+);
+
 CREATE TABLE posts (
   pid SERIAL PRIMARY KEY,
   title VARCHAR(255),
