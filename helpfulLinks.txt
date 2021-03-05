@@ -1,0 +1,7 @@
+Getting started with authentication in Node.js with Passport and PostgreSQL:
+https://medium.com/@timtamimi/getting-started-with-authentication-in-node-js-with-passport-and-postgresql-2219664b568c
+https://reallifeprogramming.com/node-authentication-with-passport-postgres-ef93e2d520e7
+https://github.com/conorbailey90/node-js-passport-login-postgresql
+
+Multiple Login:
+https://gist.github.com/joshbirk/1732068
