@@ -20,6 +20,39 @@ CREATE TABLE users(
     socialMedia VARCHAR[] DEFAULT ARRAY[]::VARCHAR[]
 );
 
+
+CREATE TABLE musicians(
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    avatar VARCHAR(100),
+    num_listeners INT DEFAULT 0,
+    awards VARCHAR[],
+    sex VARCHAR(2),
+    age INT(100),
+    register_date DATE,
+    socialMedia_fb VARCHAR(200),
+    socialMedia_tw VARCHAR(200),
+    socialMedia_in VARCHAR(200),
+    record_label VARCHAR[] ARRAY,
+    followers INT DEFAULT 0,
+    username VARCHAR(30) UNIQUE,
+    genre VARCHAR(20),
+    password VARCHAR(255),
+    albums VARCHAR(100),
+    singles VARCHAR(50)
+);
+
+CREATE TABLE admin(
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  title VARCHAR(20),
+  username VARCHAR(30),
+  register_date DATE,
+  password VARCHAR(50),
+  avatar VARCHAR(200),
+)
+
+
 CREATE TABLE posts (
   pid SERIAL PRIMARY KEY,
   title VARCHAR(255),
@@ -40,6 +73,7 @@ CREATE TABLE comments(
     post_id INT REFERENCES posts(pid),
     date_created TIMESTAMP
 );
+
 CREATE TABLE albums(
 	album_Duration TIME,
 	date_Published DATE,
@@ -52,4 +86,16 @@ CREATE TABLE playlists(
 	playlist_name varchar(100),
 	num_songs int,
 	playlist_ID SERIAL PRIMARY KEY
+
+CREATE TABLE listener(
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  user_name VARCHAR(30) UNIQUE,
+  register_date DATE,
+  instagram VARCHAR(200),
+  twitter VARCHAR(200),
+  facebook VARCHAR(200),
+  about_me VARCHAR(350),
+  avatar VARCHAR(100),
+  password VARCHAR(255)
 );
