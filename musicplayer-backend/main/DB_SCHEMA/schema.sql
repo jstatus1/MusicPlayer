@@ -74,6 +74,19 @@ CREATE TABLE comments(
     date_created TIMESTAMP
 );
 
+CREATE TABLE albums(
+	album_Duration TIME,
+	date_Published DATE,
+	artists varchar(100),	
+	album_ID int,
+	num_Songs int,
+	album_name varchar(60)
+);
+CREATE TABLE playlists(
+	playlist_name varchar(100),
+	num_songs int,
+	playlist_ID SERIAL PRIMARY KEY
+
 CREATE TABLE listener(
   first_name VARCHAR(50),
   last_name VARCHAR(50),
