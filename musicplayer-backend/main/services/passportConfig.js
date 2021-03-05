@@ -41,8 +41,42 @@ const keys = require('../../config/keys')
       );
     };
 
+    const InsertUser = async (profile, done)  => {
+      const value = [profile.displayName, 
+        profile.name.givenName,
+        profile.name.familyName, 
+        profile.emails[0].value, 
+        profile.emails[0].verified,
+        (profile.id).toString(),
+        profile.photos[0].value]
 
-  
+        await pool.query(`INSERT INTO users(username,first_name,last_name, email, 
+                                                    email_verified,googleId,profile_img_url,
+                                                    date_created)
+                                      VALUES($1, $2, $3, $4,$5,$6,$7, NOW())
+                                      ON CONFLICT DO NOTHING`,value, async (error, result)=> {
+                                        if (error) {
+                                          console.log(error);
+                                        }
+                                      })
+        
+
+                                      await pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
+                                      (q_err, q_res)=> {
+                                          if(q_err)
+                                          {
+                                              return done(q_err);
+                                          }
+                          
+                                          if(q_res.rows.length > 0)
+                                          {
+                                              const user = q_res.rows[0];
+                                              return done(null, user);
+                                          }
+                                      })
+  }
+
+
     passport.use(
       new LocalStrategy(
         { usernameField: "email", passwordField: "password" },
@@ -68,6 +102,8 @@ const keys = require('../../config/keys')
                   {
                       const user = q_res.rows[0];
                       return done(null, user);
+                  }else{
+                    InsertUser(profile, done)   
                   }
               }
           )
@@ -90,8 +126,13 @@ const keys = require('../../config/keys')
         if (err) {
           return done(err);
         }
-        console.log(`ID is ${results.rows[0].uid}`);
-        return done(null, results.rows[0]);
+        if(results.rows.length < 1)
+        {
+          return done(null, false)
+        }else{
+          console.log(`UID is ${results.rows[0].uid}`);
+          return done(null, results.rows[0]);
+        }
       });
     });
  
