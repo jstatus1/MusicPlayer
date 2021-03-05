@@ -20,6 +20,16 @@ CREATE TABLE users(
     socialMedia VARCHAR[] DEFAULT ARRAY[]::VARCHAR[]
 );
 
+CREATE TABLE admin(
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  title VARCHAR(20),
+  username VARCHAR(30),
+  register_date DATE,
+  password VARCHAR(50),
+  avatar VARCHAR(200),
+)
+
 CREATE TABLE posts (
   pid SERIAL PRIMARY KEY,
   title VARCHAR(255),
