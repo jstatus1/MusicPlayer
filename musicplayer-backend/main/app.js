@@ -13,7 +13,7 @@ var app = express();
 require('./services/passportConfig');
 
 
-//Middle Ware
+/*---------------------Middle Ware--------------------------------*/
 app.use(
     cookieSession({
       maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -28,13 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+/*---------------------Middle Ware--------------------------------*/
 
 
 
-
-
+/*--------------------- Routes --------------------------------*/
 app.use('/', indexRouter)
 require('./routes/authRoutes')(app);
+/*--------------------- Routes --------------------------------*/
 
 
 module.exports = app;
