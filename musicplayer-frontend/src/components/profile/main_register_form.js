@@ -96,6 +96,9 @@ class MainRegisterForm extends React.Component
 
                     <h1>Get User: </h1>
                     <button onClick={() => this.getUser()}>Continue</button>
+                <br></br>
+
+                <a href="/auth/google">Google Auth</a>
             </div>
         )
     }
