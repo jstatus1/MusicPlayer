@@ -4,6 +4,8 @@ export const SUCCESS = "SUCCESS"
 
 export const FAILURE = "FAILURE"
 
+export const FETCH_USER = 'FETCH_USER';
+
 export const USER_INPUT = "USER_INPUT"
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"

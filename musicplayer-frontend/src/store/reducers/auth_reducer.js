@@ -7,6 +7,7 @@ const initialState = {
 }
 
 const AuthReducer = (state = initialState, action) => {
+    console.log(action)
     switch(action.type) {
       case ACTION_TYPES.LOGIN_SUCCESS:
         return {

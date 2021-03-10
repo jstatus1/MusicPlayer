@@ -76,14 +76,15 @@ const keys = require('../../config/keys')
                                       })
   }
 
-
+    //Local Sign Up
     passport.use(
       new LocalStrategy(
         { usernameField: "email", passwordField: "password" },
         authenticateUser
       )
     );
-
+    
+    //Google OAuth
     passport.use(
       new GoogleStrategy({
           clientID: keys.googleClientID,
@@ -91,26 +92,22 @@ const keys = require('../../config/keys')
           callbackURL: '/auth/google/callback',
           proxy: true
       }, 
-      (accessToken, refreshToken, profile, done)=> {
-          pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
-              (q_err, q_res)=> {
-                  if(q_err)
+      async (accessToken, refreshToken, profile, done)=> {
+        try{
+          const existingUser = await pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()])
+          if(existingUser.rows.length > 0)
                   {
-                      return done(q_err);
-                  }
-  
-                  if(q_res.rows.length > 0)
-                  {
-                      const user = q_res.rows[0];
+                      const user = existingUser.rows[0];
                       return done(null, user);
                   }else{
-                    InsertUser(profile, done)   
+                    await InsertUser(profile, done)   
                   }
-              }
-          )
+        }catch{err}
+        {
+          console.log(err)
+        }
+      }))
   
-      })
-  )
 
 
     // Stores user details inside session. serializeUser determines which data of the user
