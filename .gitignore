@@ -23,3 +23,4 @@ helpfulLinks.txt
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+musicplayer-backend/config/dev.js

@@ -5,12 +5,14 @@ var cookieSession = require('cookie-session');
 var logger = require('morgan');
 var keys = require('../config/keys')
 const passport = require("passport");
+var AWS  = require('aws-sdk')
+require('./services/passportConfig');
+
 //Routes Files
 const indexRouter = require('./routes')
-
 var app = express();
 
-require('./services/passportConfig');
+AWS.config.update({region: 'us-east-2'});
 
 
 /*---------------------Middle Ware--------------------------------*/
@@ -30,6 +32,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 /*---------------------Middle Ware--------------------------------*/
 
+
+/*---------------------S3--------------------------------*/
+var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+s3.listBuckets(function(err, data) {
+  if (err) {
+    console.log("Error", err);
+  } else {
+    console.log("Success", data.Buckets);
+  }
+});
 
 
 /*--------------------- Routes --------------------------------*/

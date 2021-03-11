@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+//Component
+import ModalLogin from '../profile/Modal_Login'
 //Styling
 
 
@@ -16,14 +18,17 @@ class Header extends Component {
           return (<h1>Still Logging In...</h1>)
       case false:
           return(
-            <ul className="navbar-nav ms-auto">
-                      <li className="nav-item">
-                        <a role="button" class="btn btn-outline-dark" href="/auth/google">Sign In</a>
-                      </li>
-                      <li className="nav-item">
-                      <a role="button" class="btn btn-danger">Create Account</a>
-                      </li>
-            </ul>
+              <ul className="navbar-nav ms-auto">
+                        <li className="nav-item">
+                          <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Sign In
+                          </button>
+                          
+                        </li>
+                        <li className="nav-item">
+                        <a role="button" class="btn btn-danger">Create Account</a>
+                        </li>
+              </ul>
           )
       default:
         return(
@@ -99,8 +104,14 @@ class Header extends Component {
   }
 
   render() {
-    return(<nav className="navbar navbar-expand-lg navbar-light bg-light">
-                  <a className="navbar-brand" href="/">UH Sound Cloud</a>
+    return(
+      <React.Fragment>
+       <ModalLogin></ModalLogin>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                  <Link 
+                    className="navbar-brand" to={this.props.auth ? '/discovery' : '/'}>
+                      UH Sound Cloud
+                  </Link>
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                   </button>
@@ -111,7 +122,10 @@ class Header extends Component {
 
 
                   </div>
-            </nav> )}
+            </nav> 
+            </React.Fragment>)
+      
+    }
 }
 
 function mapStateToProps(state) {
