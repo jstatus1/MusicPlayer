@@ -87,11 +87,11 @@ const keys = require('../../config/keys')
     //Google OAuth
     passport.use(
       new GoogleStrategy({
-          clientID: keys.googleClientID,
-          clientSecret: keys.googleClientSecret,
-          callbackURL: '/auth/google/callback',
-          proxy: true
-      }, 
+        clientID: keys.googleClientID,
+        clientSecret: keys.googleClientSecret,
+        callbackURL: '/auth/google/callback',
+        proxy: true
+      },
       async (accessToken, refreshToken, profile, done)=> {
         try{
           const existingUser = await pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()])

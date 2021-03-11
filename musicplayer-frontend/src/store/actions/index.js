@@ -1,21 +1,20 @@
 import axios from 'axios'
 import {FETCH_USER} from './action_types'
 
-export const fetchUser = () => 
+export const fetchUser = () => async dispatch =>
 {
-    return function(dispatch)
-        {
-            axios.get('/api/current_user').then(res => {
-                dispatch({
-                    type: FETCH_USER,
-                    payload: res
-                })
-            }).catch((err) => {
-                dispatch({
-                    type: FETCH_USER,
-                    payload: err
-                })
-            })
-        }
-        
+    const res = await axios.get('/api/current_user')       
+    try{
+        dispatch({
+            type: FETCH_USER,
+            payload: res.data
+        })
+    }catch(err)
+    {
+        dispatch({
+            type: FETCH_USER,
+            payload: err
+        })
+    }
 }
+        
