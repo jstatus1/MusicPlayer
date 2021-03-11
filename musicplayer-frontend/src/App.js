@@ -6,6 +6,7 @@ import * as actions from './store/actions'
 
 //Component Imports
 import Header from './components/Navbar/header'
+import Upload from './components/Upload/upload'
 import ProfileEdit from './components/profile/profileedit'
 
 //import Routes from './routes'
@@ -32,6 +33,7 @@ class App extends React.Component
                         <Header/>
                         <Route exact path="/" component={Landing}/>
                         <Route exact path="/discovery" component={Dashboard} />
+                        <Route exact path="/upload" component={Upload}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
                        
                     </div>
