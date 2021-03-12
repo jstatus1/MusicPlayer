@@ -1,5 +1,12 @@
 var AWS  = require('aws-sdk')
+var multer = require('multer')
 const fileUpload = require('express-fileupload');
+
+
+const storage = multer.memoryStorage()
+const upload = multer({storage: storage})
+
+
 
 /*---------------------S3--------------------------------*/
 module.exports = app => {
@@ -14,21 +21,27 @@ module.exports = app => {
     }
     });
 
-    app.post('/api/upload/', (req, res) => {
+    app.post('/api/upload/', async (req, res) => {
         if(req.files == null)
         {
             return res.status(400).json({msg: 'No file uploaded'})
         }
-        const file = req.files.file
 
-        file.mv(`${__dirname}/musicplayer-frontend/public/uploads/${file.name}`, err=>{
-            if(err)
-            {
-                console.log(err)
-                return res.status(500)
-            }
+        console.log("Length: " ,req.files.length)
+        const info = []
+        for (var i = 0; i < req.files.length; i++) {
+            const file = req.files[i].file;
+            console.log(file.name)
+            file.mv(`${__dirname}/musicplayer-frontend/public/uploads/${file.name}`, err=>{
+                if(err)
+                {
+                    console.log(err)
+                    return res.status(500)
+                }
+            })
+            info.push({filename: file.name, filePath: `/uploads/${file.name}`})
+        }
 
-            res.json({filename: file.name, filePath: `/uploads/${file.name}`})
-        })
+        return res.json(info)
     })
 }

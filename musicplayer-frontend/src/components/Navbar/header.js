@@ -34,12 +34,14 @@ class Header extends Component {
         return(
           <React.Fragment>
             <ul className="navbar-nav ">
-                        <li className="nav-item">
-                          <a class="nav-link " aria-current="page" href="#">Home</a>
-                        </li>
-                        <li className="nav-item">
-                          <a class="nav-link " aria-current="page" href="#">Library</a>
-                        </li>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/Home' : '/'}>
+                            Home
+                        </Link>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/Library' : '/'}>
+                            Library
+                        </Link>
                         
             </ul>
               <form class="d-flex">
@@ -47,12 +49,14 @@ class Header extends Component {
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-                          <a class="nav-link " aria-current="page" href="#">Upgrade</a>
-                        </li>
-                        <li className="nav-item">
-                          <a class="nav-link " aria-current="page" href="/upload">Upload</a>
-                        </li>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/Upgrade' : '/'}>
+                            Upgrade
+                        </Link>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/upload' : '/'}>
+                            Upload
+                        </Link>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <span class="material-icons">

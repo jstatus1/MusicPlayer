@@ -1,22 +1,90 @@
 import React, {Component} from 'react'
+import Progress from './progress';
+import axios from 'axios'
 import './upload.css'
 
 
 class Upload extends React.Component
 {
     state = {
-        uploadedSong: []
+        uploadedSong: '',
+        public: true,
+        playlist: false,
+        errMessage: null,
+        successMessage: null,
+        uploadPercentage: 0,
+        uploadedFileLocation: {}
     }
 
     musicUpload = (e) => {
         this.setState({uploadedSong: e.target.files})
     }
 
+    onSubmit= async (e) =>
+    {
+        e.preventDefault()
+        const formData = new FormData()
+        for (const key of Object.keys(this.state.uploadedSong)) {
+            formData.append('file', this.state.uploadedSong[key])
+        }
+        
+
+        
+
+        try{
+            const res = await axios.post('/api/upload/', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                },
+                //Progress Loading
+                onUploadProgress: progressEvent => {
+                  this.setState({uploadPercentage:  parseInt(
+                    Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                  )})
+        
+                  // Clear percentage
+                  setTimeout(() => this.setState({uploadPercentage: 0}), 10000);
+                }
+              });
+        
+              //const { fileName, filePath } = res.data;
+              console.log(res.data)
+            //   this.setState({uploadedFileLocation: { fileName, filePath }});
+            //   this.setState({successMessage: 'Your Files Have Been Uploaded'})
+        }catch(err)
+        {
+            if(err.response.status === 500)
+                this.setState({errMessage: 'There  was a problem with the server'})
+            else
+                this.setState({errMessage: err.response.data.msg})
+        }
+    }
+
+    checkAlert(){
+        if(this.state.errMessage != null)
+        {
+            return <div class="alert alert-danger alert-dismissible fade show" role="alert">
+             <strong>Holy guacamole!</strong> {this.state.errMessage}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => this.setState({errMessage:null})}></button>
+            </div>
+        }
+
+        if(this.state.successMessage != null)
+        {
+            return <div class="alert alert-success alert-dismissible fade show" role="alert">
+             <strong>Great!</strong> {this.state.successMessage}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => this.setState({successMessage:null})}></button>
+            </div>
+        }
+    }
+
     render()
     {
         return(<React.Fragment>
+        {this.checkAlert()}
+        
         <div className=" row div-wrapper justify-center align-items-center">
-            <form>
+            <form onSubmit={e=>this.onSubmit(e)}>
                 <h1 className="mb-5">Drag Or Drop Track or Song Here:</h1>
                 <div class="col-12">
                         <input
@@ -47,7 +115,16 @@ class Upload extends React.Component
                             </label>
                         </div>
                 </div>
+                <button
+                    type='submit'
+                    value='Upload'
+                    className='btn btn-danger mt-5'
+                >
+                    Submit Upload
+                </button>
+                
             </form>
+            <Progress percentage={this.state.uploadPercentage} />
             <p>Provide FLAC, WAV, ALAC, or AIFF for highest audio quality. <a target="_blank" href="https://help.soundcloud.com/hc/en-us/articles/115003452847-Uploading-requirements#typeOfFile">Learn more about lossless HD.</a></p>
         </div>
         </React.Fragment>
