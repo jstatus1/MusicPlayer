@@ -9,37 +9,6 @@ module.exports = app => {
     AWS.config.update({region: 'us-east-2'});
     const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
-     app.post('/api/SingleUpload/', async (req, res) => {
-        try {
-            if(!req.files) {
-                res.send({
-                    status: false,
-                    message: 'No file uploaded'
-                });
-            } else {
-                //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-                let musicFile = req.files.musicUploads;
-                
-                //Use the mv() method to place the file in upload directory (i.e. "uploads")
-                musicFile.mv('./main/s3/storage/' + musicFile.name);
-    
-                //send response
-                res.send({
-                    status: true,
-                    message: 'File is uploaded',
-                    data: {
-                        name: musicFile.name,
-                        mimetype: musicFile.mimetype,
-                        size: musicFile.size
-                    }
-                });
-            }
-        } catch (err) {
-            res.status(500).send(err);
-        }
-    });
-
-
     app.post('/api/music_upload/', async (req, res) => {
         try {
             if(!req.files) {
@@ -64,7 +33,7 @@ module.exports = app => {
 
                         const params = {
                             Bucket: "musicplayer-song",
-                            Key: musicFile.name+'thistacoamazing11111111',
+                            Key: musicFile.name,
                             Body: musicFile,
                             ACL: "public-read"
                           };

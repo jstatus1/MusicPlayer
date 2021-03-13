@@ -134,7 +134,7 @@ class Upload extends React.Component
                             /> 
                 </div>
                 <div className="col-12">
-                            <input class="form-check-input me-5" type="checkbox" value="" id="flexCheckDefault"/>
+                            <input class="form-check-input me-5" type="checkbox" value="" id="flexCheckDefault" defaultChecked/>
                             <label class="form-check-label" for="flexCheckDefault">
                                 Make a playlist when multiple files are selected
                             </label>
