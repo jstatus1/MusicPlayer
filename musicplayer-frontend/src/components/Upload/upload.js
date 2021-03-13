@@ -7,7 +7,7 @@ import './upload.css'
 class Upload extends React.Component
 {
     state = {
-        uploadedSong: '',
+        uploadedSong: null,
         public: true,
         playlist: false,
         errMessage: null,
@@ -17,22 +17,59 @@ class Upload extends React.Component
     }
 
     musicUpload = (e) => {
-        this.setState({uploadedSong: e.target.files})
+        this.setState({uploadedSong: Array.from(e.target.files)})
     }
 
     onSubmit= async (e) =>
     {
         e.preventDefault()
-        const formData = new FormData()
-        for (const key of Object.keys(this.state.uploadedSong)) {
-            formData.append('file', this.state.uploadedSong[key])
-        }
-        
+        let formData = new FormData()
 
-        
+        console.log(this.state.uploadedSong.length)
+        for(let i = 0; i < this.state.uploadedSong.length; i++)
+        {
+            console.log(this.state.uploadedSong[i])
+            formData.append("musicUploads", this.state.uploadedSong[i]); 
+        }
+
 
         try{
-            const res = await axios.post('/api/upload/', formData, {
+            const res = await axios.post('/api/music_upload/', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                },
+                //Progress Loading
+                onUploadProgress: progressEvent => {
+                  this.setState({uploadPercentage:  parseInt(
+                    Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                  )})
+        
+                  // Clear percentage
+                  setTimeout(() => this.setState({uploadPercentage: 0}), 10000);
+                }
+              });
+        
+              //const { fileName, filePath } = res.data;
+              console.log(res.data)
+            //   this.setState({uploadedFileLocation: { fileName, filePath }});
+            //   this.setState({successMessage: 'Your Files Have Been Uploaded'})
+        }catch(err)
+        {
+            if(err.response.status === 500)
+                this.setState({errMessage: 'There  was a problem with the server'})
+            else
+                this.setState({errMessage: err.response.data.msg})
+        }
+    }
+    
+    onSubmitSingle = async(e) => 
+    {
+        e.preventDefault()
+        let formData = new FormData()
+        formData.append("musicUploads", this.state.uploadedSong[0]); 
+
+        try{
+            const res = await axios.post('/api/SingleUpload/', formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 },

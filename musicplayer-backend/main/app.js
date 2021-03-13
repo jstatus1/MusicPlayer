@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*--------------------- Routes --------------------------------*/
 app.use('/', indexRouter)
 require('./s3/s3')(app);
+require('./s3/single')(app);
 require('./routes/authRoutes')(app);
 
 /*--------------------- Routes --------------------------------*/

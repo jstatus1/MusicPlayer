@@ -1,11 +1,45 @@
 var AWS  = require('aws-sdk')
 var multer = require('multer')
 const fileUpload = require('express-fileupload');
+const fileSystem = require('fs');
+const { v4: uuidv4 } = require('uuid');
+
+// set storage
+var storage = multer.diskStorage({
+    destination : function ( req , file , cb ){
+        cb(null, './storage')
+    },
+    filename : function (req, file , cb){
+        // image.jpg
+        var ext = file.originalname.substr(file.originalname.lastIndexOf('.'));
+
+        cb(null, file.fieldname + '-' + Date.now() + ext)
+    }
+})
+
+var upload = multer({dest:'musicUploads'})
 
 
-const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
+async function uploadFile(fileName, fileKey) {
+    return new Promise(async function(resolve, reject) {
+        const params = {
+            Bucket: 'musicplayer-song', // pass your bucket name
+            Key: fileKey,
+            ACL: 'public-read',
+            Body: fileSystem.createReadStream(fileName.path),
+            ContentType: fileName.type
+        };
 
+        await s3.upload(params, function(s3Err, data) {
+        if (s3Err){
+        reject(s3Err);
+        }
+
+        console.log(`File uploaded successfully at ${data.Location}`);
+        resolve(data.Location);
+        });
+    });
+}
 
 
 /*---------------------S3--------------------------------*/
@@ -21,27 +55,14 @@ module.exports = app => {
     }
     });
 
-    app.post('/api/upload/', async (req, res) => {
-        if(req.files == null)
-        {
-            return res.status(400).json({msg: 'No file uploaded'})
+    app.post('/api/upload/', upload.array('musicUploads', 2), function(req, res, err) {
+        if (err) {
+          console.log('error');
+          console.log(err);
+          return res.end();
         }
-
-        console.log("Length: " ,req.files.length)
-        const info = []
-        for (var i = 0; i < req.files.length; i++) {
-            const file = req.files[i].file;
-            console.log(file.name)
-            file.mv(`${__dirname}/musicplayer-frontend/public/uploads/${file.name}`, err=>{
-                if(err)
-                {
-                    console.log(err)
-                    return res.status(500)
-                }
-            })
-            info.push({filename: file.name, filePath: `/uploads/${file.name}`})
-        }
-
-        return res.json(info)
-    })
+        var file = req.files;
+        res.end();
+        console.log(req.files);
+      });
 }

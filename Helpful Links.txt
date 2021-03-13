@@ -1,0 +1,16 @@
+Getting started with authentication in Node.js with Passport and PostgreSQL:
+https://medium.com/@timtamimi/getting-started-with-authentication-in-node-js-with-passport-and-postgresql-2219664b568c
+https://reallifeprogramming.com/node-authentication-with-passport-postgres-ef93e2d520e7
+https://github.com/conorbailey90/node-js-passport-login-postgresql
+
+Multiple Login:
+https://gist.github.com/joshbirk/1732068
+
+Multiple File Upload:
+https://iamsohail.medium.com/how-to-upload-multiple-files-parallelly-to-amazon-s3-3b9ac3630806
+https://www.agiratech.com/blog/using-aws-s3-to-store-and-upload-files-in-node-js/
+https://stackoverflow.com/questions/41610811/react-js-how-to-send-a-multipart-form-data-to-server
+https://bezkoder.com/react-multiple-files-upload/
+https://www.geeksforgeeks.org/how-to-send-one-or-more-files-to-an-api-using-axios-in-reactjs/
+https://afteracademy.com/blog/file-upload-with-multer-in-nodejs-and-express
+https://attacomsian.com/blog/uploading-files-nodejs-express
