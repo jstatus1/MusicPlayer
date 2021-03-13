@@ -1,4 +1,5 @@
-//for copy and paste into own database
+/* Group 13 Music Player Schema (Assignment 2) */
+
 
 CREATE TABLE musicians(
     musician_id char(15) NOT NULL PRIMARY KEY,
