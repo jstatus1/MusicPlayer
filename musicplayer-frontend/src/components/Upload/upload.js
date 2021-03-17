@@ -73,6 +73,7 @@ class Upload extends React.Component
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 },
+                
                 //Progress Loading
                 onUploadProgress: progressEvent => {
                   this.setState({uploadPercentage:  parseInt(

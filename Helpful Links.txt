@@ -14,3 +14,16 @@ https://bezkoder.com/react-multiple-files-upload/
 https://www.geeksforgeeks.org/how-to-send-one-or-more-files-to-an-api-using-axios-in-reactjs/
 https://afteracademy.com/blog/file-upload-with-multer-in-nodejs-and-express
 https://attacomsian.com/blog/uploading-files-nodejs-express
+
+
+Schema:
+https://stackoverflow.com/questions/20921266/schema-for-music-lists-playlists-web-app
+https://stackoverflow.com/questions/33861987/sql-music-playlist-database-design
+
+
+File Upload Progress:
+https://stackoverflow.com/questions/36962287/how-to-upload-a-file-to-s3-via-nodejs-and-track-progress-in-the-browser
+https://stackoverflow.com/questions/41088022/how-to-get-onuploadprogress-in-axios
+
+Case Study:
+https://aws.amazon.com/solutions/case-studies/soundcloud/
