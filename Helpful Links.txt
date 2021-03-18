@@ -28,3 +28,7 @@ https://stackoverflow.com/questions/41088022/how-to-get-onuploadprogress-in-axio
 
 Case Study:
 https://aws.amazon.com/solutions/case-studies/soundcloud/
+
+
+Deleting Child Components:
+https://stackoverflow.com/questions/50862192/react-typeerror-cannot-read-property-props-of-undefined

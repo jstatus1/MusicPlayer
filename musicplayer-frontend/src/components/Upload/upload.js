@@ -29,13 +29,14 @@ class Upload extends React.Component
         },
         song_data: []
     }
+
+    
     
 
    
     musicUpload = (e) => {
-        this.setState({uploadedSong: Array.from(e.target.files)})
-
-        console.log(e.target.files)
+        if(e.target.files.length != 0)
+            this.setState({uploadedSong: Array.from(e.target.files)})
     }
 
     onSubmit= async (e) =>
@@ -127,6 +128,19 @@ class Upload extends React.Component
         )
     }
 
+    removeSong(e)
+    {
+        let updatedSongList = this.state.uploadedSong.filter(
+            (song) => {
+                return song !== e;
+            }
+        );
+
+        this.setState({
+            uploadedSong : updatedSongList,
+        });
+    }
+
     renderUploadDialog()
     {
             if(this.state.uploadedSong == null)
@@ -161,9 +175,34 @@ class Upload extends React.Component
                     </div>
                 )
             }else{
-                return (this.state.uploadedSong.map((song,key) => {
-                  return (<SongForm id={key} song={song}></SongForm>)
-                }))
+                return (<React.Fragment>
+                            <div class="card">
+                                <div class="card-header ">
+                                 Provide FLAC, WAV, ALAC, or AIFF for highest audio quality. Learn more about lossless HD. No file chosen
+                                 <button type="button " className=" ms-4">
+                                        <label for="uploadFiles">
+                                            Replace File
+                                        </label>
+                                        <input
+                                        type='file'
+                                        className="inputFiles sc-visuallyhidden"
+                                        id='uploadFiles'
+                                        accept="audio/*"
+                                        onChange={e => this.musicUpload(e)}
+                                        multiple
+                                        /> 
+                                </button>   
+                                </div>
+                                <div class="card-body">
+                                        {this.state.uploadedSong.map((song,index) => {
+                                    return (<SongForm key={index} id={index} song={song} removeSong={this.removeSong.bind(this)}></SongForm>)
+                                    })}
+                                </div>
+
+                                <button className="btn btn-dark " onClick={e=>this.onSubmit(e)}>Submit</button>
+                        </div>
+                </React.Fragment>
+                )
             }
         
     }
@@ -192,7 +231,10 @@ class Upload extends React.Component
     {
         return(<React.Fragment>
                 {this.checkAlert()}
-                {this.renderUploadDialog()}
+
+                <div className="mt-5">
+                    {this.renderUploadDialog()}
+                </div>
             </React.Fragment>
          )
     }
