@@ -2,10 +2,14 @@ var AWS = require('aws-sdk');
 var fs = require('fs')
 const fileUpload = require('express-fileupload');
 const { v4: uuidv4 } = require('uuid');
+const { Iot } = require('aws-sdk');
 
 
 /*---------------------S3--------------------------------*/
 module.exports = app => {
+
+    const socket = require('../socket')
+
     app.use(fileUpload())
     AWS.config.update({region: 'us-east-2'});
     const s3 = new AWS.S3();
@@ -44,7 +48,7 @@ module.exports = app => {
     {
         let data = []
         let musicFile = req.files.musicUploads;
-                    
+        console.log(req.files)            
 
                         const params = {
                             Bucket: "musicplayer-song",
@@ -53,17 +57,19 @@ module.exports = app => {
                             ACL: "public-read"
                           };
                         
-                         await s3.upload (params, function (err, data) {
-                            if (err) {
-                              console.log("Error", err);
-                            } if (data) {
-                              console.log("Upload Success", data.Location);
-                            }
-                          }).on('httpUploadProgress', e => {
-                            console.log(e.loaded + " of " + e.total + " bytes")
-                          }).send((err,data) => {
-                              console.log('data:', data)
-                          });
+                        //  await s3.upload (params, function (err, data) {
+                        //     if (err) {
+                        //       console.log("Error", err);
+                        //     } if (data) {
+                        //       console.log("Upload Success", data.Location);
+                        //     }
+                        //   }).on('httpUploadProgress', e => {
+
+                        //     console.log( `${e.loaded} + " of " + ${e.total} + " bytes"`)
+                             
+                        //   }).send((err,data) => {
+                        //       console.log('data:', data)
+                        //   });
 
                         
 
@@ -102,7 +108,8 @@ module.exports = app => {
                                   console.log("Upload Success", data.Location);
                                 }
                               }).on('httpUploadProgress', e => {
-                                console.log(e.loaded + " of " + e.total + " bytes")
+                                
+                                socket.emit('upload', e)
                               }).send((err,data) => {
                                   console.log('data:', data)
                               });

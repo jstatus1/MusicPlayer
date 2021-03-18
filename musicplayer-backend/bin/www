@@ -20,7 +20,9 @@
   */
  
  var server = http.createServer(app);
- 
+ require('../main/socket').init(server)
+
+
  /**
   * Listen on provided port, on all network interfaces.
   */

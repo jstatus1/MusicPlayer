@@ -6,12 +6,18 @@ var logger = require('morgan');
 var keys = require('../config/keys')
 const passport = require("passport");
 
+
+
+
 require('./services/passportConfig');
 
 //Routes Files
 const indexRouter = require('./routes')
+
+
 var app = express();
 
+//socket 
 
 /*---------------------Middle Ware--------------------------------*/
 app.use(

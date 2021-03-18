@@ -1,0 +1,19 @@
+.upload-artwork-box
+{
+    width:260px;
+    height:260px;
+    text-align: center;
+    position: relative;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+
+.upload-artwork-img{
+    width:260px;
+    height:260px;
+    background-image: linear-gradient(
+        135deg
+        ,#846170,#70929c);
+
+}
