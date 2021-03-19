@@ -67,3 +67,67 @@
     height: 200px;
     width: 100%;
 }
+
+
+/* Style For Genre List */
+.linkMenu__scrollable {
+    max-height: 450px;
+    width: 100%;
+    margin: 0;
+}
+
+.g-scrollable {
+    position: relative;
+    overflow: hidden !important;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    font: 12px/1.4 Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+    color: #333;
+}
+
+.g-scrollable-inner
+{
+    height: 450px;
+    overflow-x: hidden;
+    width: 230px;
+    padding-right: 30px;
+}
+
+.g-scrollable-v .g-scrollable-inner {
+    overflow-y: scroll;
+}
+
+#linkMenu__groupTitle
+{
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+#linkMenu__list {
+    width: 100%;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+#linkMenu__group
+{
+    padding-bottom: 20px;
+}
+
+#linkMenu__item {
+    line-height: 28px;
+}
+
+.sc-list-nostyle {
+    list-style: none;
+    margin: 0;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+}
+
