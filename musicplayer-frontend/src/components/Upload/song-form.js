@@ -47,6 +47,7 @@ export default class SongForm extends React.Component
         reader.onload = () =>{
           if(reader.readyState === 2){
             this.setState(prevState => ({basic_info: {...prevState.basic_info, song_image:reader.result}}))
+            this.props.song.basic_info_song.song_image = reader.result
           }
         }
         reader.readAsDataURL(e.target.files[0])

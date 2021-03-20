@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import AuthReducer from './auth_reducer';
 import PostsReducer from './post_reducer';
+import AudioUploadReducer from './audioupload_reducer';
 
 
 
