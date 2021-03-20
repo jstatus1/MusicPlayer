@@ -22,7 +22,7 @@ class Upload extends React.Component
         successMessage: null,
         uploadPercentage: 0,
         uploadedFileLocation: {},
-        metadata: {
+        metadata_upload: {
             userid: null,
             public: true,
             playlist: false,
@@ -36,7 +36,46 @@ class Upload extends React.Component
    
     musicUpload = (e) => {
         if(e.target.files.length != 0)
+        {
+            let metadata_song = {
+                contains_music: true,
+                artist: null,
+                publisher: null,
+                isrc: null,
+                composer: null,
+                release_title: null,
+                buy_link: null,
+                album_title: null,
+                record_label:null,
+                release_date:null,
+                barcode: null,
+                iswc: null,
+                p_line: null,
+                explicit_content: false
+            } 
+
+            let basic_info_song={
+                title: null,
+                selected_genre:null,
+                additional_tag: null,
+                description: null,
+                caption: null,
+                song_image: null
+            }
+
+            //append metadata and basic info for each song
+            for(let i = 0; i < e.target.files.length; i++)
+            {
+                basic_info_song.title = e.target.files[i].name
+                e.target.files[i].metadata_song = metadata_song
+                e.target.files[i].basic_info_song = basic_info_song
+            }
+
+
+
             this.setState({uploadedSong: Array.from(e.target.files)})
+            console.log(Array.from(e.target.files))
+        }
     }
 
     onSubmit= async (e) =>
@@ -45,7 +84,6 @@ class Upload extends React.Component
         let formData = new FormData()
 
         //append metadata
-        formData.append("metadata", )
 
         
         for(let i = 0; i < this.state.uploadedSong.length; i++)
@@ -114,13 +152,13 @@ class Upload extends React.Component
                                
                                     <div class="form-check">
                                             <label class="form-check-label" for="flexRadioDefault1">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onChange={e=> {this.setState({metadata: {...this.state.metadata, public:true}})}} checked={this.state.metadata.public}/>
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onChange={e=> {this.setState({metadata_upload: {...this.state.metadata_upload, public:true}})}} checked={this.state.metadata_upload.public}/>
                                                 Public
                                             </label>
                                     </div>
                                     <div class="form-check">
                                             <label class="form-check-label" for="flexRadioDefault2">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onChange={e=> {this.setState({metadata: {...this.state.metadata, public:false}})}} checked={!this.state.metadata.public}/>
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onChange={e=> {this.setState({metadata_upload: {...this.state.metadata_upload, public:false}})}} checked={!this.state.metadata_upload.public}/>
                                                 Private
                                             </label>
                                     </div>
@@ -162,7 +200,7 @@ class Upload extends React.Component
                                         /> 
                             </div>
                             <div className="col-12">
-                                        <input class="form-check-input me-5" type="checkbox" value="" id="flexCheckDefault"  onChange={e=> {this.setState({metadata: {...this.state.metadata, playlist:!(this.state.metadata.playlist)}})}} checked={this.state.metadata.playlist}/>
+                                        <input class="form-check-input me-5" type="checkbox" value="" id="flexCheckDefault"  onChange={e=> {this.setState({metadata_upload: {...this.state.metadata_upload, playlist:!(this.state.metadata_upload.playlist)}})}} checked={this.state.metadata_upload.playlist}/>
                                         <label class="form-check-label" for="flexCheckDefault">
                                             Make a playlist when multiple files are selected
                                         </label>
@@ -216,7 +254,7 @@ class Upload extends React.Component
         }else{
             
         
-            this.setState({metadata: {
+            this.setState({metadata_upload: {
                 userid: this.props.auth.uid,
                 public: true,
                 playlist: false,

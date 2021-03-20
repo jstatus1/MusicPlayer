@@ -22,7 +22,7 @@ export default class SongForm extends React.Component
             buy_link: null,
             album_title: null,
             record_label:null,
-            release_data:null,
+            release_date:null,
             barcode: null,
             iswc: null,
             p_line: null,
@@ -36,7 +36,10 @@ export default class SongForm extends React.Component
                     "Trap", "Triphop", "World"],
             "Audio":["Audiobooks", "Business", "Comedy", "Entertainment", "Learning", "News & Politics", "Religion & Spirituality", "Science", "Sports", "Storytelling", "Technology"]
         },
-        currentPage: "Basic Info"
+        currentPage: "Basic Info",
+        ISRC_toggle: false,
+        p_line_toggle:false,
+        iswc_toggle:false
     }
 
     imageHandler = (e) => {
@@ -250,77 +253,97 @@ export default class SongForm extends React.Component
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
                     <label for="contains_music" class="form-label">Contains Music</label>
-                    <input type="text" id="contains_music" class="form-control tag-input"/>
+                    <select id= "contains_music" class="form-select" onClick={e => this.setState(prevState => ({metadata: {...prevState.metadata, contains_music:(e.target.value=="true")}}))}>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="artist" class="form-label">Artist</label>
-                    <input type="text" id="artist" class="form-control tag-input"/>
+                    <label for="artist" class="form-label" >Artist</label>
+                    <input type="text" id="artist" class="form-control tag-input" onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, artist:e.target.value}}))} value={this.state.metadata.artist}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="publisher" class="form-label">Publisher</label>
-                    <input type="text" id="publisher" class="form-control tag-input"/>
+                    <label for="publisher" class="form-label" >Publisher</label>
+                    <input type="text" id="publisher" class="form-control tag-input" onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, publisher:e.target.value}}))} value={this.state.metadata.publisher}/>
                 </div>                  
             </div>  
 
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
-                    <label for="ISRC" class="form-label">ISRC</label>
-                    <input type="text" id="ISRC" class="form-control tag-input"/>
+                    <label for="ISRC" class="form-label">ISRC <i class="bi bi-question-circle" onClick={e=>this.setState({ISRC_toggle:!(this.state.ISRC_toggle)})}></i></label>
+                   
+                    <input type="text" id="ISRC" class="form-control tag-input" placeholder="e.g. USS1Z1001234"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, isrc:e.target.value}}))} value={this.state.metadata.isrc}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
                     <label for="Composer" class="form-label">Composer</label>
-                    <input type="text" id="Composer" class="form-control tag-input"/>
+                    <input type="text" id="Composer" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, composer:e.target.value}}))} value={this.state.metadata.composer} />
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="Release_Title" class="form-label">Release Title</label>
-                    <input type="text" id="Release_Title" class="form-control tag-input"/>
+                    <label for="Release_Title" class="form-label"  >Release Title</label>
+                    <input type="text" id="Release_Title" class="form-control tag-input" onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, release_title:e.target.value}}))} value={this.state.metadata.release_title}/>
                 </div>                  
             </div>  
-
+            
+                    {
+                        (this.state.ISRC_toggle)? <small>An ISRC (International Standard Recording Code) is a unique identifier that is assigned to a track. Use the same ISRC for a given track wherever you distribute it.
+                        If you work with a record label or distributor, ask them if they already have ISRCs for your tracks.</small>:null
+                    }
                 <br></br>
                 <br></br>
             <div className="row">
                 <div  class="mb-3 mt-3 col-12">
                     <label for="Buy_Link" class="form-label">Buy Link</label>
-                    <input type="link" id="Buy_Link" class="form-control tag-input"/>
+                    <input type="link" id="Buy_Link" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, buy_link:e.target.value}}))} value={this.state.metadata.buy_link}/>
                 </div>
             </div>  
 
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
                     <label for="Album_Title" class="form-label">Album Title</label>
-                    <input type="text" id="Album_Title" class="form-control tag-input"/>
+                    <input type="text" id="Album_Title" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, album_title:e.target.value}}))} value={this.state.metadata.album_title}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
                     <label for="Record_Label" class="form-label">Record Label</label>
-                    <input type="text" id="Record_Label" class="form-control tag-input"/>
+                    <input type="text" id="Record_Label" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, record_label:e.target.value}}))} value={this.state.metadata.record_label}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
                     <label for="Release_Date" class="form-label">Release Date</label>
-                    <input type="text" id="Release_Date" class="form-control tag-input"/>
+                    <input type="date" id="Release_Date" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, release_date:e.target.value}}))} value={this.state.metadata.release_date}/>
                 </div>                  
             </div> 
 
             <div className="row">
                 <div class="mb-3 mt-3 col-8">
                     <label for="Barcode" class="form-label">Barcode</label>
-                    <input type="text" id="Barcode" class="form-control tag-input"/>
+                    <input type="text" id="Barcode" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, barcode:e.target.value}}))} value={this.state.metadata.barcode}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="ISWC" class="form-label">ISWC</label>
-                    <input type="text" id="ISWC" class="form-control tag-input"/>
+                    <label for="ISWC" class="form-label">ISWC <i class="bi bi-question-circle" onClick={e=>this.setState({iswc_toggle:!(this.state.iswc_toggle)})}></i></label>
+                    <input type="text" id="ISWC" class="form-control tag-input" placeholder="e.g. T-034.524.680-1"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, iswc:e.target.value}}))} value={this.state.metadata.iswc}/>
                 </div>                
             </div> 
 
             <div className="row">
                 <div class="mb-3 mt-3 col-8">
-                    <label for="Barcode" class="form-label">P line</label>
-                    <input type="text" id="P_line" class="form-control tag-input"/>
+                    <label for="Barcode" class="form-label">P line <i class="bi bi-question-circle" onClick={e=>this.setState({p_line_toggle:!(this.state.p_line_toggle)})}></i></label>
+                    <input type="text" id="P_line" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, p_line:e.target.value}}))} value={this.state.metadata.p_line} placeholder="e.g. 2007 XYZ Record Company Limited"/>
                 </div>
+
+                
                 <div class="mb-3 mt-3 col-4">
                     <label for="explicit" class="form-label">Contains explicit content</label>
-                    <input type="text" id="explicit" class="form-control tag-input"/>
-                </div>                
+                    <select id= "contains_music" class="form-select" onClick={e => this.setState(prevState => ({metadata: {...prevState.metadata, explicit_content:(e.target.value=="true")}}))}>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>     
+
+                {
+                        (this.state.p_line_toggle)? <small>P-line notice identify the owner of the rights in the original sound recording (the masters) at the time that the CD/carrier/file is manufactured.</small>:null
+                }     
+                {
+                        (this.state.iswc_toggle)? <small>The ISWC (International Standard Musical Work Code) is a unique, permanent and internationally recognized reference number for the identification of musical works.</small>:null
+                }           
             </div>
 
 
