@@ -18,6 +18,7 @@ const Landing = () => <h2>Landing</h2>
 
 class App extends React.Component
 {
+    //Initial State Initialization
     componentDidMount()
     {
         //Inital Authentication Fetch
