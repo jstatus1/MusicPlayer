@@ -5,13 +5,19 @@ var cookieSession = require('cookie-session');
 var logger = require('morgan');
 var keys = require('../config/keys')
 const passport = require("passport");
-//Routes Files
-const indexRouter = require('./routes')
 
-var app = express();
+
+
 
 require('./services/passportConfig');
 
+//Routes Files
+const indexRouter = require('./routes')
+
+
+var app = express();
+
+//socket 
 
 /*---------------------Middle Ware--------------------------------*/
 app.use(
@@ -34,7 +40,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /*--------------------- Routes --------------------------------*/
 app.use('/', indexRouter)
+//require('./s3/s3')(app);
+require('./s3/musicUploadRoutes')(app);
 require('./routes/authRoutes')(app);
+
 /*--------------------- Routes --------------------------------*/
 
 

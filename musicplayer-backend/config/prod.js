@@ -7,6 +7,5 @@ module.exports = {
     googleClientSecret: 'umIQwb7RgNgTLR4n3n7-Ucgw',
     cookieKey: 'dsafadsfasdfasdfadsfasdf',
     postgresql: 'qweasdzxc123'
-
 };
 

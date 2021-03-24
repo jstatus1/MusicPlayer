@@ -1,0 +1,40 @@
+Getting started with authentication in Node.js with Passport and PostgreSQL:
+https://medium.com/@timtamimi/getting-started-with-authentication-in-node-js-with-passport-and-postgresql-2219664b568c
+https://reallifeprogramming.com/node-authentication-with-passport-postgres-ef93e2d520e7
+https://github.com/conorbailey90/node-js-passport-login-postgresql
+
+Multiple Login:
+https://gist.github.com/joshbirk/1732068
+
+Multiple File Upload:
+https://iamsohail.medium.com/how-to-upload-multiple-files-parallelly-to-amazon-s3-3b9ac3630806
+https://www.agiratech.com/blog/using-aws-s3-to-store-and-upload-files-in-node-js/
+https://stackoverflow.com/questions/41610811/react-js-how-to-send-a-multipart-form-data-to-server
+https://bezkoder.com/react-multiple-files-upload/
+https://www.geeksforgeeks.org/how-to-send-one-or-more-files-to-an-api-using-axios-in-reactjs/
+https://afteracademy.com/blog/file-upload-with-multer-in-nodejs-and-express
+https://attacomsian.com/blog/uploading-files-nodejs-express
+
+
+Schema:
+https://stackoverflow.com/questions/20921266/schema-for-music-lists-playlists-web-app
+https://stackoverflow.com/questions/33861987/sql-music-playlist-database-design
+
+
+File Upload Progress:
+https://stackoverflow.com/questions/36962287/how-to-upload-a-file-to-s3-via-nodejs-and-track-progress-in-the-browser
+https://stackoverflow.com/questions/41088022/how-to-get-onuploadprogress-in-axios
+
+
+Case Study:
+https://aws.amazon.com/solutions/case-studies/soundcloud/
+
+
+Deleting Child Components:
+https://stackoverflow.com/questions/50862192/react-typeerror-cannot-read-property-props-of-undefined
+https://stackoverflow.com/questions/41819342/how-to-hide-and-show-a-div-in-react
+
+
+Updating Nested State Object:
+https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
+https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-inside-a-child-component

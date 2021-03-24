@@ -1,0 +1,821 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.2
+-- Dumped by pg_dump version 13.2
+
+-- Started on 2021-03-24 18:11:39 CDT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 200 (class 1259 OID 24957)
+-- Name: admin; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.admin (
+    admin_id character(15) NOT NULL,
+    first_name character varying(30),
+    last_name character varying(30),
+    title character varying(20),
+    username character varying(30),
+    password character varying(30),
+    register_date date,
+    avatar character varying(200) DEFAULT '<insert image link here>'::character varying,
+    created_playlists character varying[] DEFAULT ARRAY[]::character varying[]
+);
+
+
+ALTER TABLE public.admin OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 25073)
+-- Name: albums; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.albums (
+    album_id integer NOT NULL,
+    user_id integer,
+    album_duration time without time zone,
+    date_published date,
+    artists character varying(100),
+    album_name character varying(60) NOT NULL,
+    album_art character varying(200) DEFAULT '<insert image link here>'::character varying
+);
+
+
+ALTER TABLE public.albums OWNER TO postgres;
+
+--
+-- TOC entry 201 (class 1259 OID 25071)
+-- Name: albums_album_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.albums_album_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.albums_album_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3370 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: albums_album_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.albums_album_id_seq OWNED BY public.albums.album_id;
+
+
+--
+-- TOC entry 216 (class 1259 OID 25423)
+-- Name: comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.comments (
+    cid integer NOT NULL,
+    comment character varying(255),
+    author character varying,
+    user_id integer,
+    song_id integer,
+    date_created timestamp without time zone
+);
+
+
+ALTER TABLE public.comments OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 25421)
+-- Name: comments_cid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.comments_cid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_cid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3371 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: comments_cid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.comments_cid_seq OWNED BY public.comments.cid;
+
+
+--
+-- TOC entry 210 (class 1259 OID 25155)
+-- Name: playlist_songs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.playlist_songs (
+    id integer NOT NULL,
+    playlist_id integer,
+    song_id integer
+);
+
+
+ALTER TABLE public.playlist_songs OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 25153)
+-- Name: playlist_songs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.playlist_songs_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.playlist_songs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3372 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: playlist_songs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.playlist_songs_id_seq OWNED BY public.playlist_songs.id;
+
+
+--
+-- TOC entry 208 (class 1259 OID 25130)
+-- Name: playlists; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.playlists (
+    playlist_id integer NOT NULL,
+    user_id integer,
+    playlist_name character varying(100),
+    public_status boolean,
+    description character varying(300),
+    playlist_art character varying(200) DEFAULT '<insert image link here>'::character varying
+);
+
+
+ALTER TABLE public.playlists OWNER TO postgres;
+
+--
+-- TOC entry 207 (class 1259 OID 25128)
+-- Name: playlists_playlist_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.playlists_playlist_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.playlists_playlist_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3373 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: playlists_playlist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.playlists_playlist_id_seq OWNED BY public.playlists.playlist_id;
+
+
+--
+-- TOC entry 214 (class 1259 OID 25398)
+-- Name: posts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.posts (
+    pid integer NOT NULL,
+    title character varying(255),
+    body character varying,
+    search_vector tsvector,
+    user_id integer,
+    author character varying,
+    date_created timestamp without time zone,
+    like_user_id integer[] DEFAULT ARRAY[]::integer[],
+    likes integer DEFAULT 0,
+    song_id integer
+);
+
+
+ALTER TABLE public.posts OWNER TO postgres;
+
+--
+-- TOC entry 213 (class 1259 OID 25396)
+-- Name: posts_pid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.posts_pid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.posts_pid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3374 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: posts_pid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.posts_pid_seq OWNED BY public.posts.pid;
+
+
+--
+-- TOC entry 206 (class 1259 OID 25110)
+-- Name: reaction; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reaction (
+    likes_id integer NOT NULL,
+    created_at timestamp without time zone,
+    user_id integer,
+    song_id integer,
+    reaction_type character varying(10)
+);
+
+
+ALTER TABLE public.reaction OWNER TO postgres;
+
+--
+-- TOC entry 205 (class 1259 OID 25108)
+-- Name: reaction_likes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.reaction_likes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.reaction_likes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3375 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: reaction_likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.reaction_likes_id_seq OWNED BY public.reaction.likes_id;
+
+
+--
+-- TOC entry 204 (class 1259 OID 25087)
+-- Name: songs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.songs (
+    song_id integer NOT NULL,
+    song_title character varying(40) NOT NULL,
+    ft_musicians character varying[] DEFAULT ARRAY[]::character varying[],
+    user_id integer,
+    album_id integer,
+    duration time without time zone,
+    date_created date,
+    song_art character varying(200),
+    num_played bigint
+);
+
+
+ALTER TABLE public.songs OWNER TO postgres;
+
+--
+-- TOC entry 203 (class 1259 OID 25085)
+-- Name: songs_song_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.songs_song_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.songs_song_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3376 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: songs_song_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.songs_song_id_seq OWNED BY public.songs.song_id;
+
+
+--
+-- TOC entry 212 (class 1259 OID 25203)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    uid integer NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(50),
+    last_name character varying(50),
+    email character varying(50),
+    email_verified boolean DEFAULT false,
+    googleid character varying(90),
+    password character varying(255),
+    avatar character varying(100),
+    background_img_url character varying(100),
+    city character varying(30),
+    country character varying(30),
+    date_created date,
+    last_login date,
+    about_me character varying(100),
+    links character varying[] DEFAULT ARRAY[]::character varying[],
+    socialmedia_fb character varying(200),
+    socialmedia_tw character varying(200),
+    socialmedia_in character varying(200),
+    musician boolean,
+    record_label character varying(200),
+    num_listeners integer DEFAULT 0
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 25201)
+-- Name: users_uid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_uid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_uid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3377 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: users_uid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_uid_seq OWNED BY public.users.uid;
+
+
+--
+-- TOC entry 3169 (class 2604 OID 25076)
+-- Name: albums album_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.albums ALTER COLUMN album_id SET DEFAULT nextval('public.albums_album_id_seq'::regclass);
+
+
+--
+-- TOC entry 3184 (class 2604 OID 25426)
+-- Name: comments cid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN cid SET DEFAULT nextval('public.comments_cid_seq'::regclass);
+
+
+--
+-- TOC entry 3176 (class 2604 OID 25158)
+-- Name: playlist_songs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playlist_songs ALTER COLUMN id SET DEFAULT nextval('public.playlist_songs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3174 (class 2604 OID 25133)
+-- Name: playlists playlist_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playlists ALTER COLUMN playlist_id SET DEFAULT nextval('public.playlists_playlist_id_seq'::regclass);
+
+
+--
+-- TOC entry 3181 (class 2604 OID 25401)
+-- Name: posts pid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts ALTER COLUMN pid SET DEFAULT nextval('public.posts_pid_seq'::regclass);
+
+
+--
+-- TOC entry 3173 (class 2604 OID 25113)
+-- Name: reaction likes_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reaction ALTER COLUMN likes_id SET DEFAULT nextval('public.reaction_likes_id_seq'::regclass);
+
+
+--
+-- TOC entry 3171 (class 2604 OID 25090)
+-- Name: songs song_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.songs ALTER COLUMN song_id SET DEFAULT nextval('public.songs_song_id_seq'::regclass);
+
+
+--
+-- TOC entry 3177 (class 2604 OID 25206)
+-- Name: users uid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN uid SET DEFAULT nextval('public.users_uid_seq'::regclass);
+
+
+--
+-- TOC entry 3348 (class 0 OID 24957)
+-- Dependencies: 200
+-- Data for Name: admin; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.admin (admin_id, first_name, last_name, title, username, password, register_date, avatar, created_playlists) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3350 (class 0 OID 25073)
+-- Dependencies: 202
+-- Data for Name: albums; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.albums (album_id, user_id, album_duration, date_published, artists, album_name, album_art) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3364 (class 0 OID 25423)
+-- Dependencies: 216
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.comments (cid, comment, author, user_id, song_id, date_created) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3358 (class 0 OID 25155)
+-- Dependencies: 210
+-- Data for Name: playlist_songs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.playlist_songs (id, playlist_id, song_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3356 (class 0 OID 25130)
+-- Dependencies: 208
+-- Data for Name: playlists; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.playlists (playlist_id, user_id, playlist_name, public_status, description, playlist_art) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3362 (class 0 OID 25398)
+-- Dependencies: 214
+-- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.posts (pid, title, body, search_vector, user_id, author, date_created, like_user_id, likes, song_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3354 (class 0 OID 25110)
+-- Dependencies: 206
+-- Data for Name: reaction; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reaction (likes_id, created_at, user_id, song_id, reaction_type) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3352 (class 0 OID 25087)
+-- Dependencies: 204
+-- Data for Name: songs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.songs (song_id, song_title, ft_musicians, user_id, album_id, duration, date_created, song_art, num_played) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3360 (class 0 OID 25203)
+-- Dependencies: 212
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (uid, username, first_name, last_name, email, email_verified, googleid, password, avatar, background_img_url, city, country, date_created, last_login, about_me, links, socialmedia_fb, socialmedia_tw, socialmedia_in, musician, record_label, num_listeners) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3378 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: albums_album_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.albums_album_id_seq', 1, false);
+
+
+--
+-- TOC entry 3379 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: comments_cid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.comments_cid_seq', 1, false);
+
+
+--
+-- TOC entry 3380 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: playlist_songs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.playlist_songs_id_seq', 1, false);
+
+
+--
+-- TOC entry 3381 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: playlists_playlist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.playlists_playlist_id_seq', 1, false);
+
+
+--
+-- TOC entry 3382 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: posts_pid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.posts_pid_seq', 1, false);
+
+
+--
+-- TOC entry 3383 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: reaction_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reaction_likes_id_seq', 1, false);
+
+
+--
+-- TOC entry 3384 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: songs_song_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.songs_song_id_seq', 1, false);
+
+
+--
+-- TOC entry 3385 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: users_uid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_uid_seq', 1, false);
+
+
+--
+-- TOC entry 3186 (class 2606 OID 24966)
+-- Name: admin admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin
+    ADD CONSTRAINT admin_pkey PRIMARY KEY (admin_id);
+
+
+--
+-- TOC entry 3188 (class 2606 OID 25079)
+-- Name: albums albums_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.albums
+    ADD CONSTRAINT albums_pkey PRIMARY KEY (album_id);
+
+
+--
+-- TOC entry 3208 (class 2606 OID 25431)
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (cid);
+
+
+--
+-- TOC entry 3196 (class 2606 OID 25160)
+-- Name: playlist_songs playlist_songs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playlist_songs
+    ADD CONSTRAINT playlist_songs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3194 (class 2606 OID 25139)
+-- Name: playlists playlists_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playlists
+    ADD CONSTRAINT playlists_pkey PRIMARY KEY (playlist_id);
+
+
+--
+-- TOC entry 3204 (class 2606 OID 25408)
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (pid);
+
+
+--
+-- TOC entry 3206 (class 2606 OID 25410)
+-- Name: posts posts_song_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_song_id_key UNIQUE (song_id);
+
+
+--
+-- TOC entry 3192 (class 2606 OID 25115)
+-- Name: reaction reaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reaction
+    ADD CONSTRAINT reaction_pkey PRIMARY KEY (likes_id);
+
+
+--
+-- TOC entry 3190 (class 2606 OID 25096)
+-- Name: songs songs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.songs
+    ADD CONSTRAINT songs_pkey PRIMARY KEY (song_id);
+
+
+--
+-- TOC entry 3198 (class 2606 OID 25218)
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3200 (class 2606 OID 25214)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (uid);
+
+
+--
+-- TOC entry 3202 (class 2606 OID 25216)
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 3215 (class 2606 OID 25432)
+-- Name: comments comments_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_author_fkey FOREIGN KEY (author) REFERENCES public.users(username);
+
+
+--
+-- TOC entry 3217 (class 2606 OID 25442)
+-- Name: comments comments_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.posts(song_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3216 (class 2606 OID 25437)
+-- Name: comments comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(uid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3211 (class 2606 OID 25161)
+-- Name: playlist_songs playlist_songs_playlist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playlist_songs
+    ADD CONSTRAINT playlist_songs_playlist_id_fkey FOREIGN KEY (playlist_id) REFERENCES public.playlists(playlist_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3212 (class 2606 OID 25166)
+-- Name: playlist_songs playlist_songs_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playlist_songs
+    ADD CONSTRAINT playlist_songs_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.songs(song_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3214 (class 2606 OID 25416)
+-- Name: posts posts_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_author_fkey FOREIGN KEY (author) REFERENCES public.users(username);
+
+
+--
+-- TOC entry 3213 (class 2606 OID 25411)
+-- Name: posts posts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(uid);
+
+
+--
+-- TOC entry 3210 (class 2606 OID 25121)
+-- Name: reaction reaction_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reaction
+    ADD CONSTRAINT reaction_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.songs(song_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3209 (class 2606 OID 25102)
+-- Name: songs songs_album_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.songs
+    ADD CONSTRAINT songs_album_id_fkey FOREIGN KEY (album_id) REFERENCES public.albums(album_id) ON DELETE CASCADE;
+
+
+-- Completed on 2021-03-24 18:11:44 CDT
+
+--
+-- PostgreSQL database dump complete
+--
+
