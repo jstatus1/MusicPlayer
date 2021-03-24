@@ -13,7 +13,7 @@ CREATE TABLE admin(
 
 CREATE TABLE users(
     uid SERIAL PRIMARY KEY,
-    username VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL UNIQUE,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(50) UNIQUE,
@@ -66,7 +66,7 @@ CREATE TABLE albums(
   album_art VARCHAR(200) DEFAULT '<insert image link here>'
 );
 
-CREATE TABLE playlist(
+CREATE TABLE playlists(
   playlist_id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
 	playlist_name varchar(100),
@@ -77,9 +77,9 @@ CREATE TABLE playlist(
 
 CREATE TABLE playlist_songs(
   id SERIAL PRIMARY KEY,
-  playlist_id INT REFERENCES playlist(playlist_id) ON DELETE CASCADE,
+  playlist_id INT REFERENCES playlists(playlist_id) ON DELETE CASCADE,
   song_id INT REFERENCES songs(song_id) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE comments(
     cid SERIAL PRIMARY KEY,
@@ -99,7 +99,8 @@ CREATE TABLE posts (
   author VARCHAR REFERENCES users(username),
   date_created TIMESTAMP,
   like_user_id INT[] DEFAULT ARRAY[]::INT[],
-  likes INT DEFAULT 0
+  likes INT DEFAULT 0,
+  song_id INT 
 );
 
 
