@@ -11,6 +11,7 @@ class Header extends Component {
 
   renderContent()
   {
+   
     switch(this.props.auth)
     {
       case null:

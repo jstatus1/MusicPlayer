@@ -26,12 +26,19 @@ class Upload extends React.Component
             userid: null,
             public: true,
             playlist: false,
-        },
-        song_data: []
+        }
     }
 
-    
-    
+    //update the uploadedSong state
+    updateSongData(id, song)
+    {   
+        
+        let updatedUploadedSong = this.state.uploadedSong
+        
+        updatedUploadedSong[id] = song
+
+        this.setState({uploadedSong: updatedUploadedSong})
+    }
 
    
     musicUpload = (e) => {
@@ -166,8 +173,9 @@ class Upload extends React.Component
         )
     }
 
-    removeSong(e)
+    removeSong = (e) =>
     {
+        e.preventDefault()
         let updatedSongList = this.state.uploadedSong.filter(
             (song) => {
                 return song !== e;
@@ -233,7 +241,7 @@ class Upload extends React.Component
                                 </div>
                                 <div class="card-body">
                                         {this.state.uploadedSong.map((song,index) => {
-                                    return (<SongForm key={index} id={index} song={song} removeSong={this.removeSong.bind(this)}></SongForm>)
+                                    return (<SongForm key={index} id={index} song={song} removeSong={e => this.removeSong(e).bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
                                     })}
                                 </div>
 

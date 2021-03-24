@@ -20,15 +20,20 @@ CREATE TABLE users(
     email_verified BOOLEAN DEFAULT false,
     googleid VARCHAR(90),
     password VARCHAR(255),
-    profile_img_url VARCHAR(100),
+    avatar VARCHAR(100),
     background_img_url VARCHAR(100),
     city VARCHAR(30),
     country VARCHAR(30),
     date_created DATE,
     last_login DATE,
-    bio VARCHAR(100),
+    about_me VARCHAR(100),
     links VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
-    socialMedia VARCHAR[] DEFAULT ARRAY[]::VARCHAR[]
+    socialMedia_fb VARCHAR(200),
+    socialMedia_tw VARCHAR(200),
+    socialMedia_in VARCHAR(200),
+    musician BOOLEAN,
+    record_label VARCHAR(200),
+    num_listeners INT DEFAULT 0,
 );
 
 CREATE TABLE reaction(
@@ -98,37 +103,5 @@ CREATE TABLE posts (
 );
 
 
-CREATE TABLE musicians(
-    musician_id char(15) NOT NULL PRIMARY KEY,
-    first_name VARCHAR(30),
-    last_name VARCHAR(30),
-    avatar VARCHAR(100) DEFAULT '<insert image link here>',
-    num_listeners INT DEFAULT 0,
-    sex VARCHAR(2),
-    age INT,
-    register_date DATE,
-    socialMedia_fb VARCHAR(200),
-    socialMedia_tw VARCHAR(200),
-    socialMedia_in VARCHAR(200),
-    record_label VARCHAR(200),
-    followers INT DEFAULT 0,
-    about_me VARCHAR(300),
-    username VARCHAR(30) UNIQUE,
-    password VARCHAR(30),
-    genre VARCHAR(20)
-);
 
-CREATE TABLE listener(
-  listener_id char(15) NOT NULL PRIMARY KEY,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
-  user_name VARCHAR(30) UNIQUE,
-  password VARCHAR(30),
-  register_date DATE,
-  instagram VARCHAR(200),
-  twitter VARCHAR(200),
-  facebook VARCHAR(200),
-  about_me VARCHAR(350),
-  avatar VARCHAR(100) DEFAULT '<insert image link here>'
-);
 

@@ -46,8 +46,8 @@ export default class SongForm extends React.Component
         const reader = new FileReader();
         reader.onload = () =>{
           if(reader.readyState === 2){
-            this.setState(prevState => ({basic_info: {...prevState.basic_info, song_image:reader.result}}))
             this.props.song.basic_info_song.song_image = reader.result
+            this.props.updateSongData(this.props.id, this.props.song)
           }
         }
         reader.readAsDataURL(e.target.files[0])
@@ -56,7 +56,7 @@ export default class SongForm extends React.Component
 
     renderSongUploadButton()
     {
-        if(this.state.basic_info.song_image == null)
+        if(this.props.song.basic_info_song.song_image == null)
         {
             return(<div className="image-button"> 
                 <button type="button">
@@ -69,7 +69,7 @@ export default class SongForm extends React.Component
             </div>)
         }else{
            return( <div className="image-button-x"> 
-                <button type="button" onClick={e=> this.setState(prevState => ({basic_info: {...prevState.basic_info, song_image:null}}))} className=" btn btn-danger">
+                <button type="button" onClick={() => {this.props.song.basic_info_song.song_image = null; this.props.updateSongData(this.props.id, this.props.song)}} className=" btn btn-danger">
                     <label>
                         X
                     </label>
@@ -85,7 +85,7 @@ export default class SongForm extends React.Component
             <div className="image-box">
                 <div className="image-container">
                     <span className="upload-artwork-img">
-                        {(this.state.basic_info.song_image != null)? <img className="image" src={this.state.basic_info.song_image}></img>: ''}
+                        {(this.props.song.basic_info_song.song_image != null)? <img className="image" src={this.props.song.basic_info_song.song_image}></img>: ''}
                         
                     </span>
                 </div>
@@ -93,11 +93,6 @@ export default class SongForm extends React.Component
                                
             </div>
         )
-    }
-
-    setGenre(e)
-    {
-       this.setState(prevState => ({basic_info: {...prevState.basic_info, selected_genre:e.target.value}}))
     }
 
     renderGenreList()
@@ -131,6 +126,7 @@ export default class SongForm extends React.Component
         return {__html:  list.join('') }
     }
 
+    //Renders The Form
     updateCurrentPage = (e, page) => 
     {
         e.preventDefault()
@@ -209,6 +205,8 @@ export default class SongForm extends React.Component
         }
     }
 
+
+    //Basic Form Data Entry
     renderBasicInfo(){
         return(<React.Fragment>
                 <div className="col-5 ">
@@ -373,13 +371,14 @@ export default class SongForm extends React.Component
                             {this.state.currentPage=="Permissions" ? this.renderPermissions()
                             :null}
                         </div>
-                        <button className="btn btn-danger" onClick={this.handleDelete}>Remove</button>
+                        <button className="btn btn-danger" onClick={e => this.handleDelete(e)}>Remove</button>
                     </form>
             </React.Fragment>)
         
     }
 
-    handleDelete = () => {
+    handleDelete = (e) => {
+        e.preventDefault()
         this.props.removeSong(this.props.song)
     }
 }
