@@ -60,7 +60,8 @@ module.exports = app => {
         //upload to database
         
         
-        console.log(req.body.basic_info)
+        //console.log(req.body.basic_info)
+        console.log(req.user)
         // const value = [profile.displayName, 
         //     profile.name.givenName,
         //     profile.name.familyName, 
@@ -158,7 +159,6 @@ module.exports = app => {
                 });
             } else {
                 let data = []; 
-                
                 if(req.files.musicUploads.length == undefined)
                 {
                     
