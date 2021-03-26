@@ -13,7 +13,7 @@ CREATE TABLE admin(
 
 CREATE TABLE users(
     uid SERIAL PRIMARY KEY,
-    username VARCHAR(30) NOT NULL UNIQUE,
+    username VARCHAR(30) NOT NULL,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(50) UNIQUE,
@@ -24,16 +24,16 @@ CREATE TABLE users(
     background_img_url VARCHAR(100),
     city VARCHAR(30),
     country VARCHAR(30),
-    date_created DATE,
-    last_login DATE,
-    about_me VARCHAR(100),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    about_me VARCHAR(400),
     links VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
     socialMedia_fb VARCHAR(200),
     socialMedia_tw VARCHAR(200),
     socialMedia_in VARCHAR(200),
     musician BOOLEAN,
     record_label VARCHAR(200),
-    num_listeners INT DEFAULT 0,
+    num_listeners INT DEFAULT 0
 );
 
 CREATE TABLE reaction(
@@ -46,14 +46,29 @@ CREATE TABLE reaction(
 
 CREATE TABLE songs(
   song_id SERIAL PRIMARY KEY,
-  song_title VARCHAR(40) NOT NULL,
+  title VARCHAR(40) NOT NULL,
+  genre VARCHAR(50),
+  additional_tag VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
+  description VARCHAR(400),
+  caption VARCHAR(400),
   ft_musicians VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
-  album_id INT REFERENCES albums(album_id) ON DELETE CASCADE,
+  album_id INT REFERENCES albums(album_id) ON DELETE SET NULL,
   duration TIME,
-  date_created DATE,
-  song_art VARCHAR(200),
-  num_played BIGINT
+  release_date DATE,
+  song_image VARCHAR(200),
+  num_played BIGINT,
+  publisher VARCHAR(30),
+  ISRC VARCHAR(30),
+  composer VARCHAR(50),
+  release_title VARCHAR(40),
+  buy_link VARCHAR(40),
+  album_title VARCHAR(30),
+  record_label VARCHAR(30),
+  barcode VARCHAR(30),
+  ISWC VARCHAR(30),
+  P_Line VARCHAR(30),
+  explicit_content BOOLEAN
 );
 
 CREATE TABLE albums(
