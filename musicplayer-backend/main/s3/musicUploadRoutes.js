@@ -48,36 +48,89 @@ module.exports = app => {
     music_upload_single = async (req) => 
     {
         let data = []
-        let musicFile = req.files.musicUploads;      
+        let musicFile = req.files.musicUploads;   
+        let albumArtFile = req.files.album_art;  
+        var userId = req.user.uid
+        // var basic_info = JSON.parse(req.body.basic_info)
+        // var metadata = JSON.parse(req.body.metadata) 
 
-        const params = {
+        //Params For AWS
+        const musicplayer_params = {
             Bucket: "musicplayer-song",
-            Key: uuidv4(),
             Body: musicFile.data,
+            Key: uuidv4(),
             ACL: "public-read"
         };
+
+        const pictureUpload_params = {
+                Bucket: "musicplayer-songart",
+                Body: albumArtFile.data,
+                Key: uuidv4(),
+                ACL: "public-read"
+            };
+
 
         //upload to database
         
         
-        //console.log(req.body.basic_info)
-        console.log(req.user)
-        // const value = [profile.displayName, 
-        //     profile.name.givenName,
-        //     profile.name.familyName, 
-        //     profile.emails[0].value, 
-        //     profile.emails[0].verified,
-        //     (profile.id).toString(),
-        //     profile.photos[0].value]
+     
+        
+       
+        /**
+        * title
+        * genre
+        * description
+        * caption
+        * user_id
+        * album_id
+        * duration
+        * release_date
+        * song_image
+        * publisher
+        * ISRC
+        * composer
+        * release_title
+        * buy_link
+        * album_title
+        * record_label
+        * barcode
+        * ISWC
+        * P_Line
+        * explicit_content
+        * / */
 
-        // await pool.query(`INSERT INTO songs(title,genre,description,caption,user_id,release_date,song_image,num_played,publisher
-        //                               ,ISRC,composer,release_title,buy_link,album_title,record_label,barcode,ISWC,P_Line,explicit_content)
-        //                 VALUES($1, $2, $3, $4,$5,$6,$7)
-        //                 ON CONFLICT DO NOTHING`,value, async (error, result)=> {
-        //                 if (error) {
-        //                 console.log(error);
-        //                 }
-        //             })
+        
+
+        //TODO: get the link for the photo
+         await s3.upload (pictureUpload_params, function (err, data) {
+            if (err) {
+              console.log("Error", err);
+            } if (data) {
+              console.log("Upload Success", data.Location);
+            }
+          }).on('httpUploadProgress', e => {
+
+            console.log( `${e.loaded} + " of " + ${e.total} + " bytes"`)
+                
+          }).send((err,data) => {
+              console.log('data:', data)
+          });
+
+        // const value = [basic_info.title, 
+        //     basic_info.selected_genre,
+        //     basic_info.
+        // ]
+
+        // await pool.query(`INSERT INTO songs(title,genre,description,caption,user_id,
+        //                                     release_date,song_image,num_played,publisher
+        //                                     ,ISRC,composer,release_title,buy_link,album_title,
+        //                                     record_label,barcode,ISWC,P_Line,explicit_content)
+        //                     VALUES($1, $2, $3, $4,$5,$6,$7)
+        //                     ON CONFLICT DO NOTHING`,value, async (error, result)=> {
+        //                     if (error) {
+        //                     console.log(error);
+        //                     }
+        //                 })
         
         //  await s3.upload (params, function (err, data) {
         //     if (err) {

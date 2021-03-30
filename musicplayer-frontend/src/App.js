@@ -9,12 +9,14 @@ import Header from './components/Navbar/header'
 import Upload from './components/Upload/upload'
 import ProfileEdit from './components/profile/profileedit'
 import DropZone from './components/Upload/drop-zone'
+import MediaPlayer from './components/MediaPlayer/mediaplayer'
 
 //import Routes from './routes'
 
 const Dashboard = () => <h2>Dashboard</h2>
-const Landing = () => <h2>Landing</h2>
-
+const Landing = () => {
+    
+}
 
 class App extends React.Component
 {
@@ -38,8 +40,9 @@ class App extends React.Component
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
-                       
+                        
                     </div>
+                    <MediaPlayer/>
                </BrowserRouter> 
             </div>)
     }

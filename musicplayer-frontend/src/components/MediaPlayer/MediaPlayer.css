@@ -1,0 +1,17 @@
+.playControls {
+    position:fixed;
+    bottom:0px;
+    clear:both;
+    float:right;
+    display: block;
+}
+
+.g-z-index-control-bar {
+    z-index: 1001;
+}
+
+.playControls__inner 
+{
+    background-color: #f2f2f2;
+    border-top: 1px solid #cecece;
+}

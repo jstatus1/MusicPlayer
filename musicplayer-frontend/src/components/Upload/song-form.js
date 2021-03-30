@@ -19,16 +19,8 @@ export default class SongForm extends React.Component
     }
 
     imageHandler = (e) => {
-        const reader = new FileReader();
-        
-        reader.readAsDataURL(e.target.files[0])
-
-        reader.onload = () =>{
-            if(reader.readyState === 2){
-              this.props.song.basic_info_song.song_image = reader.result
-              this.props.updateSongData(this.props.id, this.props.song)
-            }
-          }
+        this.props.song.basic_info_song.song_image = Array.from(e.target.files)
+        this.props.updateSongData(this.props.id, this.props.song)
     };
 
 
@@ -46,8 +38,16 @@ export default class SongForm extends React.Component
                 </button>   
             </div>)
         }else{
+            
+
            return( <div className="image-button-x"> 
-                <button type="button" onClick={() => {this.props.song.basic_info_song.song_image = null; this.props.updateSongData(this.props.id, this.props.song)}} className=" btn btn-danger">
+                <button type="button" onClick={() => {
+                                                    this.props.song.basic_info_song.song_image = null; 
+                                                    this.props.updateSongData(this.props.id, this.props.song)
+                                                    var id = `${this.props.id}_art_image`
+                                                    var output = document.getElementById(id);
+                                                    output.src = null;
+                                                    }} className=" btn btn-danger">
                     <label>
                         X
                     </label>
@@ -59,17 +59,33 @@ export default class SongForm extends React.Component
 
     renderSongImage()
     {
+        if(this.props.song.basic_info_song.song_image!= null)
+        {
+            const reader = new FileReader();
+        
+            reader.readAsDataURL(this.props.song.basic_info_song.song_image[0])
+            
+            reader.onload = () =>{
+                if(reader.readyState === 2)
+                {
+                    var dataURL = reader.result;
+                    var id = `${this.props.id}_art_image`
+                    var output = document.getElementById(id);
+                    output.src = dataURL;
+                }
+            }
+        }
+       
+
         return(
             <div className="image-box">
                 <div className="image-container">
-                    <span className="upload-artwork-img">
-                        {(this.props.song.basic_info_song.song_image != null)? <img className="image" src={this.props.song.basic_info_song.song_image}></img>: ''}
-                        
+                    <span  className="upload-artwork-img">
+                        <img id={`${this.props.id}_art_image`} className="image" onError={(e) => e.target.style.display='none' }></img>
                     </span>
                 </div>
-                {this.renderSongUploadButton()}
-                               
-            </div>
+                {this.renderSongUploadButton()}  
+             </div>
         )
     }
 
