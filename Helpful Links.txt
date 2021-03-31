@@ -38,6 +38,3 @@ https://stackoverflow.com/questions/41819342/how-to-hide-and-show-a-div-in-react
 Updating Nested State Object:
 https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
 https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-inside-a-child-component
-
-On Delete Rules:
-https://stackoverflow.com/questions/19898274/on-delete-set-null-in-postgres

@@ -32,8 +32,11 @@ class Upload extends React.Component
     //update the uploadedSong state
     updateSongData(id, song)
     {   
+        
         let updatedUploadedSong = this.state.uploadedSong
+        
         updatedUploadedSong[id] = song
+
         this.setState({uploadedSong: updatedUploadedSong})
     }
 
@@ -41,41 +44,41 @@ class Upload extends React.Component
     musicUpload = (e) => {
         if(e.target.files.length != 0)
         {
-           
+            let metadata_song = {
+                contains_music: true,
+                artist: null,
+                publisher: null,
+                isrc: null,
+                composer: null,
+                release_title: null,
+                buy_link: null,
+                album_title: null,
+                record_label:null,
+                release_date:null,
+                barcode: null,
+                iswc: null,
+                p_line: null,
+                explicit_content: false
+            } 
+
+            let basic_info_song={
+                title: null,
+                selected_genre:null,
+                additional_tag: null,
+                description: null,
+                caption: null,
+                song_image: null
+            }
 
             //append metadata and basic info for each song
             for(let i = 0; i < e.target.files.length; i++)
-            {  
-                let metadata_song = {
-                    contains_music: true,
-                    artist: null,
-                    publisher: null,
-                    isrc: null,
-                    composer: null,
-                    release_title: null,
-                    buy_link: null,
-                    album_title: null,
-                    record_label:null,
-                    release_date:null,
-                    barcode: null,
-                    iswc: null,
-                    p_line: null,
-                    explicit_content: false
-                } 
-    
-                let basic_info_song={
-                    title: e.target.files[i].name,
-                    selected_genre:null,
-                    additional_tag: null,
-                    description: null,
-                    caption: null,
-                    song_image: null
-                }
-
+            {
+                basic_info_song.title = e.target.files[i].name
                 e.target.files[i].metadata_song = metadata_song
                 e.target.files[i].basic_info_song = basic_info_song
             }
-            
+
+
 
             this.setState({uploadedSong: Array.from(e.target.files)})
         }
@@ -91,18 +94,23 @@ class Upload extends React.Component
         
         for(let i = 0; i < this.state.uploadedSong.length; i++)
         {
+<<<<<<< HEAD
             formData.append("musicUploads", this.state.uploadedSong[i]);
             formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
             formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
             formData.append("metadata", JSON.stringify(this.state.uploadedSong[i].metadata_song))
             
+=======
+            console.log(this.state.uploadedSong[i])
+            formData.append("musicUploads", this.state.uploadedSong[i]); 
+>>>>>>> parent of f1cdf6e0 (Merge branch 'main' into FrontEnd_Edward)
         }
 
 
         try{
             const res = await axios.post('/api/music_upload/', formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data"
+                  'Content-Type': 'multipart/form-data'
                 },
 
                 
@@ -172,18 +180,17 @@ class Upload extends React.Component
         )
     }
 
-    removeSong = (e,delsong) =>
+    removeSong = (e) =>
     {
         e.preventDefault()
         let updatedSongList = this.state.uploadedSong.filter(
             (song) => {
-                return song !== delsong;
+                return song !== e;
             }
         );
-        
-        
+
         this.setState({
-            uploadedSong : updatedSongList
+            uploadedSong : updatedSongList,
         });
     }
 
@@ -241,7 +248,7 @@ class Upload extends React.Component
                                 </div>
                                 <div class="card-body">
                                         {this.state.uploadedSong.map((song,index) => {
-                                    return (<SongForm key={index} id={index} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
+                                    return (<SongForm key={index} id={index} song={song} removeSong={e => this.removeSong(e).bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
                                     })}
                                 </div>
 
