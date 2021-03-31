@@ -14,9 +14,7 @@ import MediaPlayer from './components/MediaPlayer/mediaplayer'
 //import Routes from './routes'
 
 const Dashboard = () => <h2>Dashboard</h2>
-const Landing = () => {
-    
-}
+const Landing = () => <h2>Dashboard</h2>
 
 class App extends React.Component
 {

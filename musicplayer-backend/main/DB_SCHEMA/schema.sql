@@ -49,6 +49,7 @@ CREATE TABLE songs(
   title VARCHAR(40) NOT NULL,
   genre VARCHAR(50),
   additional_tag VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
+  song_link VARCHAR(300) NOT NULL,
   description VARCHAR(400),
   caption VARCHAR(400),
   ft_musicians VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],

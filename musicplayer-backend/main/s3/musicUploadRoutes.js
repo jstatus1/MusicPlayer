@@ -45,15 +45,16 @@ module.exports = app => {
     }
     });
 
-    music_upload_single = async (req) => 
+    music_upload_single = async (req, res) => 
     {
         let data = []
         let musicFile = req.files.musicUploads;   
         let albumArtFile = req.files.album_art;  
         var userId = req.user.uid
-        // var basic_info = JSON.parse(req.body.basic_info)
-        // var metadata = JSON.parse(req.body.metadata) 
+        var basic_info = JSON.parse(req.body.basic_info)
+        var metadata = JSON.parse(req.body.metadata) 
 
+       
         //Params For AWS
         const musicplayer_params = {
             Bucket: "musicplayer-song",
@@ -67,39 +68,7 @@ module.exports = app => {
                 Body: albumArtFile.data,
                 Key: uuidv4(),
                 ACL: "public-read"
-            };
-
-
-        //upload to database
-        
-        
-     
-        
-       
-        /**
-        * title
-        * genre
-        * description
-        * caption
-        * user_id
-        * album_id
-        * duration
-        * release_date
-        * song_image
-        * publisher
-        * ISRC
-        * composer
-        * release_title
-        * buy_link
-        * album_title
-        * record_label
-        * barcode
-        * ISWC
-        * P_Line
-        * explicit_content
-        * / */
-
-        
+        };
 
         //TODO: get the link for the photo
          await s3.upload (pictureUpload_params, function (err, data) {
@@ -108,96 +77,114 @@ module.exports = app => {
             } if (data) {
               console.log("Upload Success", data.Location);
             }
-          }).on('httpUploadProgress', e => {
-
-            console.log( `${e.loaded} + " of " + ${e.total} + " bytes"`)
+          }).send(async (err,SongArtLink) => {
+              try{
                 
-          }).send((err,data) => {
-              console.log('data:', data)
+                await s3.upload (musicplayer_params, function (err, data) {
+                    if (err) {
+                      console.log("Error", err);
+                    } if (data) {
+                      console.log("Upload Success", data.Location);
+                    }
+                  }).on('httpUploadProgress', e => {
+
+                    console.log( `${e.loaded} + " of " + ${e.total} + " bytes"`)
+                        
+                  }).send(async (err,SongLink) => {
+                      try{
+                            //TODO: include album id for front end and backend
+                            const songValue = [
+                                basic_info.title,
+                                basic_info.selected_genre,
+                                SongLink.Location,
+                                basic_info.description,
+                                basic_info.caption,
+                                userId,
+                                metadata.release_date,
+                                SongArtLink.Location,
+                                metadata.publisher,
+                                metadata.isrc,
+                                metadata.composer,
+                                metadata.release_title,
+                                metadata.record_label,
+                                metadata.barcode,
+                                metadata.iswc,
+                                metadata.p_line,
+                                metadata.explicit_content,
+                                metadata.buy_link,
+                                metadata.album_title
+                            ]
+                            
+                            //TODO: UPDATE LENGTH
+                            await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
+                                                release_date,song_image,publisher
+                                                ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,explicit_content,buy_link,album_title)
+                                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
+                                                ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
+                                                if (error) {
+                                                    console.log(error);
+                                                }else{
+                                                    res.send({
+                                                        status: true,
+                                                        message: "Successfully Uploaded"
+                                                    })
+                                                }})
+
+                      }catch(err)
+                      {
+                          console.log("Failed To Post Song On AWS S3")
+                      }
+                  });
+                
+
+
+              }catch(err)
+              {
+                  console.log("Error Inserting Song To Database")
+              }
+              
           });
-
-        // const value = [basic_info.title, 
-        //     basic_info.selected_genre,
-        //     basic_info.
-        // ]
-
-        // await pool.query(`INSERT INTO songs(title,genre,description,caption,user_id,
-        //                                     release_date,song_image,num_played,publisher
-        //                                     ,ISRC,composer,release_title,buy_link,album_title,
-        //                                     record_label,barcode,ISWC,P_Line,explicit_content)
-        //                     VALUES($1, $2, $3, $4,$5,$6,$7)
-        //                     ON CONFLICT DO NOTHING`,value, async (error, result)=> {
-        //                     if (error) {
-        //                     console.log(error);
-        //                     }
-        //                 })
-        
-        //  await s3.upload (params, function (err, data) {
-        //     if (err) {
-        //       console.log("Error", err);
-        //     } if (data) {
-        //       console.log("Upload Success", data.Location);
-        //     }
-        //   }).on('httpUploadProgress', e => {
-
-        //     console.log( `${e.loaded} + " of " + ${e.total} + " bytes"`)
-                
-        //   }).send((err,data) => {
-        //       console.log('data:', data)
-        //   });
-
-        
-
-        data.push({
-                    name: musicFile.name,
-                    mimetype: musicFile.mimetype,
-                    size: musicFile.size
-        });
-        return data;
     }
 
 
-    music_upload_multiple = async (req) => 
+    music_upload_multiple = async (req, res) => 
     {
         let data = []
-        let musicFile = req.files.musicUploads;
-                    
-
                         
-                        for(let i = 0; i < req.files.musicUploads.length; i++)
-                        {
-                            let musicFile = req.files.musicUploads[i];
-                            
+        for(let i = 0; i < req.files.musicUploads.length; i++)
+        {
+            let musicFile = req.files.musicUploads[i];
+            
 
-                            const params = {
-                                Bucket: "musicplayer-song",
-                                Key: uuidv4(),
-                                Body: musicFile.data,
-                                ACL: "public-read"
-                              };
-                            
-                             await s3.upload (params, function (err, data) {
-                                if (err) {
-                                  console.log("Error", err);
-                                } if (data) {
-                                  console.log("Upload Success", data.Location);
-                                }
-                              }).on('httpUploadProgress', e => {
-                                
-                                socket.emit('upload', e)
-                              }).send((err,data) => {
-                                  console.log('data:', data)
-                              });
+            const params = {
+                Bucket: "musicplayer-song",
+                Key: uuidv4(),
+                Body: musicFile.data,
+                ACL: "public-read"
+                };
+            
+                await s3.upload (params, function (err, data) {
+                if (err) {
+                    console.log("Error", err);
+                } if (data) {
+                    console.log("Upload Success", data.Location);
+                }
+                }).on('httpUploadProgress', e => {
+                
+                socket.emit('upload', e)
+                }).send((err,data) => {
+                    console.log('data:', data)
+                });
 
                               
 
-                            data.push({
-                                        name: musicFile.name,
-                                        mimetype: musicFile.mimetype,
-                                        size: musicFile.size
-                                    });
-                        }
-                        return data;
+                data.push({
+                            name: musicFile.name,
+                            mimetype: musicFile.mimetype,
+                            size: musicFile.size
+                        });
+            }
+            return data;
     }
 
 
@@ -215,13 +202,10 @@ module.exports = app => {
                 if(req.files.musicUploads.length == undefined)
                 {
                     
-                    data = music_upload_single(req)
+                    data = music_upload_single(req, res)
                 }else{
-                    data = music_upload_multiple(req)
+                    data = music_upload_multiple(req, res)
                 }
-
-
-                res.send(req.body.basic_info);
             }
         } catch (err) {
             res.status(500).send(err);

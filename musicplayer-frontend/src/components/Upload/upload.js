@@ -119,10 +119,10 @@ class Upload extends React.Component
                 }
               });
         
-              //const { fileName, filePath } = res.data;
-              //console.log(res.data)
-            //   this.setState({uploadedFileLocation: { fileName, filePath }});
-            //   this.setState({successMessage: 'Your Files Have Been Uploaded'})
+             
+              console.log(res.data)
+              this.setState({successMessage: 'Your Files Have Been Uploaded Successfully!'})
+              
         }catch(err)
         {
             if(err.response.status === 500)
@@ -222,7 +222,7 @@ class Upload extends React.Component
                 )
             }else{
                 return (<React.Fragment>
-                            <div class="card">
+                            <div class="card mb-5">
                                 <div class="card-header ">
                                  Provide FLAC, WAV, ALAC, or AIFF for highest audio quality. Learn more about lossless HD. No file chosen
                                  <button type="button " className=" ms-4">
@@ -243,10 +243,17 @@ class Upload extends React.Component
                                         {this.state.uploadedSong.map((song,index) => {
                                     return (<SongForm key={index} id={index} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
                                     })}
+                                    
                                 </div>
-
-                                <button className="btn btn-dark " onClick={e=>this.onSubmit(e)}>Submit</button>
+                                <div class="card-footer">
+                                    <button className="btn btn-dark col-12 " onClick={e=>this.onSubmit(e)}>Submit</button>
+                                </div> 
                         </div>
+                        <div class="mb-5">
+                                 By uploading, you confirm that your sounds comply with our Terms of Use and you don't infringe anyone else's rights.
+                        </div>
+                        <br></br>
+
                 </React.Fragment>
                 )
             }

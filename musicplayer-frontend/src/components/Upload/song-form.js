@@ -81,7 +81,7 @@ export default class SongForm extends React.Component
             <div className="image-box">
                 <div className="image-container">
                     <span  className="upload-artwork-img">
-                        <img id={`${this.props.id}_art_image`} className="image" onError={(e) => e.target.style.display='none' }></img>
+                        <img id={`${this.props.id}_art_image`} className="image" ></img>
                     </span>
                 </div>
                 {this.renderSongUploadButton()}  
