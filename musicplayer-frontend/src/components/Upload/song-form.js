@@ -43,19 +43,8 @@ export default class SongForm extends React.Component
     }
 
     imageHandler = (e) => {
-<<<<<<< HEAD
         this.props.song.basic_info_song.song_image = Array.from(e.target.files)
         this.props.updateSongData(this.props.id, this.props.song)
-=======
-        const reader = new FileReader();
-        reader.onload = () =>{
-          if(reader.readyState === 2){
-            this.props.song.basic_info_song.song_image = reader.result
-            this.props.updateSongData(this.props.id, this.props.song)
-          }
-        }
-        reader.readAsDataURL(e.target.files[0])
->>>>>>> parent of f1cdf6e0 (Merge branch 'main' into FrontEnd_Edward)
     };
 
 

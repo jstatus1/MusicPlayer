@@ -94,16 +94,11 @@ class Upload extends React.Component
         
         for(let i = 0; i < this.state.uploadedSong.length; i++)
         {
-<<<<<<< HEAD
             formData.append("musicUploads", this.state.uploadedSong[i]);
             formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
             formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
             formData.append("metadata", JSON.stringify(this.state.uploadedSong[i].metadata_song))
             
-=======
-            console.log(this.state.uploadedSong[i])
-            formData.append("musicUploads", this.state.uploadedSong[i]); 
->>>>>>> parent of f1cdf6e0 (Merge branch 'main' into FrontEnd_Edward)
         }
 
 
