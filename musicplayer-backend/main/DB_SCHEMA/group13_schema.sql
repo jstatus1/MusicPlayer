@@ -57,7 +57,7 @@ CREATE TABLE songs(
   duration TIME,
   release_date DATE,
   song_image VARCHAR(200),
-  num_played BIGINT,
+  num_played BIGINT DEFAULT 0,
   publisher VARCHAR(30),
   ISRC VARCHAR(30),
   composer VARCHAR(50),

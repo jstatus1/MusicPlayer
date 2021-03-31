@@ -78,7 +78,6 @@ class Upload extends React.Component
             
 
             this.setState({uploadedSong: Array.from(e.target.files)})
-            console.log(Array.from(e.target.files))
         }
     }
 
@@ -93,10 +92,10 @@ class Upload extends React.Component
         for(let i = 0; i < this.state.uploadedSong.length; i++)
         {
             formData.append("musicUploads", this.state.uploadedSong[i]);
-
-
+            formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
             formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
             formData.append("metadata", JSON.stringify(this.state.uploadedSong[i].metadata_song))
+            
         }
 
 
@@ -121,7 +120,7 @@ class Upload extends React.Component
               });
         
               //const { fileName, filePath } = res.data;
-              console.log(res.data)
+              //console.log(res.data)
             //   this.setState({uploadedFileLocation: { fileName, filePath }});
             //   this.setState({successMessage: 'Your Files Have Been Uploaded'})
         }catch(err)
