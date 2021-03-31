@@ -2,7 +2,10 @@ import React, {useState} from 'react'
 import axios from 'axios'
 import Routes from './routes'
 import SideNavbar from './components/SideNavbar'
+import Library from './components/pages/Library'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { BrowserRouter, Route} from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from './store/actions'
@@ -42,6 +45,7 @@ class App extends React.Component
                         <Route exact path="/discovery" component={Dashboard} />
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
+                        <Route exact path="/library" component={Library}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
                         
                     </div>
