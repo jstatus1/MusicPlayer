@@ -21,7 +21,7 @@ CREATE TABLE users(
     googleid VARCHAR(90),
     password VARCHAR(255),
     avatar VARCHAR(300),
-    background_img_url VARCHAR(100),
+    profile_img_url VARCHAR(100),
     city VARCHAR(30),
     country VARCHAR(30),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
