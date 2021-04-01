@@ -57,23 +57,25 @@ const InsertUser = async (profile, done)  => {
                                   ON CONFLICT DO NOTHING`,value, async (error, result)=> {
                                     if (error) {
                                       console.log(error);
+                                    }else{
+                                      pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
+                                        (q_err, q_res)=> {
+                                            if(q_err)
+                                            {
+                                                return done(q_err);
+                                            }
+                            
+                                            if(q_res.rows.length > 0)
+                                            {
+                                                const user = q_res.rows[0];
+                                                return done(null, user);
+                                            }
+                                        })
                                     }
                                   })
     
 
-                                  await pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
-                                  (q_err, q_res)=> {
-                                      if(q_err)
-                                      {
-                                          return done(q_err);
-                                      }
-                      
-                                      if(q_res.rows.length > 0)
-                                      {
-                                          const user = q_res.rows[0];
-                                          return done(null, user);
-                                      }
-                                  })
+                        
 }
 
 //Local Sign Up
