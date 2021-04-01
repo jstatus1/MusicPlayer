@@ -4,7 +4,7 @@ import axios from 'axios'
 import { io } from "socket.io-client";
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import Loading from '../Loading/loading'
 
 
 //local imports
@@ -84,6 +84,8 @@ class Upload extends React.Component
     onSubmit= async (e) =>
     {
         e.preventDefault()
+        
+
         let formData = new FormData()
 
         //append metadata
@@ -92,7 +94,8 @@ class Upload extends React.Component
         for(let i = 0; i < this.state.uploadedSong.length; i++)
         {
             formData.append("musicUploads", this.state.uploadedSong[i]);
-            formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
+            if(this.state.uploadedSong[i].basic_info_song.song_image) 
+                formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
             formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
             formData.append("metadata", JSON.stringify(this.state.uploadedSong[i].metadata_song))
             
@@ -112,7 +115,7 @@ class Upload extends React.Component
                     Math.round((progressEvent.loaded * 100) / progressEvent.total)
                   )})
                 
-                  
+                  console.log(progressEvent.loaded* 100)
                     // Clear percentage
                     setTimeout(() => this.setState({uploadPercentage: 0}), 10000);
                   
@@ -122,7 +125,7 @@ class Upload extends React.Component
              
               console.log(res.data)
               this.setState({successMessage: 'Your Files Have Been Uploaded Successfully!'})
-              
+
         }catch(err)
         {
             if(err.response.status === 500)
@@ -283,11 +286,14 @@ class Upload extends React.Component
     render()
     {
         return(<React.Fragment>
+                
                 {this.checkAlert()}
-
+                <Loading></Loading>
                 <div className="mt-5">
                     {this.renderUploadDialog()}
                 </div>
+                
+                
             </React.Fragment>
          )
     }

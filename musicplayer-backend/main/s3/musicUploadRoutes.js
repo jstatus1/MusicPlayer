@@ -70,7 +70,7 @@ module.exports = app => {
                 ACL: "public-read"
         };
 
-        //TODO: get the link for the photo
+        //TODO: figure out a way to see if there is an image or not
          await s3.upload (pictureUpload_params, function (err, data) {
             if (err) {
               console.log("Error", err);
