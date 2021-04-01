@@ -13,14 +13,14 @@ CREATE TABLE admin(
 
 CREATE TABLE users(
     uid SERIAL PRIMARY KEY,
-    username VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL UNIQUE,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(50) UNIQUE,
     email_verified BOOLEAN DEFAULT false,
     googleid VARCHAR(90),
     password VARCHAR(255),
-    avatar VARCHAR(100),
+    avatar VARCHAR(300),
     background_img_url VARCHAR(100),
     city VARCHAR(30),
     country VARCHAR(30),
@@ -103,7 +103,7 @@ CREATE TABLE comments(
     author VARCHAR REFERENCES users(username),
     user_id INT REFERENCES users(uid) ON DELETE CASCADE,
     song_id INT REFERENCES posts(song_id) ON DELETE CASCADE,
-    date_created TIMESTAMP,
+    date_created TIMESTAMP
 );
 
 CREATE TABLE posts (
@@ -116,7 +116,7 @@ CREATE TABLE posts (
   date_created TIMESTAMP,
   like_user_id INT[] DEFAULT ARRAY[]::INT[],
   likes INT DEFAULT 0,
-  song_id INT 
+  song_id INT UNIQUE 
 );
 
 
