@@ -23,6 +23,16 @@ ALTER TABLE products
 ALTER COLUMN price
 SET NOT NULL;
 
+--update attribute size
+alter table songs 
+alter COLUMN title type character varying(120),
+alter COLUMN col SET NOT NULL;
+
+--adding a column to an exisiting table
+--https://www.postgresqltutorial.com/postgresql-add-column/
+ALTER TABLE songs
+ADD COLUMN song_link VARCHAR(300)
+NOT NULL;
 
 --Update a column to make sure the column is unique
 ALTER TABLE products
