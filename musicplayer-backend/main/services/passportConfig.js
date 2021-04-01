@@ -58,7 +58,8 @@ const InsertUser = async (profile, done)  => {
                                     if (error) {
                                       console.log(error);
                                     }else{
-                                      pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
+                                      setTimeout(function(){ 
+                                        pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()],
                                         (q_err, q_res)=> {
                                             if(q_err)
                                             {
@@ -71,6 +72,8 @@ const InsertUser = async (profile, done)  => {
                                                 return done(null, user);
                                             }
                                         })
+                                       }, 1000);
+                                      
                                     }
                                   })
     
@@ -96,13 +99,14 @@ passport.use(
   },
   async (accessToken, refreshToken, profile, done)=> {
     try{
+      
       const existingUser = await pool.query(`SELECT * FROM users WHERE googleid=$1 LIMIT 1`, [(profile.id).toString()])
       if(existingUser.rows.length > 0)
               {
                   const user = existingUser.rows[0];
                   return done(null, user);
               }else{
-                await InsertUser(profile, done)   
+                return InsertUser(profile, done)   
               }
     }catch{err}
     {
