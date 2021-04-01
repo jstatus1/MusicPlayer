@@ -42,6 +42,8 @@ const keys = require('../../config/keys')
     };
 
     const InsertUser = async (profile, done)  => {
+
+      
       const value = [profile.displayName, 
         profile.name.givenName,
         profile.name.familyName, 
@@ -50,6 +52,7 @@ const keys = require('../../config/keys')
         (profile.id).toString(),
         profile.photos[0].value]
 
+        console.log(value);
         await pool.query(`INSERT INTO users(username,first_name,last_name, email, 
                                                     email_verified,googleId,profile_img_url,
                                                     date_created)
@@ -102,7 +105,7 @@ const keys = require('../../config/keys')
                   }else{
                     await InsertUser(profile, done)   
                   }
-        }catch{err}
+        } catch{err}
         {
           console.log(err)
         }
