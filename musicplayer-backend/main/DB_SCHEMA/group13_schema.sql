@@ -124,8 +124,8 @@ CREATE TABLE notifications (
   user_id INT REFERENCES users(uid),
   notif_type VARCHAR(10),
   notif_text VARCHAR(200),
-  CONSTRAINT notif_type CHECK (notify_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
-)
+  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
+);
 
 
 
