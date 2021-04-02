@@ -119,6 +119,14 @@ CREATE TABLE posts (
   song_id INT UNIQUE
 );
 
+CREATE TABLE notifications (
+  nid SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(uid),
+  notif_type VARCHAR(10),
+  notif_text VARCHAR(200),
+  CONSTRAINT notif_type CHECK (notify_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
+)
+
 
 
 
