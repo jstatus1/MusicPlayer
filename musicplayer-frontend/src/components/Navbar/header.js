@@ -8,7 +8,6 @@ import ModalLogin from '../profile/Modal_Login'
 
 
 class Header extends Component {
-
   renderContent()
   {
    
@@ -20,13 +19,13 @@ class Header extends Component {
           return(
               <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                          <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal">
+                          <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal" >
                             Sign In
                           </button>
                         </li>
 
                         <li className="nav-item">
-                          <button role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Create Account</button>
+                          <button role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#SignInModal">Create Account</button>
                         </li>
               </ul>
           )
@@ -106,11 +105,10 @@ class Header extends Component {
 
     }
   }
-
   render() {
     return(
       <React.Fragment>
-       <ModalLogin></ModalLogin>
+      <ModalLogin ></ModalLogin>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
                   <Link 
                     className="navbar-brand" to={this.props.auth ? '/discovery' : '/'}>

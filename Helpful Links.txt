@@ -5,6 +5,9 @@ https://github.com/conorbailey90/node-js-passport-login-postgresql
 
 Multiple Login:
 https://gist.github.com/joshbirk/1732068
+https://github.com/woodburydev/passport-local-video/blob/master/backend/passportConfig.js
+https://github.com/woodburydev/passport-local-video/blob/master/client/src/App.js
+https://github.com/woodburydev/passport-local-video/blob/master/backend/server.js
 
 Multiple File Upload:
 https://iamsohail.medium.com/how-to-upload-multiple-files-parallelly-to-amazon-s3-3b9ac3630806

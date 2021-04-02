@@ -1,7 +1,13 @@
 const passport = require('passport');
+const { prependOnceListener } = require('../app');
+var pool = require('../db')
+const bcrypt = require('bcryptjs')
+
 
 module.exports = app => {
   app.get(
+
+    //Google OAuth
     '/auth/google',
     passport.authenticate('google', {
       scope: ['profile', 'email']
@@ -16,6 +22,63 @@ module.exports = app => {
     }
   );
 
+  
+  //Local Strategy
+  app.post('/auth/login', (req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect: '/discovery',
+      failureRedirect: '/',
+      failureFlash: true
+    })(req, res, next);
+  });
+  
+
+  app.post('/auth/register', async (req, res) => {
+    let email = req.body.email
+    let username = req.body.username
+    let password = req.body.password
+    
+
+    
+    //check to see if the user already exist
+      await pool.query(
+        `SELECT * FROM users WHERE email = $1`,
+        [email],
+        async (err, results) => {
+        if (err) {
+          throw err;
+        }
+
+        if (results.rows.length > 0) {
+          return res.send({status: true, message: {
+            userExist: true
+          }})
+        }else {
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          
+          const value = [username, email,hashedPassword]
+
+          await pool.query(`INSERT INTO users(username, email, password)
+                            VALUES($1, $2, $3)
+                            ON CONFLICT DO NOTHING`,value, async (error, result)=> {
+                              if(error)
+                              {
+                                res.send({status: false, message: 'Failed To Create User'})
+                              }else
+                              {
+                                res.send({status: true, message: {
+                                  userExist: true
+                                }})
+                              }
+                            })
+        }
+      })
+    }
+  )
+
+  
+
+  //Others
   app.get('/api/logout', (req, res) => {
     req.logout();
     res.redirect('/');
@@ -24,4 +87,32 @@ module.exports = app => {
   app.get('/api/current_user', (req, res) => {
     res.send(req.user);
   });
-};
+
+
+  //check if user exist with email
+  app.get('/api/checkEmail', async (req, res) => {
+      let email = req.query.email
+      await  pool.query(
+        `SELECT * FROM users WHERE email = $1`,
+        [email],
+        (err, results) => {
+        if (err) {
+          throw err;
+        }
+        
+        console.log(results.rows.length)
+        if (results.rows.length > 0) {
+          return res.send({status: true, message: {
+            userExist: true
+          }})
+        }else {
+          return res.send({status: true, message: {
+            userExist: false
+          }})
+        }
+      });
+  })
+
+}
+
+

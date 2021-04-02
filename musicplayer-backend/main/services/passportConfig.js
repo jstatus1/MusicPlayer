@@ -1,13 +1,14 @@
 const passport = require('passport');
 var pool = require('../db')
 const bcrypt = require('bcryptjs')
-const LocalStrategy = require("passport-local").Strategy;
+var LocalStrategy = require('passport-local').Strategy
 var GoogleStrategy = require('passport-google-oauth20').Strategy
 const keys = require('../../config/keys')
 
 
-const authenticateUser = (email, password, done) => {
+const authenticateUser2 = (email, password, done) => {
   console.log(email, password);
+  
   pool.query(
     `SELECT * FROM users WHERE email = $1`,
     [email],
@@ -81,13 +82,52 @@ const InsertUser = async (profile, done)  => {
                         
 }
 
-//Local Sign Up
+
+// passport.use('local',
+//   new LocalStrategy((email, password, done) => {
+//       console.log("Tacos: ", email)
+//       pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email],
+//       (q_err, res)=> {
+//         if(q_err)
+//         {
+//             return done(q_err);
+//         }
+
+//         if(res.rows.length > 0)
+//         { 
+//             console.log(res.rows[0])
+//             const user = res.rows[0];
+//             return done(null, user);
+//         }
+//       })
+//   })
+// )
+
 passport.use(
-  new LocalStrategy(
-    { usernameField: "email", passwordField: "password" },
-    authenticateUser
-  )
+  new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
+    console.log(email, password)
+    // // Match user
+    // User.findOne({
+    //   email: email
+    // }).then(user => {
+    //   if (!user) {
+    //     return done(null, false, { message: 'That email is not registered' });
+    //   }
+
+    //   // Match password
+    //   bcrypt.compare(password, user.password, (err, isMatch) => {
+    //     if (err) throw err;
+    //     if (isMatch) {
+    //       return done(null, user);
+    //     } else {
+    //       return done(null, false, { message: 'Password incorrect' });
+    //     }
+    //   });
+    // });
+  })
 );
+
+
 
 //Google OAuth
 passport.use(

@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+const cors = require("cors");
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var logger = require('morgan');
@@ -16,6 +17,12 @@ const indexRouter = require('./routes')
 
 
 var app = express();
+app.use(
+  cors({
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    credentials: true,
+  })
+);
 
 //socket 
 
