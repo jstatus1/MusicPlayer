@@ -1,14 +1,18 @@
-import React, {Component} from 'react'
+import React from 'react'
+import { Form, Button } from 'react-bootstrap'
 
-class ProfileEdit extends React.Component
-{
-    render()
-    {
-        return(
-        <h1>Profile Edit Page</h1>
-            
-            )
-    }
+const ProfileEdit = () => {
+    return (
+        <div>
+            <Form>
+                <Form.label>Username</Form.label>
+                <Form.control type="text"></Form.control>
+
+                <Form.label>Password</Form.label>
+                <Form.control type="password"></Form.control>
+            </Form>
+        </div>
+    )
 }
 
 export default ProfileEdit

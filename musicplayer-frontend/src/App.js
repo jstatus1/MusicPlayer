@@ -7,7 +7,7 @@ import * as actions from './store/actions'
 //Component Imports
 import Header from './components/Navbar/header'
 import Upload from './components/Upload/upload'
-import ProfileEdit from './components/profile/profileedit'
+import ProfileEdit from './components/profile/ProfileEdit'
 import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
 
@@ -37,6 +37,7 @@ class App extends React.Component
                         <Route exact path="/discovery" component={Dashboard} />
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
+                        <Route exact path="/ProfileEdit" component={ProfileEdit}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
                         
                     </div>
