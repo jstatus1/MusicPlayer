@@ -5,11 +5,11 @@ const ProfileEdit = () => {
     return (
         <div>
             <Form>
-                <Form.label>Username</Form.label>
-                <Form.control type="text"></Form.control>
-
-                <Form.label>Password</Form.label>
-                <Form.control type="password"></Form.control>
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text"></Form.Control>
+                
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password"></Form.Control>
             </Form>
         </div>
     )

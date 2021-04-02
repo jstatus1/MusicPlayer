@@ -20,13 +20,13 @@ class Header extends Component {
           return(
               <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                          <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal">
+                          <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Sign In
                           </button>
+                          
                         </li>
-
                         <li className="nav-item">
-                          <button role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Create Account</button>
+                        <a role="button" class="btn btn-danger">Create Account</a>
                         </li>
               </ul>
           )

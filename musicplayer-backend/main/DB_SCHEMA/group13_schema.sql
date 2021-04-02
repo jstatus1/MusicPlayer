@@ -20,7 +20,7 @@ CREATE TABLE users(
     email_verified BOOLEAN DEFAULT false,
     googleid VARCHAR(90),
     password VARCHAR(255),
-    avatar VARCHAR(100),
+    avatar VARCHAR(300),
     background_img_url VARCHAR(100),
     city VARCHAR(30),
     country VARCHAR(30),
@@ -116,7 +116,16 @@ CREATE TABLE posts (
   date_created TIMESTAMP,
   like_user_id INT[] DEFAULT ARRAY[]::INT[],
   likes INT DEFAULT 0,
-  song_id INT 
+  song_id INT UNIQUE
+);
+
+CREATE TABLE notifications (
+  nid SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(uid),
+  notif_type VARCHAR(10),
+  musician_name VARCHAR REFERENCES users(username),
+  notif_text VARCHAR(200),
+  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
 );
 
 
