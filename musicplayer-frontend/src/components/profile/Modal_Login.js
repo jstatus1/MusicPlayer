@@ -1,7 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import axios from 'axios'
-import ReCAPTCHA from "react-google-recaptcha";
+
 
 import './Modal_Login.css'
 
@@ -47,19 +46,39 @@ class ModalLogin extends React.Component
                 })
                 
             }else{
-                this.setState({userExist: false, createAccount: false, validEmail: false})
+                this.setState({userExist: false, createAccount: false, validEmail: false}).then(function(response){
+                    console.log(response.data.message) 
+                })
                 return
             }   
     }
 
     signInLogic = () => {
-        
+        let self = this
         if(this.state.password != null)
         {
-           
-            //query for user
-            axios.post('/auth/login', {email: this.state.email, password: this.state.password})
-            return
+            
+            axios.post('/auth/login', {
+                email: self.state.email,
+                password: self.state.password
+            }).then(function(response){
+                if(response.data.message.validPassword)
+                {
+                    axios.post('/auth/login/callback', {
+                        email: self.state.email,
+                        password: self.state.password
+                    }).catch(
+                        error => {
+                            console.log(error)
+                            
+                        }
+                    )  
+
+                }else{
+                    self.setState({validPassword: false})
+                }
+            })
+            
         }else{
             this.setState({validPassword: false})
             return
@@ -163,20 +182,23 @@ class ModalLogin extends React.Component
                                 </div>
                                 <input type="text" id="emailInput"  class="form-control" aria-describedby="email-addon1" value={`${this.state.email}`} onClick={e=> {this.setState({userExist: false}); this.setState({password:null}); }} />
                             </div>
-                            {(this.state.userExist)? 
-                                        <>
-                                        <input type={(this.state.showPassword) ? "text" : "password"} class="form-control" id="passwordInput" placeholder="Password" aria-label="password" aria-describedby="basic-addon1" onChange={e=> this.setState({password: e.target.value})}></input>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="0" id="ShowPassword" onClick={(e) => {this.setState({showPassword: !(this.state.showPassword)}); }}/>
-                                            <label class="form-check-label" for="ShowPassword">
-                                                Display Password
-                                            </label>
-                                        </div>
-                                        </>
-                                        :null
+                           
+                            <input type={(this.state.showPassword) ? "text" : "password"} class={`form-control ${this.state.validPassword? null: "is-invalid"}`} id="passwordInput" placeholder="Password" aria-label="password" aria-describedby="basic-addon1" onChange={e=> {this.setState({password: e.target.value});}}></input>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="0" id="ShowPassword" onClick={(e) => {this.setState({showPassword: !(this.state.showPassword)}); }}/>
+                                <label class="form-check-label" for="ShowPassword">
+                                    Display Password
+                                </label>
+                            </div>
+                            {
+                                !(this.state.validPassword)?
+                                <small id="emailHelp" class="text-danger">
+                                        Invalid Password
+                                    </small>:null
                             }
+                                       
                             
-                            <button type="button" class="btn btn-danger" onClick={e => this.signInLogic()}>Sign In</button>
+                            <button type="button" class="btn btn-danger" onClick={e => {this.signInLogic()}}>Sign In</button>
                             
                         </div> 
                     </div>

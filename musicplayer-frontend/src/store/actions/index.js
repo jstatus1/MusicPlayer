@@ -3,7 +3,9 @@ import {FETCH_USER} from './action_types'
 
 export const fetchUser = () => async dispatch =>
 {
-    const res = await axios.get('/api/current_user')       
+    
+    const res = await axios.get('/api/current_user')   
+    
     try{
         dispatch({
             type: FETCH_USER,

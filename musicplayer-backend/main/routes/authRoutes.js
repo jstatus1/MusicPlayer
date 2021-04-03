@@ -1,5 +1,4 @@
 const passport = require('passport');
-const { prependOnceListener } = require('../app');
 var pool = require('../db')
 const bcrypt = require('bcryptjs')
 
@@ -22,16 +21,20 @@ module.exports = app => {
     }
   );
 
-  
-  //Local Strategy
-  app.post('/auth/login', (req, res, next) => {
-    passport.authenticate('local', {
-      successRedirect: '/discovery',
-      failureRedirect: '/',
-      failureFlash: true
-    })(req, res, next);
+  app.post('/auth/login', (req, res, next ) => {
+    passport.authenticate('local', function(err, user, info) {
+      if (err) { return next(err) }
+      if (!user) { return res.json( { message: info.message }) }
+      res.json({message: {validPassword:true}})
+    
+      })(req, res, next);   
   });
-  
+
+  app.post('/auth/login/callback', (req, res, next) => {
+    passport.authenticate('local')(req, res, next);
+  });
+
+
 
   app.post('/auth/register', async (req, res) => {
     let email = req.body.email
@@ -54,7 +57,7 @@ module.exports = app => {
             userExist: true
           }})
         }else {
-          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          const hashedPassword = await bcrypt.hash(password, 10);
           
           const value = [username, email,hashedPassword]
 
@@ -85,6 +88,7 @@ module.exports = app => {
   });
 
   app.get('/api/current_user', (req, res) => {
+    console.log("Sending Current User: ", req.user)
     res.send(req.user);
   });
 

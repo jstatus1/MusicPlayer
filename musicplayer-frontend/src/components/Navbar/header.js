@@ -10,7 +10,7 @@ import ModalLogin from '../profile/Modal_Login'
 class Header extends Component {
   renderContent()
   {
-   
+    
     switch(this.props.auth)
     {
       case null:
@@ -57,26 +57,29 @@ class Header extends Component {
                             Upload
                         </Link>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span class="material-icons">
-                    person_pin
-                  </span>
-                  <small>Profile Name</small>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href={`/${this.props.auth.username}`}>Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"/></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-            <li className="nav-item">
-                  <a class="nav-link " aria-current="page" href="#">
+                <div class="d-flex align-items-center">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="material-icons">
-                     notifications
+                      person_pin
                     </span>
+                    <small>{this.props.auth.username}</small>
                   </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href={`/${this.props.auth.username}`}>Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><hr class="dropdown-divider"/></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </div>
+                
               </li>
+              <li className="nav-item">
+                    <a class="nav-link " aria-current="page" href="#">
+                      <span class="material-icons">
+                      notifications
+                      </span>
+                    </a>
+                </li>
               <li className="nav-item">
                   <a class="nav-link " aria-current="page" href="#">
                     <span class="material-icons">

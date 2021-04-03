@@ -42,6 +42,23 @@ const authenticateUser2 = (email, password, done) => {
   );
 };
 
+let findUserByEmail = (email) =>
+{
+  pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email],
+        (q_err, res)=> {
+          
+  
+          if(res.rows.length > 0)
+          { 
+              return res.rows[0]
+          }else
+          {
+            return null
+          }
+        
+        })
+}
+
 const InsertUser = async (profile, done)  => {
   const value = [profile.displayName, 
     profile.name.givenName,
@@ -83,49 +100,30 @@ const InsertUser = async (profile, done)  => {
 }
 
 
-// passport.use('local',
-//   new LocalStrategy((email, password, done) => {
-//       console.log("Tacos: ", email)
-//       pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email],
-//       (q_err, res)=> {
-//         if(q_err)
-//         {
-//             return done(q_err);
-//         }
-
-//         if(res.rows.length > 0)
-//         { 
-//             console.log(res.rows[0])
-//             const user = res.rows[0];
-//             return done(null, user);
-//         }
-//       })
-//   })
-// )
-
-passport.use(
-  new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
-    console.log(email, password)
-    // // Match user
-    // User.findOne({
-    //   email: email
-    // }).then(user => {
-    //   if (!user) {
-    //     return done(null, false, { message: 'That email is not registered' });
-    //   }
-
-    //   // Match password
-    //   bcrypt.compare(password, user.password, (err, isMatch) => {
-    //     if (err) throw err;
-    //     if (isMatch) {
-    //       return done(null, user);
-    //     } else {
-    //       return done(null, false, { message: 'Password incorrect' });
-    //     }
-    //   });
-    // });
+passport.use('local',
+  new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, async (email, password, done) => {
+    
+   await pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email],
+        (q_err, res)=> {
+          if(res.rows.length > 0)
+          { 
+               //   // Match password
+              bcrypt.compare(password, res.rows[0].password, (err, isMatch) => {
+                if (isMatch) {
+                  const user = res.rows[0];
+                  return done(null, user);
+                } else {
+                  return done(null,false,{message:{validPassword:false}});
+                }
+              });
+          }else
+          {
+            return null
+          }
+        })
   })
 );
+
 
 
 
@@ -166,6 +164,7 @@ passport.serializeUser((user, done) => done(null, user.uid));
 // The fetched object is attached to the request object as req.user
 
 passport.deserializeUser((uid, done) => {
+  console.log("deserialize User: ", uid)
   pool.query(`SELECT * FROM users WHERE uid = $1`, [uid], (err, results) => {
     if (err) {
       return done(err);
@@ -174,7 +173,6 @@ passport.deserializeUser((uid, done) => {
     {
       return done(null, false)
     }else{
-      console.log(`UID is ${results.rows[0].uid}`);
       return done(null, results.rows[0]);
     }
   });
