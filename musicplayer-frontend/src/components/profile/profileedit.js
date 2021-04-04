@@ -49,7 +49,7 @@ const ProfileEdit = () => {
             <Row>
                 <Col md="1"></Col>
                 <Col md="7">
-                <Form.Control class="about-me-textbox" type="text"></Form.Control>
+                <textarea class="about-me-textbox"></textarea>
                 </Col>
             </Row>
             <Row>
