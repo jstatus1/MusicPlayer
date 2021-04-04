@@ -45,6 +45,7 @@ class App extends React.Component
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/Home" component={Home}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
+                        <Route exact path="/Home" component={Home}></Route>
                         <Route exact path="/library" component={Library}></Route>
                         <Route exact path="/profileedit" component={ProfileEdit}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
