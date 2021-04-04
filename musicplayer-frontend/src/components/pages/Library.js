@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { Form, Row, Col, Container } from 'react-bootstrap'
+import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import axios from 'axios'
 
 
@@ -75,6 +75,11 @@ const Library = () => {
                     <Col md="4">
                         <h2>Playlists</h2>
                             <Container>
+                                <Row>
+                                    <Col md='5'>
+                                        <Button type="primary" size="sm" href="/createplaylist">Create Playlist</Button>
+                                    </Col>
+                                </Row>
                             <Row>
                                 <i>To be displayed with playlists from DB</i>
                                 </Row>

@@ -1,12 +1,16 @@
 import React from 'react'
-import { Form, Button} from 'react-bootstrap'
+import { Form, Button, Container } from 'react-bootstrap'
 import './createPlaylist.css'
 
 
 
 
 
-const createPlaylist = () => {
+const CreatePlaylist = () => {
+
+    return (
+        <div>
+            <Container>
             <Form>
             <Form.Label>Playlist Name</Form.Label>
             <Form.control type= "text" placeholder = "Playlist name"/> 
@@ -25,7 +29,11 @@ const createPlaylist = () => {
             <Form.Label>Playlist</Form.Label>
             <Form.control type= "text" placeholder = "Songs in playlist"/> 
             </Form>
+            </Container>
+        </div>
+            
+    )
             
 }
 
-export default createPlaylist
+export default CreatePlaylist
