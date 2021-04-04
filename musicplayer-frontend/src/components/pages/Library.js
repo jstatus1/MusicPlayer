@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { Form, Row, Col, Container } from 'react-bootstrap'
+import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import axios from 'axios'
 
 
@@ -45,7 +45,7 @@ const Library = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-play-fill" viewBox="0 0 16 16">
                                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V5.884z"/>
                                         </svg> 
-                                            <h5> {song.song_title} --- {song.username}</h5>
+                                            <t5> {song.song_title} --- {song.username}</t5>
                                                 </Col></Row>
                                     })}
                                 </Row>
@@ -75,6 +75,11 @@ const Library = () => {
                     <Col md="4">
                         <h2>Playlists</h2>
                             <Container>
+                                <Row>
+                                    <Col md="5">
+                                    <Button type="primary" size="sm" href="/createplaylist">Create Playlist</Button>
+                                    </Col>
+                                </Row>
                             <Row>
                                 <i>To be displayed with playlists from DB</i>
                                 </Row>
