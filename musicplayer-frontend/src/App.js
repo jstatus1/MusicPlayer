@@ -10,6 +10,7 @@ import Upload from './components/Upload/upload'
 import ProfileEdit from './components/profile/profileedit'
 import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
+import createPlaylist from './components/Playlists/createPlaylist'
 
 //import Routes from './routes'
 
@@ -37,6 +38,7 @@ class App extends React.Component
                         <Route exact path="/discovery" component={Dashboard} />
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
+                        <Route exact path="/createPlaylist" component={Playlists}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
                         
                     </div>
