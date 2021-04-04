@@ -1,7 +1,5 @@
-import { React, useState } from 'react'
-import { Form, Row, Col, Container, Button } from 'react-bootstrap'
-import axios from 'axios'
-
+import React from 'react'
+import { Row, Col, Container } from 'react-bootstrap'
 
 const Library = () => {
 
@@ -61,13 +59,15 @@ const Library = () => {
     retrieveAllSongs();
     retrieveAllAlbums();  
     retrieveAllPlaylists();  
+
     return (
         <div>
             <Container>
                 <Row>
-                    <Col md="4">
+                    <Col>
                         <h2>Songs</h2>
                             <Container>
+      
                                 <Row>
                                 <i>Below is actual data from DB</i>
                                 </Row>
@@ -86,9 +86,10 @@ const Library = () => {
 
                             </Container>
                     </Col>
-                    <Col md="4">
+                    <Col>
                         <h2>Albums</h2>
                             <Container>
+
                             <Row>
                                 <i>Below is actual data from DB</i>
                                 </Row>
@@ -103,12 +104,14 @@ const Library = () => {
                                     })}
                                 </Row>
                                 
+
                             </Container>
 
                     </Col>
-                    <Col md="4">
+                    <Col>
                         <h2>Playlists</h2>
                             <Container>
+
                                 <Row>
                                     <Col md="5">
                                     <Button type="primary" size="sm" href="/CreatePlaylist">Create Playlist</Button>
@@ -128,6 +131,7 @@ const Library = () => {
                                     })}
                                 </Row>
                                 
+
                             </Container>
                     </Col>
 
@@ -136,6 +140,5 @@ const Library = () => {
         </div>
     )
 }
-
 
 export default Library
