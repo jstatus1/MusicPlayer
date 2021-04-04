@@ -121,7 +121,7 @@ CREATE TABLE posts (
 
 CREATE TABLE notifications (
   nid SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  user_id INT REFERENCES users(uid),
   notif_type VARCHAR(10),
   musician_name VARCHAR REFERENCES users(username),
   notif_text VARCHAR(200),
