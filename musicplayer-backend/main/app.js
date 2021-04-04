@@ -5,6 +5,7 @@ var cookieSession = require('cookie-session');
 var logger = require('morgan');
 var keys = require('../config/keys')
 const passport = require("passport");
+var cors = require('cors');
 
 
 
@@ -26,6 +27,7 @@ app.use(
       keys: [keys.cookieKey]
     })
 );
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session()); 
 

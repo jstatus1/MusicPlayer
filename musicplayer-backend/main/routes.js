@@ -218,6 +218,15 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
       res.json(q_res.rows);
     });
   });
+
+  router.get('/api/get/allsongs', (req, res, next) => {
+    
+
+    pool.query(`SELECT a.*, b.username FROM songs a, users b
+                where a.user_id = b.uid;`, [], (q_err, q_res) => {
+      res.json(q_res.rows);
+    })
+  });
   
 
 module.exports = router
