@@ -38,7 +38,7 @@ class App extends React.Component
                         <Route exact path="/discovery" component={Dashboard} />
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
-                        <Route exact path="/createPlaylist" component={Playlists}></Route>
+                        <Route exact path="/createPlaylist" component={createPlaylist}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
                         
                     </div>
