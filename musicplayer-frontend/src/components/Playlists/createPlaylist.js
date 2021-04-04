@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, Container } from 'react-bootstrap'
+import { Form, Button, Container,Row, Col } from 'react-bootstrap'
 import './createPlaylist.css'
 
 
@@ -12,22 +12,40 @@ const CreatePlaylist = () => {
         <div>
             <Container>
             <Form>
+            <Row>
             <Form.Label>Playlist Name</Form.Label>
-            <Form.control type= "text" placeholder = "Playlist name"/> 
+            <Form.Control type= "text" placeholder = "Playlist name"/> 
+            </Row>
 
+            <Row>
             <Form.Label>Playlist Description</Form.Label>
-            <Form.control type= "text" placeholder = "Playlist name"/> 
+            <Form.Control type= "text" placeholder = "Playlist Description"/> 
+            </Row>
 
-            <Button variant="primary" type="submit">Save</Button>
 
-            <Form.Label>Song List</Form.Label>
-            <Form.control type= "text" placeholder = "Songs go here"/> 
 
-            <Button variant="primary">Add to Playlist</Button>{' '}
-            <Button variant="primary">Remove from Playlist</Button>{' '}
+            <Row>
+                
+                <Col>
+                <Row>            <Form.Label  class = "playlistPadding">Song List</Form.Label></Row>
+            <input type= "text" placeholder = "Songs go here" class = "songTable"/> 
+                </Col>
 
-            <Form.Label>Playlist</Form.Label>
-            <Form.control type= "text" placeholder = "Songs in playlist"/> 
+                <Col>
+                <Form.Label  class = "playlistButton"></Form.Label>
+            <Button variant="primary" class = "playlistPadding">Add to Playlist</Button>{' '}
+            </Col>
+
+            <Col>
+            <Form.Label  class = "playlistButton"></Form.Label>
+            <Button variant="primary" class = "playlistPadding">Remove from Playlist</Button>{' '}
+            </Col>
+
+            <Col>
+           <Row> <Form.Label class = "playlistPadding">Playlist</Form.Label></Row>
+            <input type= "text" placeholder = "Songs in playlist" class = "songTable"/> 
+            </Col>
+            </Row>
             </Form>
             </Container>
         </div>
