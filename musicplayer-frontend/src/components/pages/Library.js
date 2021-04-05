@@ -113,14 +113,8 @@ const Library = () => {
                     <Col>
                         <h2>Playlists</h2>
                             <Container>
-                                <Row>
-                                    <Col md='5'>
-                                        <Button type="primary" size="sm" href="/createplaylist">Create Playlist</Button>
-                                    </Col>
-                                </Row>
-                            <Row>
-                                <i>To be displayed with playlists from DB</i>
-                                </Row>
+                            
+                            
                                 <Row>
                                     <Col md="5">
                                     <Button type="primary" size="sm" href="/CreatePlaylist">Create Playlist</Button>
