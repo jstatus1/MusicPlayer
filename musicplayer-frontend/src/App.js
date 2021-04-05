@@ -41,7 +41,8 @@ class App extends React.Component
                     <div className="container">
                         <Header/>
                         <Route exact path="/" component={Landing}/>
-                        <Route exact path="/discovery" component={Dashboard} />
+                        <Route exact path="/discovery" component={Dashboard}/>
+                        <Route exact path="/home" component={Home}></Route>
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
                         <Route exact path="/CreatePlaylist" component={CreatePlaylist}></Route>
