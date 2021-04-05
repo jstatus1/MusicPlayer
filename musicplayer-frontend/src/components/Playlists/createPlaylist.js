@@ -15,7 +15,7 @@ const CreatePlaylist = () => {
             <Row>
             <Form.Label>Playlist Name</Form.Label>
             <Form.Control type= "text" placeholder = "Playlist name"/> 
-            </Row>
+            </Row> 
 
             <Row>
             <Form.Label>Playlist Description</Form.Label>
