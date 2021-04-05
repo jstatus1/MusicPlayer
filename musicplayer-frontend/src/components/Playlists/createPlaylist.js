@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Button, Container,Row, Col } from 'react-bootstrap'
-import './createPlaylist.css'
+import './CreatePlaylist.css'
 
 
 
