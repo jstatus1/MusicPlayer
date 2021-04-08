@@ -13,15 +13,15 @@ CREATE TABLE admin(
 
 CREATE TABLE users(
     uid SERIAL PRIMARY KEY,
-    username VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL UNIQUE,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(50) UNIQUE,
     email_verified BOOLEAN DEFAULT false,
     googleid VARCHAR(90),
     password VARCHAR(255),
-    avatar VARCHAR(100),
-    background_img_url VARCHAR(100),
+    avatar VARCHAR(300),
+    profile_img_url VARCHAR(100),
     city VARCHAR(30),
     country VARCHAR(30),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -103,7 +103,7 @@ CREATE TABLE comments(
     author VARCHAR REFERENCES users(username),
     user_id INT REFERENCES users(uid) ON DELETE CASCADE,
     song_id INT REFERENCES posts(song_id) ON DELETE CASCADE,
-    date_created TIMESTAMP,
+    date_created TIMESTAMP
 );
 
 CREATE TABLE posts (
@@ -116,7 +116,20 @@ CREATE TABLE posts (
   date_created TIMESTAMP,
   like_user_id INT[] DEFAULT ARRAY[]::INT[],
   likes INT DEFAULT 0,
-  song_id INT 
+<<<<<<< HEAD:musicplayer-backend/main/DB_SCHEMA/schema.sql
+  song_id INT UNIQUE 
+=======
+  song_id INT UNIQUE
+);
+
+CREATE TABLE notifications (
+  nid SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(uid),
+  notif_type VARCHAR(10),
+  musician_name VARCHAR REFERENCES users(username),
+  notif_text VARCHAR(200),
+  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
+>>>>>>> FrontEnd_Edward:musicplayer-backend/main/DB_SCHEMA/group13_schema.sql
 );
 
 

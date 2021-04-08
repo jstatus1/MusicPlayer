@@ -22,8 +22,8 @@ class Header extends Component {
                           <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal" >
                             Sign In
                           </button>
+                          
                         </li>
-
                         <li className="nav-item">
                           <button role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#SignInModal">Create Account</button>
                         </li>
