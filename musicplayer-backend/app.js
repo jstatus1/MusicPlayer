@@ -4,10 +4,10 @@ const cors = require("cors");
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var logger = require('morgan');
-var keys = require('./config/keys')
 const passport = require("passport");
 var http = require('http');
 require('./main/services/passportConfig');
+require('dotenv').config('./env')
 
 //Routes Files
 const indexRouter = require('./main/routes')
@@ -15,27 +15,28 @@ const indexRouter = require('./main/routes')
 var app = express()
 
 
-if(true)
-{
-   app.use(express.static('build'))
-   app.get('/*', (req, res) => {
-     res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
-   })
-}else{
-  app.use(
-    cors({
-      origin: "http://localhost:3000", // <-- location of the react app were connecting to
-      credentials: true,
-    }))
-}
 
 //socket 
-
 /*---------------------Middle Ware--------------------------------*/
+const whitelist = ['http://localhost:3000', 'http://localhost:5010']
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
+
 app.use(
     cookieSession({
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      keys: [keys.cookieKey]
+      keys: [process.env.cookieKey]
     })
 );
 app.use(passport.initialize());

@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import { BrowserRouter, Route} from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from './store/actions'

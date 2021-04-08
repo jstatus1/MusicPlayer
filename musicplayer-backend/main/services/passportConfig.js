@@ -3,7 +3,7 @@ var pool = require('../db')
 const bcrypt = require('bcryptjs')
 var LocalStrategy = require('passport-local').Strategy
 var GoogleStrategy = require('passport-google-oauth20').Strategy
-const keys = require('../../config/keys')
+require('dotenv').config('../../.env')
 
 
 const authenticateUser2 = (email, password, done) => {
@@ -125,13 +125,11 @@ passport.use('local',
 );
 
 
-
-
 //Google OAuth
 passport.use(
   new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
+    clientID: process.env.googleClientID,
+    clientSecret: process.env.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
   },

@@ -12,8 +12,6 @@ import SongForm from './song-form'
 import './upload.css'
 
 
-let socket = io('http://localhost:5000')
-
 class Upload extends React.Component
 {
     state = {
