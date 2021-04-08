@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import axios from 'axios'
 
@@ -11,7 +11,7 @@ const Library = () => {
     const [playlistList, setPlaylistList] = useState([]);
     const [seconds, setSeconds] = useState(0);
 
-    const retrieveAllSongs = async () => {
+    const retrieveAllSongs = () => {
 
             try {
                 const request = axios.get('http://localhost:5000/api/get/allsongs')
@@ -28,7 +28,7 @@ const Library = () => {
 
     }
         
-    const retrieveAllAlbums = async () => {
+    const retrieveAllAlbums = () => {
         try {
             const albumRequest = axios.get('http://localhost:5000/api/get/allalbums')
             .then(res => {
@@ -43,7 +43,7 @@ const Library = () => {
         } catch(err) { console.log(err); }
     }
 
-    const retrieveAllPlaylists = async () => {
+    const retrieveAllPlaylists = () => {
         try {
             const request = axios.get('http://localhost:5000/api/get/allplaylists')
             .then(res => {
@@ -58,9 +58,12 @@ const Library = () => {
         } catch(err) { console.log(err); }
     }
 
-    retrieveAllSongs();
-    retrieveAllAlbums();  
-    retrieveAllPlaylists();  
+    useEffect(() => {
+        retrieveAllSongs();
+        retrieveAllAlbums();  
+        retrieveAllPlaylists(); 
+    })
+     
 
     return (
         <div>

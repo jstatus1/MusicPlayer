@@ -8,8 +8,9 @@ padding-top: 20px !important;
 padding-top: 50px !important;
 }
 
-.songTable
+.songList
 {
-    width: 200px !important;
+    width: 250px !important;
     height: 150px !important;
+    border: 1px solid #bbb;
 }
