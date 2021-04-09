@@ -37,3 +37,12 @@ class Table extends Component {
 
 export default Table
 
+export default Table
+
+const Reports = () => {
+    return (
+        <div>
+            
+        </div>
+    )
+}
