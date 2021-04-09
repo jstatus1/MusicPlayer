@@ -1,33 +1,26 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 
-class Table extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            Playlists: [
-                {name: 'playlist_name'}
-            ]
-        }
-    }
-
-    renderTableData() {
-        return this.state.Playlists.map((playlist, index) => {
-            const { name } = playlist
-            return (
-                <tr key={playlist}>
-                    <td>{playlist}</td>
-                </tr>
-            )
-        })
-    }
-
-    render() {
+const Reports = () => {
+    const [MockList, setMockList] = useState([{name:'testN', musician:'testM'}]); {
         return (
-            <div>
-                <h1>Playlist Dynamic Table</h1>
-                <table id='playlists'>
+            <div clasasName="container">
+                <h1>Playlist Table</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>First Playlist</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        {this.renderTableData()}
+                        {MockList.map(item => {
+
+                            return <>
+                                <t2>
+                                    {item.name}
+                                    {item.musician}
+                                </t2>
+                            </>
+                        })}
                     </tbody>
                 </table>
             </div>
