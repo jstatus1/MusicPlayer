@@ -16,12 +16,14 @@ const CreatePlaylist = () => {
 
     const retrieveAllSongs = () => {
 
+
         try {
             const request = axios.get('http://localhost:5000/api/get/allsongs')
             .then(res => {
                 setSongBlockList(res.data);
                 console.log('songList: ');
                 console.log(songBlockList);
+
             })
             .catch(error => {
                 console.log('Error retrieving all songs from front end: ');
@@ -33,8 +35,20 @@ const CreatePlaylist = () => {
 
     useEffect(() => {
         setSongData( { name: 'Best song', musician: 'Best singer' });
-        retrieveAllSongs();
-      });
+        try {
+            const request = axios.get('http://localhost:5000/api/get/allsongs')
+            .then(res => {
+                setSongBlockList(res.data);
+                console.log('songList: ');
+                console.log(songBlockList);
+
+            })
+            .catch(error => {
+                console.log('Error retrieving all songs from front end: ');
+                console.log(error);
+            })
+        } catch(err) { console.log(err); }
+      }, [null]);
 
     
 
