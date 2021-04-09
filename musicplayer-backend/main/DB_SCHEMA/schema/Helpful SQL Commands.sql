@@ -54,5 +54,18 @@ user_id = 4 and
 new_album_notification = true;
 
 
+--Joining Followers_id With Their Setting
+SELECT * FROM follows
+LEFT JOIN settings 
+ON follows.follower_id = settings.user_id
+WHERE follows.user_id=4 and 
+settings.new_album_notification = true ;
 
+--Updating Constraints
+ALTER TABLE notifications
+  DROP CONSTRAINT notif_type
+, ADD  CONSTRAINT zinotif_typepchk CHECK (notif_type IN ('NEWMUSIC', 'NEWALBUM', 'NEWFOLLOWER','UNFOLLOWED', 'ADMINDELETE', 'ADMINUPDATE', 'NEWS'));
+
+DELETE FROM follows WHERE user_id = 4 and follower_id = 61;
+DELETE FROM notifications WHERE notif_type = 'NEWFOLLOWER';
 

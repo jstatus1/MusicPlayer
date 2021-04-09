@@ -1,0 +1,15 @@
+.notification_box
+{
+    position: relative;
+    display: inline-block;
+}
+
+
+.badge {
+  position: absolute;
+  bottom: 5px;
+  right: -10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  }

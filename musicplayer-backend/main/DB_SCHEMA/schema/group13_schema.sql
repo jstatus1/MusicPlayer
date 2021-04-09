@@ -128,21 +128,28 @@ CREATE TABLE notifications (
   sender_id INT REFERENCES users(uid) ON DELETE CASCADE,
   album_id INT REFERENCES albums(album_id) ON DELETE CASCADE,
   song_id INT REFERENCES songs(song_id) ON DELETE CASCADE,
-  notif_type VARCHAR(10),
+  notif_type VARCHAR(20),
   notif_text VARCHAR(200),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   read BOOLEAN DEFAULT false,
-  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'NEWALBUM', 'NEWFOLLOWER', 'ADMINDELETE', 'ADMINUPDATE', 'NEWS'))
+  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'NEWALBUM', 'NEWFOLLOWER','UNFOLLOWED', 'ADMINDELETE', 'ADMINUPDATE', 'NEWS'))
 );
 
 --notice that user_id in the settings table would be
--- follows user_id 
+-- follows table user_id
 CREATE TABLE settings(
   sid SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
   new_album_notification BOOLEAN DEFAULT false,
   new_single_release_notification BOOLEAN DEFAULT false,
-  followers_setting_notification BOOLEAN false,
-  new_like_notification BOOLEAN false,
+  new_follower_notification BOOLEAN DEFAULT false,
+  new_like_notification BOOLEAN DEFAULT false,
+  new_comment_notification BOOLEAN DEFAULT false,
+  suggested_content BOOLEAN DEFAULT false,
+  new_message BOOLEAN DEFAULT false,
+  receive_messages_from_everybody BOOLEAN DEFAULT false,
+  analytics BOOLEAN DEFAULT true,
+  personal_advertisment BOOLEAN DEFAULT true
 );
 
 
