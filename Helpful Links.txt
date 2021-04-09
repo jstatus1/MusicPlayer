@@ -53,3 +53,11 @@ https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-in
 
 SQL Dump:
 --https://stackoverflow.com/questions/2899654/quickest-way-to-fill-sql-table-with-dummy-data
+
+
+PSQL Client Listen For Update:
+--https://www.bjorngylling.com/posts/postgres-listen-notify/
+--https://github.com/becual/node-pg-notify
+--https://stackoverflow.com/questions/46898870/any-way-to-monitor-postgresql-query-changes-in-realtime-using-listen-notify-o
+--https://pusher.com/tutorials/postgresql-realtime
+-- https://github.com/Nahid5/sockets.io-and-postgres

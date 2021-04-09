@@ -16,7 +16,7 @@ var app = express()
 
 
 
-//socket 
+
 /*---------------------Middle Ware--------------------------------*/
 const whitelist = ['http://localhost:3000', 'http://localhost:5010']
 const corsOptions = {
@@ -69,12 +69,16 @@ require('./main/routes/authRoutes')(app);
  var port = normalizePort(process.env.PORT || '5010');
  app.set('port', port);
  
+ 
+
  /**
   * Create HTTP server.
   */
  
  var server = http.createServer(app);
  require('./main/socket').init(server)
+
+ 
 
 
  /**

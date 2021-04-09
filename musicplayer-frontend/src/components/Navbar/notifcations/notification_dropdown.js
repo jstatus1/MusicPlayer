@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 //css import
 import './notification_dropdown.css'
 import FollowerContainer from './notificaiton_items/follower_container'
+import RegularMessageNotificationLink from './notificaiton_items/regular_notification_container_link'
+import RegularMessageNotification from './notificaiton_items/regular_notification_container'
 
 class notificationsDropdown extends React.Component
 {
@@ -18,15 +20,9 @@ class notificationsDropdown extends React.Component
                 <li><hr class="dropdown-divider"/></li>
                 
                 <div className="notification_body">
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
-                    <FollowerContainer/>
+                    <RegularMessageNotification/>
+                    <RegularMessageNotificationLink/>
+                    <RegularMessageNotificationLink/>
                 </div>
               
                 
