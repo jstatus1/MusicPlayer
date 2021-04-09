@@ -39,4 +39,20 @@ ALTER TABLE products
 ADD UNIQUE(name);
 
 
+--Insert for album
+INSERT INTO 
+	albums(user_id, album_name)
+VALUES
+	(4, 'Evil Lighters');
+
+
+--Grabbing My Followers based of of if they want a notification
+--whenever I drop a track
+SELECT * FROM 
+Follows WHERE
+user_id = 4 and
+new_album_notification = true;
+
+
+
 

@@ -54,7 +54,7 @@ CREATE TABLE songs(
   caption VARCHAR(400),
   ft_musicians VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
-  album_id INT REFERENCES albums(album_id) ON DELETE SET NULL,
+  album_id INT REFERENCES albums(album_id) ON DELETE CASCADE,
   duration TIME,
   release_date DATE,
   song_image VARCHAR(200),
@@ -116,22 +116,35 @@ CREATE TABLE posts (
   date_created TIMESTAMP,
   like_user_id INT[] DEFAULT ARRAY[]::INT[],
   likes INT DEFAULT 0,
-<<<<<<< HEAD:musicplayer-backend/main/DB_SCHEMA/schema.sql
-  song_id INT UNIQUE 
-=======
   song_id INT UNIQUE
 );
 
+
+--receiver_id is for the receiver
+--sender_id is the id of the musician
 CREATE TABLE notifications (
   nid SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(uid),
+  receiver_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  sender_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  album_id INT REFERENCES albums(album_id) ON DELETE CASCADE,
+  song_id INT REFERENCES songs(song_id) ON DELETE CASCADE,
   notif_type VARCHAR(10),
-  musician_name VARCHAR REFERENCES users(username),
   notif_text VARCHAR(200),
-  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
->>>>>>> FrontEnd_Edward:musicplayer-backend/main/DB_SCHEMA/group13_schema.sql
+  read BOOLEAN DEFAULT false,
+  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'NEWALBUM', 'NEWFOLLOWER', 'ADMINDELETE', 'ADMINUPDATE', 'NEWS'))
 );
 
+
+
+CREATE TABLE follows(
+  fid SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  follower_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  new_album_notification BOOLEAN DEFAULT false,
+  new_single_release_notification BOOLEAN DEFAULT false,
+  followers_setting_notification BOOLEAN false,
+  new_like_notification BOOLEAN false,
+);
 
 
 
