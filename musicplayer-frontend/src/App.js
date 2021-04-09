@@ -18,6 +18,7 @@ import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
 import CreatePlaylist from './components/Playlists/CreatePlaylist'
 import Home from './components/Home/Home'
+import GenerateReport from './components/GenerateReport/Generate_Report'
 //import Routes from './routes'
 
 const Dashboard = () => <h2>Dashboard</h2>
@@ -48,6 +49,7 @@ class App extends React.Component
                         <Route exact path="/CreatePlaylist" component={CreatePlaylist}></Route>
                         <Route exact path="/library" component={Library}></Route>
                         <Route exact path="/profileedit" component={ProfileEdit}></Route>
+                        <Route exact path="/GenerateReport" component={Generate_Report}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
 
                     </div>

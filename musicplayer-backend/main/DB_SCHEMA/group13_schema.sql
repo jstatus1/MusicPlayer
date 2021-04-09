@@ -116,20 +116,7 @@ CREATE TABLE posts (
   date_created TIMESTAMP,
   like_user_id INT[] DEFAULT ARRAY[]::INT[],
   likes INT DEFAULT 0,
-<<<<<<< HEAD:musicplayer-backend/main/DB_SCHEMA/schema.sql
   song_id INT UNIQUE 
-=======
-  song_id INT UNIQUE
-);
-
-CREATE TABLE notifications (
-  nid SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(uid),
-  notif_type VARCHAR(10),
-  musician_name VARCHAR REFERENCES users(username),
-  notif_text VARCHAR(200),
-  CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'ADMINDELETE', 'ADMINUPDATE'))
->>>>>>> FrontEnd_Edward:musicplayer-backend/main/DB_SCHEMA/group13_schema.sql
 );
 
 
