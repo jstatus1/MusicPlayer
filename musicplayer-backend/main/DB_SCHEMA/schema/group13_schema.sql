@@ -134,16 +134,22 @@ CREATE TABLE notifications (
   CONSTRAINT notif_type CHECK (notif_type IN ('NEWMUSIC', 'NEWALBUM', 'NEWFOLLOWER', 'ADMINDELETE', 'ADMINUPDATE', 'NEWS'))
 );
 
+--notice that user_id in the settings table would be
+-- follows user_id 
+CREATE TABLE settings(
+  sid SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  new_album_notification BOOLEAN DEFAULT false,
+  new_single_release_notification BOOLEAN DEFAULT false,
+  followers_setting_notification BOOLEAN false,
+  new_like_notification BOOLEAN false,
+);
 
 
 CREATE TABLE follows(
   fid SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
   follower_id INT REFERENCES users(uid) ON DELETE CASCADE,
-  new_album_notification BOOLEAN DEFAULT false,
-  new_single_release_notification BOOLEAN DEFAULT false,
-  followers_setting_notification BOOLEAN false,
-  new_like_notification BOOLEAN false,
 );
 
 

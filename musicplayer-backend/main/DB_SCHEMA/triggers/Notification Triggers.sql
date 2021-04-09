@@ -41,9 +41,59 @@ RETURN NULL;
 END;
 $$
 
-----
+-------------------------------------------------------------------------
 
 CREATE TRIGGER new_album_trigger
 AFTER INSERT ON albums
 FOR EACH ROW
 EXECUTE PROCEDURE new_album_notification()
+
+-------------------------------------------------------------------------
+
+
+
+/*
+   Summary: This is a trigger that fills up the notification
+   table based on if a new follower follows a user
+*/
+CREATE OR REPLACE FUNCTION new_follower_notification()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	Settings_table CURSOR FOR
+			SELECT * FROM Settings 
+			WHERE user_id=NEW.user_id
+			AND new_album_notification = true;
+BEGIN
+	-- find a way to seperate settings from followers,
+	--update previous query and this trigger query
+	FOR current_row IN followers_table LOOP
+		EXECUTE format('INSERT INTO notifications
+		(
+			receiver_id,
+			sender_id,
+			album_id,
+			notif_type,
+			notif_text,
+		)
+		VALUES( $1,$2,$3,$4,$5)') 
+			using 
+				current_row.follower_id, 
+				NEW.user_id, 
+				NEW.album_id, 
+			    'NEWALBUM', 
+				'A musician you follow has released a new album!';
+	END LOOP;
+RETURN NULL;
+END;
+$$
+
+-------------------------------------------------------------------------
+
+CREATE TRIGGER new_follower_trigger
+AFTER INSERT ON follows
+FOR EACH ROW
+EXECUTE PROCEDURE new_follower_notification()
+
+-------------------------------------------------------------------------
