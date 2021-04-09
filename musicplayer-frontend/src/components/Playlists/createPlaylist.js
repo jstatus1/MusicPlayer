@@ -14,24 +14,6 @@ const CreatePlaylist = () => {
     const [songData, setSongData] = useState({ name: '', musician: ''});
     const [songBlockList, setSongBlockList] = useState([]);
 
-    const retrieveAllSongs = () => {
-
-
-        try {
-            const request = axios.get('http://localhost:5000/api/get/allsongs')
-            .then(res => {
-                setSongBlockList(res.data);
-                console.log('songList: ');
-                console.log(songBlockList);
-
-            })
-            .catch(error => {
-                console.log('Error retrieving all songs from front end: ');
-                console.log(error);
-            })
-        } catch(err) { console.log(err); }
-
-}
 
     useEffect(() => {
         setSongData( { name: 'Best song', musician: 'Best singer' });
@@ -49,13 +31,6 @@ const CreatePlaylist = () => {
             })
         } catch(err) { console.log(err); }
       }, [null]);
-
-    
-
-    
-    
-
-
     
 
     return (
@@ -91,30 +66,45 @@ const CreatePlaylist = () => {
                 
                 <Col md="4">
                            
-                    <Form.Label  class = "playlistPadding">Song List</Form.Label>
-                    <Container class= "songList">
-                        {songBlockList.map(block => { 
-                            return <>
-                            <SongBlock song={block}/>
-                            </>
-                        })}
-                        <SongBlock song={songData} />
-                    </Container> 
+                    <Form.Label  className = "playlistPadding">Song List</Form.Label>
+                    <div className="db-list-box">
+                        <div className="song-block-wrapper">
+                            {songBlockList.map(block => { 
+                                return <div>
+                                    <Row>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+
+                                    </Row>
+                                </div>
+                            })}
+                        </div>
+                    </div>
+
+
                 </Col>
 
-                <Col>
-                <Form.Label  class = "playlistButton"></Form.Label>
-            <Button variant="primary" class = "playlistPadding">Add to Playlist</Button>{' '}
-            </Col>
-
-            <Col>
-            <Form.Label  class = "playlistButton"></Form.Label>
-            <Button variant="primary" class = "playlistPadding">Remove from Playlist</Button>{' '}
-            </Col>
+                <Col md="auto playlistPadding">
+                    <div className="button-spacing"></div>
+                    <Row>
+                        <Button variant="primary">Add</Button>{' '}
+                    </Row>
+                    <div></div>
+                    <Row>
+                        <Button variant="primary">Remove</Button>{' '}
+                    </Row>
+                </Col>
 
             <Col md="4">
            <Row> <Form.Label class = "playlistPadding">Playlist</Form.Label></Row>
-            <input type= "text" class = "songTable"/> 
+            <div className="playlist-box">
+                
+                
+                
+            </div> 
             </Col>
             </Row>
             </Form>

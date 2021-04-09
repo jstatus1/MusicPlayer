@@ -4,31 +4,24 @@ import axios from 'axios'
 
 
 const Library = () => {
-
-
     const [songList, setSongList] = useState([]);
     const [albumList, setAlbumList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);
-    const [seconds, setSeconds] = useState(0);
 
-    const retrieveAllSongs = () => {
+    useEffect(() => {
+        try {
+            const songRequest = axios.get('http://localhost:5000/api/get/allsongs')
+            .then(res => {
+                setSongList(res.data);
+                console.log('songList: ');
+                console.log(songList);
+            })
+            .catch(error => {
+                console.log('Error retrieving all songs from front end: ');
+                console.log(error);
+            })
+        } catch(err) { console.log(err); }
 
-            try {
-                const request = axios.get('http://localhost:5000/api/get/allsongs')
-                .then(res => {
-                    setSongList(res.data);
-                    console.log('songList: ');
-                    console.log(songList);
-                })
-                .catch(error => {
-                    console.log('Error retrieving all songs from front end: ');
-                    console.log(error);
-                })
-            } catch(err) { console.log(err); }
-
-    }
-        
-    const retrieveAllAlbums = () => {
         try {
             const albumRequest = axios.get('http://localhost:5000/api/get/allalbums')
             .then(res => {
@@ -41,11 +34,9 @@ const Library = () => {
                 console.log(error);
             })
         } catch(err) { console.log(err); }
-    }
 
-    const retrieveAllPlaylists = () => {
         try {
-            const request = axios.get('http://localhost:5000/api/get/allplaylists')
+            const playlistRequest = axios.get('http://localhost:5000/api/get/allplaylists')
             .then(res => {
                 setPlaylistList(res.data);
                 console.log('playlistList: ');
@@ -56,13 +47,7 @@ const Library = () => {
                 console.log(error);
             })
         } catch(err) { console.log(err); }
-    }
-
-    useEffect(() => {
-        retrieveAllSongs();
-        retrieveAllAlbums();  
-        retrieveAllPlaylists(); 
-    })
+    }, [null]);
      
 
     return (
