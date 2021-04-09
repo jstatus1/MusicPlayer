@@ -18,7 +18,7 @@ import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
 import CreatePlaylist from './components/Playlists/CreatePlaylist'
 import Home from './components/Home/Home'
-import tables from './components/tables/tables'
+import Reports from './components/Reports/Reports'
 //import Routes from './routes'
 
 const Dashboard = () => <h2>Dashboard</h2>
@@ -49,7 +49,7 @@ class App extends React.Component
                         <Route exact path="/CreatePlaylist" component={CreatePlaylist}></Route>
                         <Route exact path="/library" component={Library}></Route>
                         <Route exact path="/profileedit" component={ProfileEdit}></Route>
-                        <Route exact path="/tables" component={tables}></Route>
+                        <Route exact path="/Reports" component={Reports}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
 
                     </div>

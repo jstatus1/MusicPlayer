@@ -57,6 +57,10 @@ class Header extends Component {
                           className="nav-link" aria-current="page" to={this.props.auth ? '/upload' : '/'}>
                             Upload
                         </Link>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/reports' : '/'}>
+                            Reports
+                        </Link>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <span class="material-icons">

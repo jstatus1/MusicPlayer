@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button, Container,Row, Col } from 'react-bootstrap'
+import SongBlock from '../SongBlock/SongBlock'
 import './CreatePlaylist.css'
+import axios from 'axios'
+
 
 
 
@@ -8,42 +11,100 @@ import './CreatePlaylist.css'
 
 const CreatePlaylist = () => {
 
+    const [songData, setSongData] = useState({ name: '', musician: ''});
+    const [songBlockList, setSongBlockList] = useState([]);
+
+
+    useEffect(() => {
+        setSongData( { name: 'Best song', musician: 'Best singer' });
+        try {
+            const request = axios.get('http://localhost:5000/api/get/allsongs')
+            .then(res => {
+                setSongBlockList(res.data);
+                console.log('songList: ');
+                console.log(songBlockList);
+
+            })
+            .catch(error => {
+                console.log('Error retrieving all songs from front end: ');
+                console.log(error);
+            })
+        } catch(err) { console.log(err); }
+      }, [null]);
+    
+
     return (
         <div>
+            <Row>
+                <Col md="3"></Col>
+                <Col md="auto">
+            <h1>Create Playlist</h1>
+                </Col>
+                <Col md="3"></Col>
+            </Row>
             <Container>
             <Form>
             <Row>
+                <Col md="3"></Col>
+                <Col md="4">
             <Form.Label>Playlist Name</Form.Label>
             <Form.Control type= "text" placeholder = "Playlist name"/> 
+                </Col>
             </Row>
 
             <Row>
-            <Form.Label>Playlist Description</Form.Label>
+                <Col md="3"></Col>
+                <Col md="4">
+            <Form.Label>Playlist Name</Form.Label>
             <Form.Control type= "text" placeholder = "Playlist Description"/> 
+                </Col>
             </Row>
 
 
 
             <Row>
                 
-                <Col>
-                <Row>            <Form.Label  class = "playlistPadding">Song List</Form.Label></Row>
-            <input type= "text" placeholder = "Songs go here" class = "songTable"/> 
+                <Col md="4">
+                           
+                    <Form.Label  className = "playlistPadding">Song List</Form.Label>
+                    <div className="db-list-box">
+                        <div className="song-block-wrapper">
+                            {songBlockList.map(block => { 
+                                return <div>
+                                    <Row>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+                                        <SongBlock song={block}/>
+
+                                    </Row>
+                                </div>
+                            })}
+                        </div>
+                    </div>
+
+
                 </Col>
 
-                <Col>
-                <Form.Label  class = "playlistButton"></Form.Label>
-            <Button variant="primary" class = "playlistPadding">Add to Playlist</Button>{' '}
-            </Col>
+                <Col md="auto playlistPadding">
+                    <div className="button-spacing"></div>
+                    <Row>
+                        <Button variant="primary">Add</Button>{' '}
+                    </Row>
+                    <div></div>
+                    <Row>
+                        <Button variant="primary">Remove</Button>{' '}
+                    </Row>
+                </Col>
 
-            <Col>
-            <Form.Label  class = "playlistButton"></Form.Label>
-            <Button variant="primary" class = "playlistPadding">Remove from Playlist</Button>{' '}
-            </Col>
-
-            <Col>
+            <Col md="4">
            <Row> <Form.Label class = "playlistPadding">Playlist</Form.Label></Row>
-            <input type= "text" placeholder = "Songs in playlist" class = "songTable"/> 
+            <div className="playlist-box">
+                
+                
+                
+            </div> 
             </Col>
             </Row>
             </Form>
