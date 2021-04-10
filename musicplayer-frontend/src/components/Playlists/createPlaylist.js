@@ -11,14 +11,18 @@ import axios from 'axios'
 
 const CreatePlaylist = () => {
 
-    const [songData, setSongData] = useState({ name: '', musician: ''});
+    //const [   songData, setSongData] = useState({ name: '', musician: ''});
+    const [selectedSong, setSelectedSong] = useState({ name: '', musician: ''});
+    const [selectedSongs, setSelectedSongs] = useState([]);
     const [songBlockList, setSongBlockList] = useState([]);
 
+    
 
     useEffect(() => {
-        setSongData( { name: 'Best song', musician: 'Best singer' });
-        try {
-            const request = axios.get('http://localhost:5000/api/get/allsongs')
+        
+        async function getSongs() {
+        
+            const request = await axios.get('http://localhost:5000/api/get/allsongs')
             .then(res => {
                 setSongBlockList(res.data);
                 console.log('songList: ');
@@ -29,9 +33,26 @@ const CreatePlaylist = () => {
                 console.log('Error retrieving all songs from front end: ');
                 console.log(error);
             })
-        } catch(err) { console.log(err); }
-      }, [null]);
+        }
+
+        async function handleAddSong() {
+            await setSelectedSongs({
+               selectedSongs: [...selectedSongs, selectedSong]
+            })
+            console.log('songs list added new song!');
     
+        }
+
+        getSongs();
+        handleAddSong();
+        
+        /* try {
+            
+        } catch(err) { console.log(err); } */
+    }, [selectedSong]);
+
+    
+
 
     return (
         <div>
@@ -43,7 +64,6 @@ const CreatePlaylist = () => {
                 <Col md="3"></Col>
             </Row>
             <Container>
-            <Form>
             <Row>
                 <Col md="3"></Col>
                 <Col md="4">
@@ -64,22 +84,21 @@ const CreatePlaylist = () => {
 
             <Row>
                 
-                <Col md="4">
+                <Col md="5">
                            
                     <Form.Label  className = "playlistPadding">Song List</Form.Label>
                     <div className="db-list-box">
                         <div className="song-block-wrapper">
                             {songBlockList.map(block => { 
-                                return <div>
-                                    <Row>
-                                        <SongBlock song={block}/>
-                                        <SongBlock song={block}/>
-                                        <SongBlock song={block}/>
-                                        <SongBlock song={block}/>
-                                        <SongBlock song={block}/>
-
-                                    </Row>
-                                </div>
+                                 return(
+                                    <div>
+                                        <Row>
+                                            <div onClick={() => setSelectedSong({ name: block.song_title, musician: block.username})}>
+                                            <SongBlock song={block}/>
+                                            </div>
+                                        </Row>
+                                    </div>)
+                                
                             })}
                         </div>
                     </div>
@@ -90,24 +109,32 @@ const CreatePlaylist = () => {
                 <Col md="auto playlistPadding">
                     <div className="button-spacing"></div>
                     <Row>
-                        <Button variant="primary">Add</Button>{' '}
+                        <Button variant="primary"
+                                /* onClick={e => handleAddSong(selectedSong)} */>Add</Button>{' '}
                     </Row>
-                    <div></div>
+                    <div className="button-spacing-2"></div>
                     <Row>
                         <Button variant="primary">Remove</Button>{' '}
                     </Row>
                 </Col>
 
-            <Col md="4">
+            <Col md="5">
            <Row> <Form.Label class = "playlistPadding">Playlist</Form.Label></Row>
             <div className="playlist-box">
-                
+                <div className="song-block-wrapper">
+                            {/*selectedSongs.map(block => { 
+                                return <div>
+                                    <Row>
+                                        <SongBlock song={block}/>
+                                    </Row>
+                                </div>
+                            })*/}
+                        </div>
                 
                 
             </div> 
             </Col>
             </Row>
-            </Form>
             </Container>
         </div>
             

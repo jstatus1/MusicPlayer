@@ -12,6 +12,10 @@ padding-top: 50px !important;
     padding: 20px;
 }
 
+.button-spacing-2 {
+    padding: 7px;
+}
+
 .db-list-box 
 {
     display: flex;
