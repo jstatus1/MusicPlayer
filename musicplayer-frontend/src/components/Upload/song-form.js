@@ -39,7 +39,8 @@ export default class SongForm extends React.Component
         currentPage: "Basic Info",
         ISRC_toggle: false,
         p_line_toggle:false,
-        iswc_toggle:false
+        iswc_toggle:false,
+        create_album: this.props.metadata_upload.album
     }
 
     imageHandler = (e) => {
@@ -223,6 +224,19 @@ export default class SongForm extends React.Component
         }
     }
 
+    renderHeaderAlbumCopies()
+    {
+        return(
+            <div className="card-header">
+                    <div class="btn-group" role="group">    
+                        <button className='btn btn-dark'  onClick={e=> this.updateCurrentPage(e, "Basic Info")}>
+                            <h5>Basic Info</h5>
+                        </button>
+                    </div>
+            </div>
+        )
+    }
+
 
     //Basic Form Data Entry
     renderBasicInfo(){
@@ -266,7 +280,7 @@ export default class SongForm extends React.Component
 
     renderMetaData()
     {
-        return(<div className="metadata_div">
+        return(<div key={this.props.id} className="metadata_div">
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
                     <label for="contains_music" class="form-label">Contains Music</label>
@@ -379,17 +393,30 @@ export default class SongForm extends React.Component
     render()
     {
         return(<React.Fragment>
+                    
                     <form className="card mt-5 mb-5">
-                        {this.renderHeader()}
-                        <div class="card-body row ">
-                            {this.state.currentPage=="Basic Info" ? this.renderBasicInfo()
+
+                        {((this.state.create_album == false) || (this.state.create_album==true && this.props.id == 0))? 
+                                <>
+                                {this.renderHeader()}
+                                <div class="card-body row ">
+                                {this.state.currentPage=="Basic Info" ? this.renderBasicInfo()
+                                    :null}
+                                {this.state.currentPage=="Metadata" ? this.renderMetaData()
+                                    :null}
+                                {this.state.currentPage=="Permissions" ? this.renderPermissions()
                                 :null}
-                            {this.state.currentPage=="Metadata" ? this.renderMetaData()
-                                :null}
-                            {this.state.currentPage=="Permissions" ? this.renderPermissions()
-                            :null}
-                        </div>
-                        <button className="btn btn-danger" onClick={e => this.handleDelete(e)}>Remove</button>
+                            </div></>
+                        :
+                        <>
+                                {this.renderHeaderAlbumCopies()}
+                                <div class="card-body row ">
+                                {this.state.currentPage=="Basic Info" ? this.renderBasicInfo()
+                                    :null}
+                            </div></>
+                        }
+                        
+                        <button className="btn btn-danger" onClick={e => this.handleDelete(e)}><i class="bi bi-file-x-fill"></i> Remove</button>
                     </form>
             </React.Fragment>)
         

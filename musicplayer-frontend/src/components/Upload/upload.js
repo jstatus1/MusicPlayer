@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import Progress from './progress';
 import axios from 'axios'
-import { io } from "socket.io-client";
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Loading from '../Loading/loading'
@@ -23,7 +21,7 @@ class Upload extends React.Component
         metadata_upload: {
             userid: null,
             public: true,
-            playlist: false,
+            album: false,
         }
     }
 
@@ -86,54 +84,65 @@ class Upload extends React.Component
     {
         e.preventDefault()
         
-
+        //upload album
+        //upload playlist
         let formData = new FormData()
 
-        //append metadata
-
-        
-        for(let i = 0; i < this.state.uploadedSong.length; i++)
+        if(this.state.uploadedSong.length == 1)
         {
-            formData.append("musicUploads", this.state.uploadedSong[i]);
-            if(this.state.uploadedSong[i].basic_info_song.song_image) 
-                formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
-            formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
-            formData.append("metadata", JSON.stringify(this.state.uploadedSong[i].metadata_song))
-            
-        }
+            //upload single
+            formData.append("musicUploads", this.state.uploadedSong[0]);
+            if(this.state.uploadedSong[0].basic_info_song.song_image) 
+            {
+                formData.append("audio_image", this.state.uploadedSong[0].basic_info_song.song_image[0])
+            }
+            formData.append("basic_info", JSON.stringify(this.state.uploadedSong[0].basic_info_song))
+            formData.append("metadata", JSON.stringify(this.state.uploadedSong[0].metadata_song)) 
+            try{
+                 await axios.post('/api/single_audio_upload/', formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  });
+                  this.setState({successMessage: 'Your Files Have Been Uploaded Successfully!'})
+            }catch(err)
+            {
+                if(err.response.status === 500)
+                    this.setState({errMessage: 'There  was a problem with the server'})
+                else
+                    this.setState({errMessage: err.response.data.msg})
+            }
 
-
-        try{
-            const res = await axios.post('/api/music_upload/', formData, {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                },
-
-                
-                //Progress Loading
-                onUploadProgress: progressEvent => {
-                  this.setState({uploadPercentage:  parseInt(
-                    Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                  )})
-                
-                  console.log(progressEvent.loaded* 100)
-                    // Clear percentage
-                    setTimeout(() => this.setState({uploadPercentage: 0}), 10000);
+        }else if(this.state.uploadedSong.length > 1 && this.state.metadata_upload.album)
+        {
+            for(let i = 0; i < this.state.uploadedSong.length; i++)
+            {
+                formData.append("musicUploads", this.state.uploadedSong[i]);
+                formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
                   
-                }
-              });
-        
-             
-              console.log(res.data)
-              this.setState({successMessage: 'Your Files Have Been Uploaded Successfully!'})
+            }
 
-        }catch(err)
-        {
-            if(err.response.status === 500)
-                this.setState({errMessage: 'There  was a problem with the server'})
-            else
-                this.setState({errMessage: err.response.data.msg})
+            if(this.state.uploadedSong[0].basic_info_song.song_image) 
+                    formData.append("album_art", this.state.uploadedSong[0].basic_info_song.song_image[0])
+            formData.append("metadata", JSON.stringify(this.state.uploadedSong[0].metadata_song))
+
+            try{
+                const res = await axios.post('/api/album_audio_upload/', formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  });
+                  this.setState({successMessage: 'Your Album Have Been Uploaded Successfully!'})
+            }catch(err)
+            {
+                if(err.response.status === 500)
+                    this.setState({errMessage: 'There was a problem with the server'})
+                else
+                    this.setState({errMessage: err.response.data.msg})
+            }
+
         }
+        
     }
     
     
@@ -178,7 +187,6 @@ class Upload extends React.Component
 
     removeSong = (e) =>
     {
-        e.preventDefault()
         let updatedSongList = this.state.uploadedSong.filter(
             (song) => {
                 return song !== e;
@@ -192,7 +200,7 @@ class Upload extends React.Component
 
     renderUploadDialog()
     {
-            if(this.state.uploadedSong == null)
+            if(this.state.uploadedSong == null || this.state.uploadedSong.length < 1)
             {
                 return(
                     <div className=" row div-wrapper justify-center align-items-center">
@@ -211,9 +219,9 @@ class Upload extends React.Component
                                         /> 
                             </div>
                             <div className="col-12">
-                                        <input class="form-check-input me-5" type="checkbox" value="" id="flexCheckDefault"  onChange={e=> {this.setState({metadata_upload: {...this.state.metadata_upload, playlist:!(this.state.metadata_upload.playlist)}})}} checked={this.state.metadata_upload.playlist}/>
+                                        <input class="form-check-input me-5" type="checkbox" value="" id="flexCheckDefault"  onChange={e=> {this.setState({metadata_upload: {...this.state.metadata_upload, album:!(this.state.metadata_upload.album)}})}} checked={this.state.metadata_upload.album}/>
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Make a playlist when multiple files are selected
+                                            Make an album when multiple files are selected
                                         </label>
                                     {this.publicOrPrivate()}
                             </div>
@@ -242,14 +250,16 @@ class Upload extends React.Component
                                         /> 
                                 </button>   
                                 </div>
+
                                 <div class="card-body">
+                                       
                                         {this.state.uploadedSong.map((song,index) => {
-                                    return (<SongForm key={index} id={index} song={song} removeSong={e => this.removeSong(e).bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
-                                    })}
-                                    
+                                             return (<SongForm key={index} id={index} metadata_upload={this.state.metadata_upload} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
+                                        })}
                                 </div>
+
                                 <div class="card-footer">
-                                    <button className="btn btn-dark col-12 " onClick={e=>this.onSubmit(e)}>Submit</button>
+                                    <button className="btn btn-dark col-12 " onClick={e=>this.onSubmit(e)}><i class="bi bi-upload"></i> Upload</button>
                                 </div> 
                         </div>
                         <div class="mb-5">
@@ -275,7 +285,7 @@ class Upload extends React.Component
             this.setState({metadata_upload: {
                 userid: this.props.auth.uid,
                 public: true,
-                playlist: false,
+                album: false,
             }})
 
         }

@@ -37,6 +37,8 @@ Deleting Child Components:
 https://stackoverflow.com/questions/50862192/react-typeerror-cannot-read-property-props-of-undefined
 https://stackoverflow.com/questions/41819342/how-to-hide-and-show-a-div-in-react
 
+Deleting Objects From S3:
+https://stackoverflow.com/questions/27753411/how-do-i-delete-an-object-on-aws-s3-using-javascript
 
 Updating Nested State Object:
 https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react

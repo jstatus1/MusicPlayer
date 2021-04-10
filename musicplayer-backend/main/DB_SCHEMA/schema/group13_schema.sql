@@ -69,7 +69,9 @@ CREATE TABLE songs(
   barcode VARCHAR(30),
   ISWC VARCHAR(30),
   P_Line VARCHAR(30),
-  explicit_content BOOLEAN
+  explicit_content BOOLEAN,
+  s3_image_key VARCHAR(300),
+  s3_audio_key VARCHAR(300)
 );
 
 CREATE TABLE albums(

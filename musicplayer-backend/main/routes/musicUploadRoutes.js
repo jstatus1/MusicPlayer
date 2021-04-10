@@ -15,93 +15,166 @@ module.exports = app => {
     AWS.config.update({region: 'us-east-2'});
     const s3 = new AWS.S3();
 
-    app.post('/api/SingleUpload/', async (req, res) => {
-    try {
-        if(!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        } else {
-            //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-            let musicFile = req.files.musicUploads;
-            
-            //Use the mv() method to place the file in upload directory (i.e. "uploads")
-            musicFile.mv('./main/s3/storage/' + musicFile.name);
-
-            //send response
-            res.send({
-                status: true,
-                message: 'File is uploaded',
-                data: {
-                    name: uuidv4(),
-                    mimetype: musicFile.mimetype,
-                    size: musicFile.size
-                }
-            });
-        }
-    } catch (err) {
-        res.status(500).send(err);
+    deleteAudioFromS3 = (key) => {
+        var params = {
+            Bucket: 'musicplayer-song', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
     }
-    });
+    
+    deleteAudioImageFromS3 = (key) => {
+        var params = {
+            Bucket: 'musicplayer-songart', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
+    }
 
     music_upload_single = async (req, res) => 
     {
-        let data = []
         let musicFile = req.files.musicUploads;   
-        let albumArtFile = req.files.album_art;  
+        let audio_image_File = req.files.audio_image;  
         var userId = req.user.uid
+        
         var basic_info = JSON.parse(req.body.basic_info)
         var metadata = JSON.parse(req.body.metadata) 
-
+    
+        var s3_audio_image_key = uuidv4()
+        var s3_audio_key = uuidv4()
        
         //Params For AWS
-        const musicplayer_params = {
+        const audio_params = {
             Bucket: "musicplayer-song",
             Body: musicFile.data,
-            Key: uuidv4(),
+            Key: s3_audio_key,
             ACL: "public-read"
         };
 
-        const pictureUpload_params = {
-                Bucket: "musicplayer-songart",
-                Body: albumArtFile.data,
-                Key: uuidv4(),
-                ACL: "public-read"
-        };
+       
 
-        //TODO: figure out a way to see if there is an image or not
-         await s3.upload (pictureUpload_params, function (err, data) {
-            if (err) {
-              console.log("Error", err);
-            } if (data) {
-              console.log("Upload Success", data.Location);
-            }
-          }).send(async (err,SongArtLink) => {
-              try{
-                
-                await s3.upload (musicplayer_params, function (err, data) {
+        if(audio_image_File != undefined)
+        {
+            const audio_image_params = {
+                    Bucket: "musicplayer-songart",
+                    Body: audio_image_File.data,
+                    Key: s3_audio_image_key,
+                    ACL: "public-read"
+            };
+            await s3.upload (audio_image_params, function (err, data) {
+                if (err) {
+                  console.log("Error", err);
+                }
+              }).send(async (err,SongArtLink) => {
+                  try{
+                    
+                    await s3.upload (audio_params, function (err, data) {
+                        if (err) {
+                          console.log("Error", err);
+                          deleteAudioImageFromS3(s3_audio_image_key)
+                        } if (data) {
+                          console.log("Upload Success", data.Location);
+                        }
+                      }).send(async (err,audio_link) => {
+                          try{
+                                //TODO: include album id for front end and backend
+                                const songValue = [
+                                    basic_info.title,
+                                    basic_info.selected_genre,
+                                    audio_link.Location,
+                                    basic_info.description,
+                                    basic_info.caption,
+                                    userId,
+                                    metadata.release_date,
+                                    SongArtLink.Location,
+                                    metadata.publisher,
+                                    metadata.isrc,
+                                    metadata.composer,
+                                    metadata.release_title,
+                                    metadata.record_label,
+                                    metadata.barcode,
+                                    metadata.iswc,
+                                    metadata.p_line,
+                                    metadata.explicit_content,
+                                    metadata.buy_link,
+                                    metadata.album_title,
+                                    s3_audio_key,
+                                    s3_audio_image_key
+                                ]
+                                
+                                //TODO: UPDATE LENGTH
+                                await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
+                                                    release_date,song_image,publisher
+                                                    ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
+                                                    explicit_content,buy_link,album_title,s3_audio_key,s3_image_key)
+                                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+                                                    ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
+                                                    if (error) {
+                                                        console.log(error);
+                                                        deleteAudioFromS3(s3_audio_key)
+                                                        deleteAudioImageFromS3(s3_audio_image_key)
+                                                        res.send({
+                                                            status: false,
+                                                            message: "Failed To Upload"
+                                                        })
+                                                    }else{
+                                                        res.send({
+                                                            status: true,
+                                                            message: "Successfully Uploaded"
+                                                        })
+                                                    }})
+    
+                          }catch(err)
+                          {
+
+                              res.send({
+                                        status: false,
+                                        message: "Server Is Down, Please Try Again Later"
+                                    })
+                          }
+                      });
+                    
+    
+    
+                  }catch(err)
+                  {
+                      console.log("Error Inserting Song To Database")
+                  }
+                  
+              });
+        
+        }else{
+            try{
+                    
+                await s3.upload (audio_params, function (err, data) {
                     if (err) {
                       console.log("Error", err);
                     } if (data) {
                       console.log("Upload Success", data.Location);
                     }
-                  }).on('httpUploadProgress', e => {
-
-                    console.log( `${e.loaded} + " of " + ${e.total} + " bytes"`)
-                        
-                  }).send(async (err,SongLink) => {
+                  }).send(async (err,audio_link) => {
                       try{
                             //TODO: include album id for front end and backend
                             const songValue = [
                                 basic_info.title,
                                 basic_info.selected_genre,
-                                SongLink.Location,
+                                audio_link.Location,
                                 basic_info.description,
                                 basic_info.caption,
                                 userId,
                                 metadata.release_date,
-                                SongArtLink.Location,
                                 metadata.publisher,
                                 metadata.isrc,
                                 metadata.composer,
@@ -112,17 +185,24 @@ module.exports = app => {
                                 metadata.p_line,
                                 metadata.explicit_content,
                                 metadata.buy_link,
-                                metadata.album_title
+                                metadata.album_title,
+                                s3_audio_key
                             ]
                             
                             //TODO: UPDATE LENGTH
                             await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
-                                                release_date,song_image,publisher
-                                                ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,explicit_content,buy_link,album_title)
+                                                release_date,publisher
+                                                ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
+                                                explicit_content,buy_link,album_title,s3_audio_key)
                                                 VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
                                                 ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                                 if (error) {
                                                     console.log(error);
+                                                    deleteAudiosFromS3(s3_audio_key)
+                                                    res.send({
+                                                        status: false,
+                                                        message: "Failed To Upload"
+                                                    })
                                                 }else{
                                                     res.send({
                                                         status: true,
@@ -132,7 +212,10 @@ module.exports = app => {
 
                       }catch(err)
                       {
-                          console.log("Failed To Post Song On AWS S3")
+                          res.send({
+                                    status: false,
+                                    message: "Server Is Down, Please Try Again Later"
+                                })
                       }
                   });
                 
@@ -142,10 +225,19 @@ module.exports = app => {
               {
                   console.log("Error Inserting Song To Database")
               }
-              
-          });
+        }
     }
 
+
+    
+    //single upload
+    app.post('/api/single_audio_upload/', async (req, res) => {
+        return music_upload_single(req, res)
+    });
+
+   //multiple upload
+
+   //album upload
 
     music_upload_multiple = async (req, res) => 
     {
