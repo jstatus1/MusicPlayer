@@ -7,7 +7,6 @@ require('dotenv').config('../../.env')
 
 
 const authenticateUser2 = (email, password, done) => {
-  console.log(email, password);
   
   pool.query(
     `SELECT * FROM users WHERE email = $1`,
@@ -16,7 +15,6 @@ const authenticateUser2 = (email, password, done) => {
       if (err) {
         throw err;
       }
-      console.log(results.rows);
 
       if (results.rows.length > 0) {
         const user = results.rows[0];
@@ -162,7 +160,6 @@ passport.serializeUser((user, done) => done(null, user.uid));
 // The fetched object is attached to the request object as req.user
 
 passport.deserializeUser((uid, done) => {
-  console.log("deserialize User: ", uid)
   pool.query(`SELECT * FROM users WHERE uid = $1`, [uid], (err, results) => {
     if (err) {
       return done(err);

@@ -11,7 +11,13 @@ import './header.css'
 
 class Header extends Component {
   state = {
-    display_notifications: false
+    display_notifications: false,
+    notificationCounter: 0
+  }
+
+  retrieveNotificationCounter(count)
+  {
+    this.setState({notificationCounter: count})
   }
 
   renderContent()
@@ -116,11 +122,12 @@ class Header extends Component {
                       <span class="material-icons">
                         notifications
                       </span>
-                      <span class="badge">
-                          10
-                      </span>
+                      {
+                        (this.state.notificationCounter > 0)? <span class="badge">{this.state.notificationCounter}</span>: null
+                      }
+                      
                     </a>
-                    <NotificationDropDown></NotificationDropDown>
+                    <NotificationDropDown retrieveNotificationCounter={this.retrieveNotificationCounter.bind(this)} />
                 </div>
               </li>
 

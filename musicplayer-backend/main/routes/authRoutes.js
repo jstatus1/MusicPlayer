@@ -88,7 +88,6 @@ module.exports = app => {
   });
 
   app.get('/api/current_user', (req, res) => {
-    console.log("Sending Current User: ", req.user)
     res.send(req.user);
   });
 
@@ -104,7 +103,6 @@ module.exports = app => {
           throw err;
         }
         
-        console.log(results.rows.length)
         if (results.rows.length > 0) {
           return res.send({status: true, message: {
             userExist: true
