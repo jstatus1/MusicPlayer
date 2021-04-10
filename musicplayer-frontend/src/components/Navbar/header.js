@@ -70,10 +70,9 @@ class Header extends Component {
                         </Link>
               <li class="nav-item dropdown">
                 <div class="d-flex align-items-center">
+                <img className="avatar_image_navbar" src={this.props.auth.avatar} alt={() => this.setState({avatar_img: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fdownload_87237.png&f=1&nofb=1"})}/>
+
                   <a class="nav-link dropdown-toggle" id="profile_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="material-icons">
-                      person_pin
-                    </span>
                     <small>{this.props.auth.username}</small>
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="profile_dropdown">

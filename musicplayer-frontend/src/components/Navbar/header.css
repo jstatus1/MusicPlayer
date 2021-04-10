@@ -15,3 +15,9 @@
     color: white;
     font-size: x-small;
   }
+
+  .avatar_image_navbar
+  {
+    width:35px;
+    border-radius: 50%;
+  }

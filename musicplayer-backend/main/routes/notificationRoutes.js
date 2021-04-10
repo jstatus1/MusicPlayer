@@ -13,4 +13,17 @@ module.exports = app => {
         })
     })
 
+
+    app.get('/api/get/namefromUID', async (req, res) => {
+        console.log(req.query)
+        pool.query(`SELECT * FROM users
+                WHERE uid=$1 ORDER BY created_at`, [ req.query.uid ],
+                (q_err, q_res) => {
+                  res.send({
+                    status: true,
+                    message: q_res.rows
+                })
+        })
+    })
+
 }

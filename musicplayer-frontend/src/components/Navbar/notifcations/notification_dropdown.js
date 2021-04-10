@@ -46,16 +46,16 @@ class notificationsDropdown extends React.Component
             switch(obj.notif_type)
             {
                 case "NEWALBUM":
-                    renderNotification.push(<RegularMessageNotificationLink data={obj}/>)
+                    renderNotification.push(<RegularMessageNotificationLink key={key} data={obj}/>)
                     break;
                 case "NEWMUSIC":
                     renderNotification.push(<h1>Tacos</h1>)
                     break;
                 case "NEWFOLLOWER":
-                    renderNotification.push(<h1>Tacos</h1>)
+                    renderNotification.push(<FollowerContainer key={key} data={obj}/>)
                     break;
                 case "UNFOLLOWED":
-                    renderNotification.push(<h1>Tacos</h1>)
+                    renderNotification.push(<RegularMessageNotification key={key} data={obj}/>)
                     break;
                 case "NEWS":
                     renderNotification.push(<h1>Tacos</h1>)
@@ -64,7 +64,8 @@ class notificationsDropdown extends React.Component
                     break;
 
             }
-                 
+            renderNotification.push(<li><hr class="dropdown-divider"/></li> )
+            
         }
 
         return (renderNotification)

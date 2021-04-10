@@ -5,6 +5,8 @@
     padding: 1px;
     font-size: 11px;
     outline-width: thin;
+    white-space: nowrap;
+    
 }
 
 .information_text
