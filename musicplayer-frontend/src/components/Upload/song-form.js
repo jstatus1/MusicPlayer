@@ -27,7 +27,6 @@ export default class SongForm extends React.Component
         this.props.updateSongData(this.props.id, this.props.song)
     };
 
-
     renderSongUploadButton()
     {
         if(this.props.song.basic_info_song.song_image == null)
@@ -38,7 +37,7 @@ export default class SongForm extends React.Component
                     <label for={this.props.id}>
                         Upload Image
                     </label>
-                    <input type="file" id={this.props.id} className="sc-visuallyhidden" onChange={this.imageHandler} accept="image/jpeg,image/pjpeg,image/gif,image/png"/>
+                    <input type="file" id={this.props.id} className="sc-visuallyhidden" onChange={e=> this.imageHandler(e)} accept="image/jpeg,image/pjpeg,image/gif,image/png"/>
                 </button>   
             </div>)
         }else{
@@ -74,8 +73,11 @@ export default class SongForm extends React.Component
                 {
                     var dataURL = reader.result;
                     var id = `${this.props.id}_art_image`
+                    
                     var output = document.getElementById(id);
-                    output.src = dataURL;
+                    if(output != null) 
+                        output.src = dataURL;
+                    
                 }
             }
         }
@@ -310,7 +312,7 @@ export default class SongForm extends React.Component
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
                      <label for={`Album_Title+${this.props.id}`} class="form-label">Album Title</label>
-                     <input type="text" id={`Album_Title+${this.props.id}`} class="form-control tag-input"  
+                     <input type="text" id={`Album_Title+${this.props.id}`} class={`form-control tag-input ${(this.state.is_valid_album_title)? null: "is-invalid"}` }  
                             onChange={(e) => {this.props.song.metadata_song.album_title = e.target.value; 
                                              this.props.updateSongData(this.props.id, this.props.song);
                                              this.setState({is_valid_album_title:true})}} 

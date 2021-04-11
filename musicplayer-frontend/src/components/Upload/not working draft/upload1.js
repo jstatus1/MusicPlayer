@@ -125,7 +125,7 @@ class Upload extends React.Component
             }else{
                 this.setState({is_valid_album_title: true})
             }
-            return
+            
             for(let i = 0; i < this.state.uploadedSong.length; i++)
             {
                 formData.append("musicUploads", this.state.uploadedSong[i]);
@@ -266,6 +266,7 @@ class Upload extends React.Component
                                 <div class="card-body">
                                        
                                         {this.state.uploadedSong.map((song,index) => {
+                                             console.log(song)
                                              return (<SongForm key={index} id={index} metadata_upload={this.state.metadata_upload} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}  is_valid_album_title={this.state.is_valid_album_title}></SongForm>)
                                         })}
                                 </div>
