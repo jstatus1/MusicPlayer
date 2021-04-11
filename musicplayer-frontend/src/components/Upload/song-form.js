@@ -40,7 +40,8 @@ export default class SongForm extends React.Component
         ISRC_toggle: false,
         p_line_toggle:false,
         iswc_toggle:false,
-        create_album: this.props.metadata_upload.album
+        create_album: this.props.metadata_upload.album,
+        is_valid_album_title: true
     }
 
     imageHandler = (e) => {
@@ -331,7 +332,9 @@ export default class SongForm extends React.Component
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
                     <label for="Album_Title" class="form-label">Album Title</label>
-                    <input type="text" id="Album_Title" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, album_title:e.target.value}}))} value={this.state.metadata.album_title}/>
+                    <input type="text" id="Album_Title" class= {`form-control tag-input ${(this.state.is_valid_album_title)?null:'is-invalid'} `}   
+                            onChange={e => {this.setState(prevState => ({metadata: {...prevState.metadata, album_title:e.target.value}})); this.setState({is_valid_album_title:true}) }} 
+                            value={this.state.metadata.album_title}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
                     <label for="Record_Label" class="form-label">Record Label</label>
@@ -388,7 +391,14 @@ export default class SongForm extends React.Component
         )
     }
 
-  
+    componentDidUpdate(prevProps)
+    {
+        if(this.props.is_valid_album_title !== prevProps.is_valid_album_title && this.props.is_valid_album_title == false)
+        {
+            this.setState({currentPage:"Metadata"})
+            this.setState({is_valid_album_title:false})
+        }
+    }
 
     render()
     {
@@ -402,7 +412,7 @@ export default class SongForm extends React.Component
                                 <div class="card-body row ">
                                 {this.state.currentPage=="Basic Info" ? this.renderBasicInfo()
                                     :null}
-                                {this.state.currentPage=="Metadata" ? this.renderMetaData()
+                                {(this.state.currentPage=="Metadata" ) ? this.renderMetaData()
                                     :null}
                                 {this.state.currentPage=="Permissions" ? this.renderPermissions()
                                 :null}

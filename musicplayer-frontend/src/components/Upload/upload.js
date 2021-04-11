@@ -22,7 +22,9 @@ class Upload extends React.Component
             userid: null,
             public: true,
             album: false,
-        }
+        },
+        album_title:null,
+        is_valid_album_title:true
     }
 
     //update the uploadedSong state
@@ -115,6 +117,15 @@ class Upload extends React.Component
 
         }else if(this.state.uploadedSong.length > 1 && this.state.metadata_upload.album)
         {
+            //validation to see if album title is null
+            if(this.state.uploadedSong[0].metadata_song.album_title == null || this.state.uploadedSong[0].metadata_song.album_title == "")
+            {
+                this.setState({errMessage: "Album Title Cannot Be Null!"})
+                this.setState({is_valid_album_title: false})
+            }else{
+                this.setState({is_valid_album_title: true})
+            }
+            return null;
             for(let i = 0; i < this.state.uploadedSong.length; i++)
             {
                 formData.append("musicUploads", this.state.uploadedSong[i]);
@@ -254,7 +265,7 @@ class Upload extends React.Component
                                 <div class="card-body">
                                        
                                         {this.state.uploadedSong.map((song,index) => {
-                                             return (<SongForm key={index} id={index} metadata_upload={this.state.metadata_upload} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}></SongForm>)
+                                             return (<SongForm key={index} id={index} metadata_upload={this.state.metadata_upload} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}  is_valid_album_title={this.state.is_valid_album_title}></SongForm>)
                                         })}
                                 </div>
 

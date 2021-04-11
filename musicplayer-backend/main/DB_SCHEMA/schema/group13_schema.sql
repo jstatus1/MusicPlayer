@@ -77,11 +77,23 @@ CREATE TABLE songs(
 CREATE TABLE albums(
   album_id  SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
-	album_Duration TIME,
-	date_Published DATE,
+	album_duration TIME,
+	release_date DATE,
 	artists varchar(100),	
-	album_name varchar(60) NOT NULL,
-  album_art VARCHAR(200) DEFAULT '<insert image link here>'
+	album_name VARCHAR(60) NOT NULL,
+  album_art VARCHAR(200),
+  publisher VARCHAR(50),
+  ISRC VARCHAR(30),
+  composer VARCHAR(50),
+  release_title VARCHAR(40),
+  buy_link VARCHAR(40), 
+  album_title VARCHAR(50),
+  record_label VARCHAR(30),
+  barcode VARCHAR(30),
+  ISWC VARCHAR(30),
+  P_Line VARCHAR(30),
+  explicit_content BOOLEAN,
+  s3_album_image_key VARCHAR(200)
 );
 
 CREATE TABLE playlists(
