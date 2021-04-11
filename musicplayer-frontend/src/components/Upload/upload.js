@@ -117,15 +117,17 @@ class Upload extends React.Component
 
         }else if(this.state.uploadedSong.length > 1 && this.state.metadata_upload.album)
         {
+            console.log(this.state.uploadedSong[0].metadata_song)
             //validation to see if album title is null
             if(this.state.uploadedSong[0].metadata_song.album_title == null || this.state.uploadedSong[0].metadata_song.album_title == "")
             {
                 this.setState({errMessage: "Album Title Cannot Be Null!"})
                 this.setState({is_valid_album_title: false})
+                return;
             }else{
                 this.setState({is_valid_album_title: true})
             }
-            return null;
+            
             for(let i = 0; i < this.state.uploadedSong.length; i++)
             {
                 formData.append("musicUploads", this.state.uploadedSong[i]);
@@ -138,6 +140,7 @@ class Upload extends React.Component
             formData.append("metadata", JSON.stringify(this.state.uploadedSong[0].metadata_song))
 
             try{
+                console.log("Uploading to S3")
                 const res = await axios.post('/api/album_audio_upload/', formData, {
                     headers: {
                       'Content-Type': 'multipart/form-data'

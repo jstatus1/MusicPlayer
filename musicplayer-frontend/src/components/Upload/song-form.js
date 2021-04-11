@@ -1,33 +1,11 @@
 import React from 'react'
 import './song-form.css'
 
+//https://github.com/jstatus1/MusicPlayer/blob/e10d8e486fac6ed09f94455c8b1502e6dbe2bcc5/musicplayer-frontend/src/components/Upload/song-form.js
+
 export default class SongForm extends React.Component
 {
     state= {
-        basic_info:{
-            title: this.props.song.name,
-            selected_genre:null,
-            additional_tag: null,
-            description: null,
-            caption: null,
-            song_image: null
-        },
-        metadata:{
-            contains_music: true,
-            artist: null,
-            publisher: null,
-            isrc: null,
-            composer: null,
-            release_title: null,
-            buy_link: null,
-            album_title: null,
-            record_label:null,
-            release_date:null,
-            barcode: null,
-            iswc: null,
-            p_line: null,
-            explicit_content: false
-        },
         genre: {
             0: ["None", "Custom"],
             "Music": ["Alternative Rock", "Ambient", "Classical", "Country", "Dance & EDM", "Dancehall", 
@@ -249,31 +227,31 @@ export default class SongForm extends React.Component
                 <div className="col-7">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title *</label>
-                        <input id="title" type="text" class="form-control title"  onChange={e => this.setState(prevState => ({basic_info: {...prevState.basic_info, title:e.target.value}}))} value={this.state.basic_info.title} placeholder={"Name Your Track"}/>
+                        <input id="title" type="text" class="form-control title"  onChange={(e) => {this.props.song.basic_info_song.title = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.basic_info_song.title} placeholder={"Name Your Track"}/>
                     </div>
                     
                     <div class="dropdown linkMenu__list ">
                         <label for="genre-selector" class="form-label">Genre</label>
                         
-                        <select id="genre-selector" className="form-control " onClick={e=> this.setState(prevState => ({basic_info: {...prevState.basic_info, selected_genre:e.target.value}}))} dangerouslySetInnerHTML={this.renderGenreList()}>
+                        <select id="genre-selector" className="form-control " onClick={(e) => {this.props.song.basic_info_song.selected_genre = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} dangerouslySetInnerHTML={this.renderGenreList()}>
 
                         </select>
                     </div>
 
                     <div class="mb-3 mt-3">
                         <label for="additional_tag" class="form-label">Additional Tags</label>
-                        <input type="text" id="additional_tag" class="form-control tag-input" onChange={e => this.setState(prevState => ({basic_info: {...prevState.basic_info, additional_tag:e.target.value}}))} value={this.state.basic_info.additional_tag} placeholder={"Name Your Track"} placeholder="Add tags to describe the genre and mood of your track" />
+                        <input type="text" id="additional_tag" class="form-control tag-input" onChange={(e) => {this.props.song.basic_info_song.additional_tag = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.basic_info_song.additional_tag} placeholder={"Name Your Track"} placeholder="Add tags to describe the genre and mood of your track" />
                     </div>
 
 
                     <div class="mb-3 mt-3 ">
                         <label for="description-textarea" class="form-label">Description</label>
-                        <textarea id="description-textarea" class="form-control floatingTextarea2 description-textarea" onChange={e => this.setState(prevState => ({basic_info: {...prevState.basic_info, description:e.target.value}}))} value={this.state.basic_info.description} placeholder="Leave a comment here" ></textarea>       
+                        <textarea id="description-textarea" class="form-control floatingTextarea2 description-textarea" onChange={(e) => {this.props.song.basic_info_song.description = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.basic_info_song.description} placeholder="Leave a comment here" ></textarea>       
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="Caption" class="form-label">Caption</label>
-                        <textarea for="Caption" class="form-control floatingTextarea2 description-textarea" onChange={e => this.setState(prevState => ({basic_info: {...prevState.basic_info, caption:e.target.value}}))} value={this.state.basic_info.caption} placeholder="Add a caption to you post (optional)" ></textarea>  
+                        <textarea for="Caption" class="form-control floatingTextarea2 description-textarea" onChange={(e) => {this.props.song.basic_info_song.caption = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.basic_info_song.caption} placeholder="Add a caption to you post (optional)" ></textarea>  
                     </div>
                 </div>
             </React.Fragment>)
@@ -284,35 +262,35 @@ export default class SongForm extends React.Component
         return(<div key={this.props.id} className="metadata_div">
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
-                    <label for="contains_music" class="form-label">Contains Music</label>
-                    <select id= "contains_music" class="form-select" onClick={e => this.setState(prevState => ({metadata: {...prevState.metadata, contains_music:(e.target.value=="true")}}))}>
+                <label for={`contains_music+${this.props.id}`} class="form-label">Contains Music</label>
+                    <select id= {`contains_music+${this.props.id}`}  class="form-select" onClick={e => {this.props.song.metadata_song.contains_music = (e.target.value=="true"); this.props.updateSongData(this.props.id, this.props.song)}}>
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="artist" class="form-label" >Artist</label>
-                    <input type="text" id="artist" class="form-control tag-input" onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, artist:e.target.value}}))} value={this.state.metadata.artist}/>
+                    <label for={`artist${this.props.id}`} class="form-label" >Artist</label>
+                    <input type="text" id={`artist${this.props.id}`} class="form-control tag-input" onChange={(e) => {this.props.song.metadata_song.artist = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.artist}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="publisher" class="form-label" >Publisher</label>
-                    <input type="text" id="publisher" class="form-control tag-input" onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, publisher:e.target.value}}))} value={this.state.metadata.publisher}/>
+                    <label for={`publisher+${this.props.id}`} class="form-label" >Publisher</label>
+                    <input type="text" id={`publisher+${this.props.id}`} class="form-control tag-input" onChange={(e) => {this.props.song.metadata_song.publisher = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.publisher}/>
                 </div>                  
             </div>  
 
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
-                    <label for="ISRC" class="form-label">ISRC <i class="bi bi-question-circle" onClick={e=>this.setState({ISRC_toggle:!(this.state.ISRC_toggle)})}></i></label>
+                     <label for={`ISRC+${this.props.id}`} class="form-label">ISRC <i class="bi bi-question-circle" onClick={e=>this.setState({ISRC_toggle:!(this.state.ISRC_toggle)})}></i></label>
                    
-                    <input type="text" id="ISRC" class="form-control tag-input" placeholder="e.g. USS1Z1001234"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, isrc:e.target.value}}))} value={this.state.metadata.isrc}/>
+                     <input type="text" id={`ISRC+${this.props.id}`} class="form-control tag-input" placeholder="e.g. USS1Z1001234"  onChange={(e) => {this.props.song.metadata_song.isrc = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.isrc}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="Composer" class="form-label">Composer</label>
-                    <input type="text" id="Composer" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, composer:e.target.value}}))} value={this.state.metadata.composer} />
+                    <label for={`Composer+${this.props.id}`} class="form-label">Composer</label>
+                    <input type="text" id={`Composer+${this.props.id}`} class="form-control tag-input"  onChange={(e) => {this.props.song.metadata_song.composer = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.composer} />
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="Release_Title" class="form-label"  >Release Title</label>
-                    <input type="text" id="Release_Title" class="form-control tag-input" onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, release_title:e.target.value}}))} value={this.state.metadata.release_title}/>
+                    <label for={`Release_Title+${this.props.id}`} class="form-label">Release Title</label>
+                    <input type="text" id={`Release_Title+${this.props.id}`} class="form-control tag-input"  onChange={(e) => {this.props.song.metadata_song.release_title = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.release_title} />
                 </div>                  
             </div>  
             
@@ -324,49 +302,51 @@ export default class SongForm extends React.Component
                 <br></br>
             <div className="row">
                 <div  class="mb-3 mt-3 col-12">
-                    <label for="Buy_Link" class="form-label">Buy Link</label>
-                    <input type="link" id="Buy_Link" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, buy_link:e.target.value}}))} value={this.state.metadata.buy_link}/>
+                    <label for={`Buy_Link+${this.props.id}`} class="form-label">Buy Link</label>
+                    <input type="link" id={`Buy_Link+${this.props.id}`} class="form-control tag-input"  onChange={(e) => {this.props.song.metadata_song.buy_link = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.buy_link}/>
                 </div>
             </div>  
 
             <div className="row">
                 <div class="mb-3 mt-3 col-4">
-                    <label for="Album_Title" class="form-label">Album Title</label>
-                    <input type="text" id="Album_Title" class= {`form-control tag-input ${(this.state.is_valid_album_title)?null:'is-invalid'} `}   
-                            onChange={e => {this.setState(prevState => ({metadata: {...prevState.metadata, album_title:e.target.value}})); this.setState({is_valid_album_title:true}) }} 
-                            value={this.state.metadata.album_title}/>
+                     <label for={`Album_Title+${this.props.id}`} class="form-label">Album Title</label>
+                     <input type="text" id={`Album_Title+${this.props.id}`} class="form-control tag-input"  
+                            onChange={(e) => {this.props.song.metadata_song.album_title = e.target.value; 
+                                             this.props.updateSongData(this.props.id, this.props.song);
+                                             this.setState({is_valid_album_title:true})}} 
+                            value={this.props.song.metadata_song.album_title}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="Record_Label" class="form-label">Record Label</label>
-                    <input type="text" id="Record_Label" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, record_label:e.target.value}}))} value={this.state.metadata.record_label}/>
+                    <label for={`Record_Label+${this.props.id}`} class="form-label">Record Label</label>
+                    <input type="text" id={`Record_Label+${this.props.id}`} class="form-control tag-input"  onChange={(e) => {this.props.song.metadata_song.record_label = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.record_label}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="Release_Date" class="form-label">Release Date</label>
-                    <input type="date" id="Release_Date" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, release_date:e.target.value}}))} value={this.state.metadata.release_date}/>
+                    <label for={`Release_Date+${this.props.id}`} class="form-label">Release Date</label>
+                    <input type="date" id={`Release_Date+${this.props.id}`} class="form-control tag-input" onChange={(e) => {this.props.song.metadata_song.release_date = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.release_date}/>
                 </div>                  
             </div> 
 
             <div className="row">
                 <div class="mb-3 mt-3 col-8">
-                    <label for="Barcode" class="form-label">Barcode</label>
-                    <input type="text" id="Barcode" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, barcode:e.target.value}}))} value={this.state.metadata.barcode}/>
+                    <label for={`Barcode+${this.props.id}`} class="form-label">Barcode</label>
+                    <input type="text" id={`Barcode+${this.props.id}`} class="form-control tag-input" onChange={(e) => {this.props.song.metadata_song.barcode = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.barcode}/>
                 </div>
                 <div class="mb-3 mt-3 col-4">
-                    <label for="ISWC" class="form-label">ISWC <i class="bi bi-question-circle" onClick={e=>this.setState({iswc_toggle:!(this.state.iswc_toggle)})}></i></label>
-                    <input type="text" id="ISWC" class="form-control tag-input" placeholder="e.g. T-034.524.680-1"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, iswc:e.target.value}}))} value={this.state.metadata.iswc}/>
+                    <label for={`ISWC+${this.props.id}`} class="form-label">ISWC <i class="bi bi-question-circle" onClick={e=>this.setState({iswc_toggle:!(this.state.iswc_toggle)})}></i></label>
+                    <input type="text" id={`ISWC+${this.props.id}`} class="form-control tag-input" placeholder="e.g. T-034.524.680-1"  onChange={(e) => {this.props.song.metadata_song.iswc = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.iswc}/>
                 </div>                
             </div> 
 
             <div className="row">
                 <div class="mb-3 mt-3 col-8">
-                    <label for="Barcode" class="form-label">P line <i class="bi bi-question-circle" onClick={e=>this.setState({p_line_toggle:!(this.state.p_line_toggle)})}></i></label>
-                    <input type="text" id="P_line" class="form-control tag-input"  onChange={e => this.setState(prevState => ({metadata: {...prevState.metadata, p_line:e.target.value}}))} value={this.state.metadata.p_line} placeholder="e.g. 2007 XYZ Record Company Limited"/>
+                    <label for={`P_line+${this.props.id}`} class="form-label">P line <i class="bi bi-question-circle" onClick={e=>this.setState({p_line_toggle:!(this.state.p_line_toggle)})}></i></label>
+                    <input type="text" id={`P_line+${this.props.id}`} class="form-control tag-input"  onChange={(e) => {this.props.song.metadata_song.p_line = e.target.value; this.props.updateSongData(this.props.id, this.props.song)}} value={this.props.song.metadata_song.p_line} placeholder="e.g. 2007 XYZ Record Company Limited"/>
                 </div>
 
                 
                 <div class="mb-3 mt-3 col-4">
-                    <label for="explicit" class="form-label">Contains explicit content</label>
-                    <select id= "contains_music" class="form-select" onClick={e => this.setState(prevState => ({metadata: {...prevState.metadata, explicit_content:(e.target.value=="true")}}))}>
+                    <label for={`explicit+${this.props.id}`} class="form-label">Contains explicit content</label>
+                    <select id= {`explicit+${this.props.id}`}  class="form-select" onClick={e => {this.props.song.metadata_song.p_line = (e.target.value=="true"); this.props.updateSongData(this.props.id, this.props.song)}}>
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>

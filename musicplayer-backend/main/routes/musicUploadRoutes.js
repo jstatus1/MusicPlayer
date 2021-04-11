@@ -310,7 +310,7 @@ module.exports = app => {
                                     
                                     return res.send({
                                         status: false,
-                                        message: "Failed To Upload"
+                                        message: "Upload Album Successfully To S3"
                                     })
                                 }})
                         })
