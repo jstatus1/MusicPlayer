@@ -257,6 +257,9 @@ module.exports = app => {
         
         if(audio_image_File != undefined)
         {   
+            console.log(audio_image_File)
+            res.send({message: "Done"})
+            return
             //insert into music player album art on s3
             const audio_image_params = {
                 Bucket: "musicplayer-album-art",

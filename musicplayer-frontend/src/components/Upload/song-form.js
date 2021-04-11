@@ -33,7 +33,7 @@ export default class SongForm extends React.Component
         {
             return(<div className="image-button"> 
                 <button type="button">
-                <i class="bi bi-camera-fill me-2"></i>
+                    <i class="bi bi-camera-fill me-2"></i>
                     <label for={this.props.id}>
                         Upload Image
                     </label>
@@ -80,8 +80,12 @@ export default class SongForm extends React.Component
                     
                 }
             }
+        }else{
+            var id = `${this.props.id}_art_image`
+            var output = document.getElementById(id);
+            if(output != null) 
+                output.src = null;
         }
-       
 
         return(
             <div className="image-box">
@@ -90,10 +94,12 @@ export default class SongForm extends React.Component
                         <img id={`${this.props.id}_art_image`} className="image" ></img>
                     </span>
                 </div>
-                {this.renderSongUploadButton()}  
+                {(this.props.metadata_upload.album && this.props.id == 0 || this.props.metadata_upload.album==false)?this.renderSongUploadButton():null}  
              </div>
         )
     }
+
+    
 
     renderGenreList()
     {
@@ -218,13 +224,29 @@ export default class SongForm extends React.Component
         )
     }
 
+    renderImageMainLogic()
+    {
+        if(this.props.metadata_upload.album)
+        {
+                return(<div className="col-5 ">
+                {this.renderSongImage()}
+                 </div>)
+        }else{
+            return(
+                <div className="col-5 ">
+                    {this.renderSongImage()}
+                </div>
+            )
+        }
+    }
+
 
     //Basic Form Data Entry
     renderBasicInfo(){
         return(<React.Fragment>
-                <div className="col-5 ">
-                    {this.renderSongImage()}
-                </div>
+
+                {this.renderImageMainLogic()}
+                
                             
                 <div className="col-7">
                     <div class="mb-3">

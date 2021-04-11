@@ -21,18 +21,32 @@ class Upload extends React.Component
         metadata_upload: {
             userid: null,
             public: true,
-            album: false,
+            album: false
         },
         album_title:null,
-        is_valid_album_title:true
+        is_valid_album_title:true,
+        
     }
 
     //update the uploadedSong state
     updateSongData(id, song)
     {   
-        let updatedUploadedSong = this.state.uploadedSong
-        updatedUploadedSong[id] = song
-        this.setState({uploadedSong: updatedUploadedSong})
+        if(this.state.metadata_upload.album && id == 0 && this.state.uploadedSong.length > 1)
+        {
+            let updatedUploadedSong = []
+            for(let i = 0; i < this.state.uploadedSong.length; i++)
+            {
+                let tempSong = this.state.uploadedSong[id]
+                tempSong.basic_info_song.song_image = song.basic_info_song.song_image;  
+                updatedUploadedSong.push(tempSong)
+              
+                this.setState({uploadedSong: updatedUploadedSong})
+            }
+        }else{
+            let updatedUploadedSong = this.state.uploadedSong
+            updatedUploadedSong[id] = song
+            this.setState({uploadedSong: updatedUploadedSong})
+        }
     }
 
 
@@ -125,7 +139,7 @@ class Upload extends React.Component
             }else{
                 this.setState({is_valid_album_title: true})
             }
-            return
+            
             for(let i = 0; i < this.state.uploadedSong.length; i++)
             {
                 formData.append("musicUploads", this.state.uploadedSong[i]);
@@ -138,7 +152,6 @@ class Upload extends React.Component
             formData.append("metadata", JSON.stringify(this.state.uploadedSong[0].metadata_song))
 
             try{
-                console.log("Uploading to S3")
                 const res = await axios.post('/api/album_audio_upload/', formData, {
                     headers: {
                       'Content-Type': 'multipart/form-data'
@@ -209,6 +222,28 @@ class Upload extends React.Component
             uploadedSong : updatedSongList,
         });
     }
+    
+    renderUploadModal()
+    {
+        return(<div class="modal fade" id="UploadReturnModal" tabindex="-1" aria-labelledby="UploadReturnModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="UploadReturnModal">Return Back To Uploads</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are You Sure You Would Like To Return Back To Uploads Page? 
+                    All Your Song Progress Will Not Be Saved.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onClick={() => {this.setState({uploadedSong:null}); }}>Return To Uploads</button>
+                </div>
+            </div>
+            </div>
+        </div>)
+    }
 
     renderUploadDialog()
     {
@@ -246,25 +281,34 @@ class Upload extends React.Component
             }else{
                 return (<React.Fragment>
                             <div class="card mb-5">
-                                <div class="card-header ">
-                                 Provide FLAC, WAV, ALAC, or AIFF for highest audio quality. Learn more about lossless HD. No file chosen
-                                 <button type="button " className=" ms-4">
-                                        <label for="uploadFiles">
-                                            Replace File
-                                        </label>
-                                        <input
-                                        type='file'
-                                        className="inputFiles sc-visuallyhidden"
-                                        id='uploadFiles'
-                                        accept="audio/*"
-                                        onChange={e => this.musicUpload(e)}
-                                        multiple
-                                        /> 
-                                </button>   
+                                <div class="card-header d-flex flex-row justify-content-around align-items-center">
+                                    <div class="col-2">
+                                        <button data-bs-toggle="modal" data-bs-target="#UploadReturnModal">
+                                            <i class="bi bi-house-fill"></i>
+                                        </button>
+                                    </div>
+                                    <div className="col-8">
+                                        <small >Provide FLAC, WAV, ALAC, or AIFF for highest audio quality. Learn more about lossless HD. No file chosen</small>
+                                    </div>
+                                    <div className="col-2">
+                                        <button type="button " >
+                                                <label for="uploadFiles">
+                                                    Replace File
+                                                </label>
+                                                <input
+                                                type='file'
+                                                className="inputFiles sc-visuallyhidden"
+                                                id='uploadFiles'
+                                                accept="audio/*"
+                                                onChange={e => this.musicUpload(e)}
+                                                multiple
+                                                /> 
+                                        </button>  
+                                    </div>
                                 </div>
 
                                 <div class="card-body">
-                                       
+
                                         {this.state.uploadedSong.map((song,index) => {
                                              return (<SongForm key={index} id={index} metadata_upload={this.state.metadata_upload} song={song} removeSong={this.removeSong.bind(this)} updateSongData={this.updateSongData.bind(this)}  is_valid_album_title={this.state.is_valid_album_title}></SongForm>)
                                         })}
@@ -311,6 +355,7 @@ class Upload extends React.Component
                 
                 {this.checkAlert()}
                 <Loading></Loading>
+                {this.renderUploadModal()}
                 <div className="mt-5">
                     {this.renderUploadDialog()}
                 </div>
