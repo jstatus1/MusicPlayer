@@ -17,6 +17,7 @@ import ProfileEdit from './components/profile/profileedit'
 import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
 import CreatePlaylist from './components/Playlists/CreatePlaylist'
+import CreateAlbum from './components/Albums/CreateAlbum'
 import Home from './components/Home/Home'
 import Reports from './components/Reports/Reports'
 //import Routes from './routes'
@@ -46,7 +47,8 @@ class App extends React.Component
                         <Route exact path="/home" component={Home}></Route>
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
-                        <Route exact path="/CreatePlaylist" component={CreatePlaylist}></Route>
+                        <Route exact path="/createPlaylist" component={CreatePlaylist}></Route>
+                        <Route exact path="/createAlbum" component={CreateAlbum}></Route>
                         <Route exact path="/library" component={Library}></Route>
                         <Route exact path="/profileedit" component={ProfileEdit}></Route>
                         <Route exact path="/reports" component={Reports}></Route>

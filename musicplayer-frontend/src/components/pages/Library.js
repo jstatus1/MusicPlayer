@@ -79,7 +79,11 @@ const Library = () => {
                     <Col>
                         <h2>Albums</h2>
                             <Container>
-
+                                <Row>
+                                    <Col md="5">
+                                    <Button type="primary" size="sm" href="/createAlbum">Create Album</Button>
+                                    </Col>
+                                </Row>
                             <Row>
                                 <i>Below is actual data from DB</i>
                                 </Row>
@@ -105,7 +109,7 @@ const Library = () => {
                             
                                 <Row>
                                     <Col md="5">
-                                    <Button type="primary" size="sm" href="/CreatePlaylist">Create Playlist</Button>
+                                    <Button type="primary" size="sm" href="/createPlaylist">Create Playlist</Button>
                                     </Col>
                                 </Row>
                             <Row>
