@@ -53,7 +53,7 @@ CREATE TABLE songs(
   description VARCHAR(400),
   caption VARCHAR(400),
   ft_musicians VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
-  user_id INT REFERENCES users(uid) ON DELETE CASCADE,
+  user_id INTisci REFERENCES users(uid) ON DELETE CASCADE,
   album_id INT REFERENCES albums(album_id) ON DELETE SET NULL,
   duration TIME,
   release_date DATE,
