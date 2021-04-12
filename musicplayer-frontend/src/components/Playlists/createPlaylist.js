@@ -12,7 +12,7 @@ import axios from 'axios'
 const CreatePlaylist = () => {
 
     //const [   songData, setSongData] = useState({ name: '', musician: ''});
-    const [selectedSong, setSelectedSong] = useState({ name: '', musician: ''});
+    const [selectedSong, setSelectedSong] = useState({ username: '', song_title: ''});
     const [selectedSongs, setSelectedSongs] = useState([]);
     const [songBlockList, setSongBlockList] = useState([]);
 
@@ -35,21 +35,14 @@ const CreatePlaylist = () => {
             })
         }
 
-        async function handleAddSong() {
-            await setSelectedSongs({
-               selectedSongs: [...selectedSongs, selectedSong]
-            })
-            console.log('songs list added new song!');
-    
-        }
+        
 
         getSongs();
-        handleAddSong();
         
         /* try {
             
         } catch(err) { console.log(err); } */
-    }, [selectedSong]);
+    }, []);
 
     
 
@@ -93,7 +86,7 @@ const CreatePlaylist = () => {
                                  return(
                                     <div>
                                         <Row>
-                                            <div onClick={() => setSelectedSong({ name: block.song_title, musician: block.username})}>
+                                            <div onClick={() => setSelectedSong({ song_title: block.song_title, username: block.username })}>
                                             <SongBlock song={block}/>
                                             </div>
                                         </Row>
@@ -110,11 +103,21 @@ const CreatePlaylist = () => {
                     <div className="button-spacing"></div>
                     <Row>
                         <Button variant="primary"
-                                /* onClick={e => handleAddSong(selectedSong)} */>Add</Button>{' '}
+                                onClick={e => {
+                                    if (selectedSong.song_title !== '') {
+                                    setSelectedSongs(selectedSongs.concat(selectedSong));
+                                    setSelectedSong({ song_title: '', username: ''});
+                                    }
+                                }}>Add</Button>{' '}
                     </Row>
                     <div className="button-spacing-2"></div>
                     <Row>
-                        <Button variant="primary">Remove</Button>{' '}
+                        <Button variant="primary"
+                                onClick={e => {
+                                    console.log(selectedSong.song_title);
+                                    let updatedSongs = selectedSongs.filter(song => (song.song_title !== selectedSong.song_title) );
+                                    setSelectedSongs(updatedSongs);
+                                }}>Remove</Button>{' '}
                     </Row>
                 </Col>
 
@@ -122,13 +125,15 @@ const CreatePlaylist = () => {
            <Row> <Form.Label class = "playlistPadding">Playlist</Form.Label></Row>
             <div className="playlist-box">
                 <div className="song-block-wrapper">
-                            {/*selectedSongs.map(block => { 
+                            {selectedSongs.map(block => { 
                                 return <div>
                                     <Row>
-                                        <SongBlock song={block}/>
+                                        <div onClick={() => setSelectedSong({ song_title: block.song_title, username: block.username })}>
+                                            <SongBlock song={block}/>
+                                        </div>
                                     </Row>
                                 </div>
-                            })*/}
+                            })}
                         </div>
                 
                 
@@ -136,6 +141,14 @@ const CreatePlaylist = () => {
             </Col>
             </Row>
             </Container>
+            <Row>
+                <Col md="4"></Col>
+                <Col md="4">
+                    <div className="save-button">
+                <Button type="submit" variant="danger">Save Playlist</Button>
+                    </div>
+                </Col>
+            </Row>
         </div>
             
     )
