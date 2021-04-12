@@ -36,7 +36,7 @@ class Upload extends React.Component
             let updatedUploadedSong = []
             for(let i = 0; i < this.state.uploadedSong.length; i++)
             {
-                let tempSong = this.state.uploadedSong[id]
+                let tempSong = this.state.uploadedSong[i]
                 tempSong.basic_info_song.song_image = song.basic_info_song.song_image;  
                 updatedUploadedSong.push(tempSong)
               

@@ -254,12 +254,22 @@ module.exports = app => {
         var userId = req.user.uid
         var s3_audio_album_image_key = uuidv4();
 
+        //debugger zone
+        // for(let i = 0; i < musicFile.length; i++)
+        // {
+        //     console.log(musicFile[i].data)
+            
+        // }
+
         
+        
+        //return res.send({message: 'done'});
+
+
+        //if album has an image
         if(audio_image_File != undefined)
         {   
-            console.log(audio_image_File)
-            res.send({message: "Done"})
-            return
+            
             //insert into music player album art on s3
             const audio_image_params = {
                 Bucket: "musicplayer-album-art",
@@ -268,19 +278,18 @@ module.exports = app => {
                 ACL: "public-read"
             }
 
-            console.log("uploading To S3 album art")
-            await s3.upload (audio_image_params, function (err, data) {
+            //upload album image
+           await s3.upload (audio_image_params, async (err, data) => {
                             if (err) {
                             console.log("Error", err);
                             }
-                        }).send( (err, albumArtLink) => {
+                        }).send( async (err, albumArtLink) => {
                             
                                 
                                 let albumArtValue = [
                                     userId,
                                     metadata.release_date,
                                     metadata.artist,
-                                    metadata.album_title,
                                     albumArtLink.Location,
                                     metadata.publisher,
                                     metadata.isrc,
@@ -296,29 +305,258 @@ module.exports = app => {
                                     s3_audio_album_image_key
                                 ]
 
-                                 pool.query(`INSERT INTO albums(user_id,release_date,artists
-                                    album_name, album_art, publisher, ISRC, composer, release_title,
+                                //query to save the album image
+                                 await pool.query(`INSERT INTO albums(user_id,release_date,artists,
+                                     album_art, publisher, ISRC, composer, release_title,
                                     buy_link,album_title, record_label, barcode, ISWC, P_Line,
                                     explicit_content, s3_album_image_key)
-                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
                                 ON CONFLICT DO NOTHING`,albumArtValue, async (error, result)=> {
-                                if (error) {
-                                    console.log(error);
-                                    deleteAlbumImageFromS3(s3_audio_album_image_key)
-                                    return res.send({
-                                        status: false,
-                                        message: "Failed To Upload"
-                                    })
-                                }else{
-                                    
-                                    return res.send({
-                                        status: false,
-                                        message: "Upload Album Successfully To S3"
-                                    })
+                                    if (error) {
+                                        console.log(error);
+                                        deleteAlbumImageFromS3(s3_audio_album_image_key)
+                                        return res.send({
+                                            status: false,
+                                            message: "Failed To Upload"
+                                        })
+                                    }else{
+                                        //retrieve the album data
+                                        let albumData = await pool.query('SELECT * FROM albums WHERE user_id=$1 AND s3_album_image_key=$2 order by album_id desc limit 1', [userId, s3_audio_album_image_key])
+                                       
+                                       
+
+                                        //loop through each song and associate album with song and upload
+                                        
+                                        for(let i = 0; i < musicFile.length; i++)
+                                        {
+                                            let s3_audio_key = uuidv4()
+                                            let audio_params = {
+                                                Bucket: "musicplayer-song",
+                                                Body: musicFile[i].data,
+                                                Key: s3_audio_key,
+                                                ACL: "public-read"
+                                            };
+
+                                        
+                                            //upload audio to s3
+                                            await s3.upload(audio_params, (err, SongData) => {
+                                                if(err)
+                                                {
+                                                    //todo: loop through album and delete all song within the album
+                                                    deleteAlbumImageFromS3(s3_audio_album_image_key)
+                                                    pool.query(`DELETE FROM albums WHERE user_id=$1 AND s3_album_image_key=$2`, 
+                                                                [
+                                                                    userId,
+                                                                    s3_audio_album_image_key
+                                                                ],(q_err, q_res) => {
+                                                                    if(q_err) console.log(q_err)
+                                                                })
+                                                
+                                                }
+                                            }).send(async (err, SongData) => {
+                                                let basic_info = JSON.parse(req.body.basic_info[i]) 
+
+                                                const songValue = [
+                                                    basic_info.title,
+                                                    basic_info.selected_genre,
+                                                    SongData.Location,
+                                                    basic_info.description,
+                                                    basic_info.caption,
+                                                    userId,
+                                                    metadata.release_date,
+                                                    metadata.publisher,
+                                                    metadata.isrc,
+                                                    metadata.composer,
+                                                    metadata.release_title,
+                                                    metadata.record_label,
+                                                    metadata.barcode,
+                                                    metadata.iswc,
+                                                    metadata.p_line,
+                                                    metadata.explicit_content,
+                                                    metadata.buy_link,
+                                                    metadata.album_title,
+                                                    s3_audio_key,
+                                                    albumData.rows[0].album_id
+                                                ]
+                                                
+                                                //insert song
+                                                await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
+                                                                    release_date,publisher
+                                                                    ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
+                                                                    explicit_content,buy_link,album_title,s3_audio_key,album_id)
+                                                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
+                                                                    ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
+                                                                    if (error) {
+                                                                        console.log(error);
+                                                                        deleteAudioFromS3(s3_audio_key)
+                                                                        res.send({
+                                                                            status: false,
+                                                                            message: "Failed To Upload"
+                                                                        })
+                                                                    
+                                                                    }else{
+                                                                        if(i == (musicFile.length-1))
+                                                                            console.log("Done With Uploading")
+                                                                            return res.send({
+                                                                                status: true,
+                                                                                message: `Successfully Uploaded ${metadata.album_title} to UH Cloud!`
+                                                                            })
+                                                                    }
+                                                                })
+                                                
+                                                
+                                            })
+                                        }
+
+                                        
                                 }})
                         })
 
         }else{
+             
+            let albumArtValue = [
+                userId,
+                metadata.release_date,
+                metadata.artist,
+                metadata.publisher,
+                metadata.isrc,
+                metadata.composer,
+                metadata.release_title,
+                metadata.buy_link,
+                metadata.album_title,
+                metadata.record_label,
+                metadata.barcode,
+                metadata.iswc,
+                metadata.p_line,
+                metadata.explicit_content
+            ]
+
+            //query to save the album image
+             await pool.query(`INSERT INTO albums(user_id,release_date,artists,
+                                publisher, ISRC, composer, release_title,
+                                buy_link,album_title, record_label, barcode, ISWC, P_Line,
+                                explicit_content)
+                             VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+                             ON CONFLICT DO NOTHING`,albumArtValue, async (error, result)=> {
+                if (error) {
+                    console.log(error);
+                    return res.send({
+                        status: false,
+                        message: "Failed To Upload"
+                    })
+                }else{
+                    
+                     pool.query(`SELECT * FROM albums WHERE user_id=$1 AND album_title=$2 order by album_id desc limit 1`, 
+                                 [userId, metadata.album_title],
+                                 async (error, albumDataRes) => {
+                                 console.log("Uploading ALbum WIthout Image")
+                                 if(error)
+                                {
+                                    await pool.query(`DELETE FROM albums 
+                                        WHERE user_id=$1 AND 
+                                        release_date=$2 AND
+                                        artists=$3 AND
+                                        publisher=$4 AND 
+                                        ISRC=$5 AND
+                                        composer=$6 AND 
+                                        release_title=$7 AND
+                                        buy_link=$8 AND
+                                        album_title=$9 AND 
+                                        record_label=$10 AND 
+                                        barcode=$11 AND 
+                                        ISWC=$12 AND 
+                                        P_Line=$13 AND
+                                        explicit_content=14`,
+                                    albumArtValue, async (error, result)=> {
+                                    if (error) {
+                                        console.log("Failed to delete from psql album");
+                                    }})
+
+                                    console.log("error trying to grab album to insert into")
+                                    return res.send({
+                                        status: false,
+                                        message: "Failed To Upload"
+                                    })
+                                 }
+
+                            //if album doesn't have an image
+                            for(let i = 0; i < musicFile.length; i++)
+                            {
+                                let s3_audio_key = uuidv4()
+                                let audio_params = {
+                                    Bucket: "musicplayer-song",
+                                    Body: musicFile[i].data,
+                                    Key: s3_audio_key,
+                                    ACL: "public-read"
+                                };
+                
+                                let basic_info = JSON.parse(req.body.basic_info[i]) 
+                
+                               
+
+                                //upload audio to s3
+                                await s3.upload(audio_params, (err, SongData) => {
+                                
+                                }).send(async (err, SongData) => {
+                                    const songValue = [
+                                        basic_info.title,
+                                        basic_info.selected_genre,
+                                        SongData.Location,
+                                        basic_info.description,
+                                        basic_info.caption,
+                                        userId,
+                                        metadata.release_date,
+                                        metadata.publisher,
+                                        metadata.isrc,
+                                        metadata.composer,
+                                        metadata.release_title,
+                                        metadata.record_label,
+                                        metadata.barcode,
+                                        metadata.iswc,
+                                        metadata.p_line,
+                                        metadata.explicit_content,
+                                        metadata.buy_link,
+                                        metadata.album_title,
+                                        s3_audio_key,
+                                        albumDataRes.rows[0].album_id
+                                    ]
+                                    
+                                    //insert song
+                                    await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
+                                                        release_date,publisher
+                                                        ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
+                                                        explicit_content,buy_link,album_title,s3_audio_key,album_id)
+                                                        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
+                                                        ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
+                                                        
+                                                        if (error) {
+                                                            console.log(error);
+                                                            deleteAudioFromS3(s3_audio_key)
+                                                            return res.send({
+                                                                status: false,
+                                                                message: "Failed To Upload"
+                                                            })
+                                                        
+                                                        }else{
+                                                            if(i == (musicFile.length-1)){
+                                                                console.log("Done With Uploading")
+                                                                return res.send({
+                                                                    status: true,
+                                                                    message: `Successfully Uploaded ${metadata.album_title} to UH Cloud!`
+                                                                })
+                                                            }
+                                                        }
+                                                    })
+                                })
+                            }
+                        }
+                    )
+                   
+                    
+                    
+            }})
+
+            
 
         }
 
