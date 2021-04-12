@@ -63,3 +63,7 @@ PSQL Client Listen For Update:
 --https://stackoverflow.com/questions/46898870/any-way-to-monitor-postgresql-query-changes-in-realtime-using-listen-notify-o
 --https://pusher.com/tutorials/postgresql-realtime
 -- https://github.com/Nahid5/sockets.io-and-postgres
+
+
+Etc:
+https://github.com/catdad/canvas-confetti

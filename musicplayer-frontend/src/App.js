@@ -17,6 +17,7 @@ import Home from './components/Home/Home'
 import Notification from './components/Navbar/notifcations/notificaiton_page'
 //import Routes from './routes'
 
+
 const Dashboard = () => <h2>Dashboard</h2>
 const Landing = () => <h2>Dashboard</h2>
 
@@ -27,6 +28,8 @@ class App extends React.Component
     {
         //Inital Authentication Fetch
         this.props.fetchUser();
+        
+       
     }
 
 

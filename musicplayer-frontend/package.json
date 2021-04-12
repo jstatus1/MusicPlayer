@@ -10,6 +10,7 @@
     "auth0-js": "^9.14.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "canvas-confetti": "^1.4.0",
     "http-proxy-middleware": "^1.0.6",
     "moment": "^2.29.1",
     "react": "^17.0.1",
