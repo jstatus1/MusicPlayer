@@ -239,6 +239,28 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
       res.json(q_res.rows);
     })
   });
+
+  router.get('/api/get/reports/users', (req,res,next) => {
+    const username = req.query.username;
+    const first_name = req.query.firstName;
+    const last_name = req.query.lastName;
+    const isMusician = req.query.isMusician;
+ 
+    const values = [ username, first_name, last_name, isMusician ]
+    console.log(values);
+
+    pool.query(`SELECT username, musician, first_name, last_name, socialMedia_fb,
+                socialMedia_tw, socialMedia_in, record_label, num_listeners 
+                FROM users WHERE username = $1 OR first_name = $2 OR last_name = $3
+                OR musician = $4`, values, (q_err, q_res) => {
+                  if(q_err)
+                  {
+                    console.log(q_err)
+                  }
+                  console.log(q_res.rows)
+                  res.json(q_res.rows);
+                });
+  });
   
 
 module.exports = router
