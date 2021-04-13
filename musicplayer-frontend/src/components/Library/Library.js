@@ -2,19 +2,30 @@ import React from 'react'
 
 import './Library.css'
 
+//Pages
+import Overview from './LibraryPages/Overview'
+
 class Library extends React.Component
 {
     state = {
         currentpage: "overview"
     }
 
+    updateCurrentPage(location)
+    {
+        this.setState({currentpage: location})
+    }
 
     renderPage()
     {
         switch(this.state.currentpage)
         {
             case "overview":
-                break;
+                return(<React.Fragment>
+                    <section className="mt-5">
+                        <Overview updateCurrentPage={this.updateCurrentPage.bind(this)}></Overview>
+                    </section>
+                </React.Fragment>)
             case "tracks":
                 break;
             case "likes":
@@ -40,7 +51,7 @@ class Library extends React.Component
     {
         return(
             <React.Fragment>
-                <div className="library_heade mt-4">
+                <div className="library_header mt-4">
                     <div className="library_label_group">
                         <button onClick={e=>{this.setState({currentpage: e.target.value})}} value="overview" className={`btn library_labels ${this.state.currentpage==("overview")? 'active': null}`}>Overview</button>
                         <button onClick={e=>{this.setState({currentpage: e.target.value})}} value="tracks" className={`btn library_labels ${this.state.currentpage==("tracks")? 'active': null}`}>Tracks</button>
@@ -52,6 +63,10 @@ class Library extends React.Component
                         <button onClick={e=>{this.setState({currentpage: e.target.value})}} value="history" className={`btn library_labels ${this.state.currentpage==("history")? 'active': null}`}>History</button>
                     </div>
                 </div>
+                <div>
+                    {this.renderPage()}
+                </div>
+                
             </React.Fragment>
         )
     }

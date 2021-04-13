@@ -67,3 +67,9 @@ PSQL Client Listen For Update:
 
 Etc:
 https://github.com/catdad/canvas-confetti
+
+
+Waveform:
+https://css-tricks.com/making-an-audio-waveform-visualizer-with-vanilla-javascript/
+https://codepen.io/nfj525/pen/rVBaab
+https://codepen.io/bataimx/pen/abOEGyw
