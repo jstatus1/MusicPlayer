@@ -8,29 +8,25 @@ import "./Overview.css"
 class Overview extends React.Component
 {
     
+    state={
+        songs: []
+    }
 
     componentDidMount()
     {
-
+        let result = axios.get('/api/get/tracks')
+        result.then(songs => {
+            this.setState({songs:songs.data})
+        })
     }
 
-    renderSimpleAudioContainer() 
+    renderSongItems()
     {
-        return(
-            <>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            <SimpleAudioContainer></SimpleAudioContainer>
-            </>
-        )
+        return this.state.songs.map((song, index) => {
+            return (<SimpleAudioContainer id={index} song={song}></SimpleAudioContainer>)
+        }) 
     }
+   
 
     render()
     {
@@ -38,16 +34,7 @@ class Overview extends React.Component
             <div>
                 <h2 className="sub_titles" onClick={() => this.props.updateCurrentPage("tracks")}>Tracks</h2>
                 <div className="wrapper pb-4">
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
-                    <SimpleAudioContainer></SimpleAudioContainer>
+                    {this.renderSongItems()}
                 </div>
             </div>
         </div>)

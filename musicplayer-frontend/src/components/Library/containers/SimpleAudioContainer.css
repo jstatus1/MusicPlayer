@@ -4,6 +4,13 @@
     width: 16.666%;
 }
 
+.audio_description
+{
+  
+    width: 100%;
+    z-index: 1;
+}
+
 .audio_artwork
 {
     min-width: 150px;
@@ -25,12 +32,15 @@
     font-size: 14px;
     color: #333;
     font-weight: 100;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    word-break: normal;
     font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 14px;
 }
+
+
 
 
 .playableTile__usernameHeadingContainer

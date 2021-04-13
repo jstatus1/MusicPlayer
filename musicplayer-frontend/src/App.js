@@ -51,7 +51,7 @@ class App extends React.Component
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
 
                     </div>
-                    <MediaPlayer/>
+                    <MediaPlayer selectedAudio={this.props.selectedAudio}/>
                </BrowserRouter> 
             </div>)
     }
@@ -59,20 +59,9 @@ class App extends React.Component
 
 function mapStateToProps(state) {
     return { 
-      auth: state.auth_reducer
+      auth: state.auth_reducer,
+      selectedAudio: state.selected_audio_reducer
      };
 }
 
 export default connect(mapStateToProps, actions)(App);
-
-/*/ Edward's SideNavbar
-
-/ for open/close Side Navbar
-        const [wid, setWid] = useState('0%');
-        const openSidenav = ( ) => { setWid('25%') }
-        const closeSidenav = ( ) => { setWid('0%') }
-
-        <div>
-            <button onClick={openSidenav}>Menu</button>
-            <SideNavbar width={wid} closeNav={closeSidenav}/>
-        </div> */

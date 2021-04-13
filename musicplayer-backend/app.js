@@ -55,6 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter)
 //require('./s3/s3')(app);
 require('./main/routes/musicUploadRoutes')(app);
+require('./main/routes/musicRetreivalRoutes')(app);
 require('./main/routes/authRoutes')(app);
 require('./main/routes/notificationRoutes')(app);
 /*--------------------- Routes --------------------------------*/
