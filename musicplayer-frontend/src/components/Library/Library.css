@@ -1,0 +1,19 @@
+
+.library_labels
+{
+    font-size: 25px;
+    font-weight: 500;
+    
+}
+
+.active
+{
+    border-bottom: 3px solid red; 
+}
+
+.library_labels:hover
+{ 
+    border-bottom: 3px solid black; 
+}
+
+button.library_labels:focus {box-shadow:none !important;}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Library from './components/pages/Library'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,6 +14,7 @@ import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
 import Home from './components/Home/Home'
 import Notification from './components/Navbar/notifcations/notificaiton_page'
+import Library from './components/Library/Library'
 //import Routes from './routes'
 
 

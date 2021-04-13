@@ -6,8 +6,10 @@ import Loading from '../Loading/loading'
 
 
 //local imports
+import Confetti from '../Decor/confetti'
 import SongForm from './song-form'
 import './upload.css'
+import confetti from 'canvas-confetti';
 
 
 class Upload extends React.Component
@@ -82,7 +84,8 @@ class Upload extends React.Component
                     additional_tag: null,
                     description: null,
                     caption: null,
-                    song_image: null
+                    song_image: null,
+                    song_image_name:null
                 }
 
                 e.target.files[i].metadata_song = metadata_song
@@ -93,6 +96,7 @@ class Upload extends React.Component
             this.setState({uploadedSong: Array.from(e.target.files)})
         }
     }
+
 
     onSubmit= async (e) =>
     {
@@ -166,6 +170,43 @@ class Upload extends React.Component
                     this.setState({errMessage: err.response.data.msg})
             }
 
+        }else if(this.state.uploadedSong.length > 1)
+        {
+            let imageMap = {}
+            for(let i = 0; i < this.state.uploadedSong.length; i++)
+            {
+                formData.append("musicUploads", this.state.uploadedSong[i]);
+                formData.append("basic_info", JSON.stringify(this.state.uploadedSong[i].basic_info_song))
+                
+                //insert image, but watch out for duplicates
+                if(this.state.uploadedSong[i].basic_info_song.song_image != null ){
+                    if(imageMap[this.state.uploadedSong[i].basic_info_song.song_image_name])
+                        continue
+                    else{
+                        imageMap[this.state.uploadedSong[i].basic_info_song.song_image_name] = true
+                        formData.append("album_art", this.state.uploadedSong[i].basic_info_song.song_image[0])
+                    }
+                }
+                
+
+                formData.append("metadata", JSON.stringify(this.state.uploadedSong[i].metadata_song))
+            }
+
+            try{
+                const res = await axios.post('/api/mulitple_audio_upload/', formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  });
+                  this.setState({successMessage: 'Your Songs Have Been Uploaded Successfully!'})
+                  return(<Confetti/>)
+            }catch(err)
+            {
+                if(err.response.status === 500)
+                    this.setState({errMessage: 'There was a problem with the server'})
+                else
+                    this.setState({errMessage: err.response.data.msg})
+            }
         }
         
     }

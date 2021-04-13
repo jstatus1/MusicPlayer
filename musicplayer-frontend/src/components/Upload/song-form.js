@@ -23,7 +23,9 @@ export default class SongForm extends React.Component
     }
 
     imageHandler = (e) => {
+       
         this.props.song.basic_info_song.song_image = Array.from(e.target.files)
+        this.props.song.basic_info_song.song_image_name = e.target.files[0].name
         this.props.updateSongData(this.props.id, this.props.song)
     };
 
@@ -46,6 +48,7 @@ export default class SongForm extends React.Component
            return( <div className="image-button-x"> 
                 <button type="button" onClick={() => {
                                                     this.props.song.basic_info_song.song_image = null; 
+                                                    this.props.song.basic_info_song.song_image_name = null;
                                                     this.props.updateSongData(this.props.id, this.props.song)
                                                     var id = `${this.props.id}_art_image`
                                                     var output = document.getElementById(id);
