@@ -59,15 +59,19 @@ const Library = () => {
                             <Container>
       
                                 <Row>
-                                <i>Below is actual data from DB</i>
+                                
                                 </Row>
                                 <Row>
                                     {songList.map(song => {
                                         return <Row><Col>
+                                        <div onClick={e => {
+                                            /* play song */
+                                        }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-play-fill" viewBox="0 0 16 16">
                                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V5.884z"/>
                                         </svg> 
                                             <t5> {song.song_title} --- {song.username}</t5>
+                                            </div>
                                                 </Col></Row>
                                     })}
                                 </Row>
@@ -85,7 +89,7 @@ const Library = () => {
                                     </Col>
                                 </Row>
                             <Row>
-                                <i>Below is actual data from DB</i>
+                                
                                 </Row>
                                 <Row>
                                 {albumList.map(album => {
@@ -113,15 +117,18 @@ const Library = () => {
                                     </Col>
                                 </Row>
                             <Row>
-                                <i>Below is actual data from DB</i>
+                                
                                 </Row>
                                 <Row>
                                 {playlistList.map(playlist => {
                                         return <Row><Col>
+                                        <div href="/createplaylist">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-play-fill" viewBox="0 0 16 16">
                                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V5.884z"/>
                                         </svg> 
+                                        
                                             <t5> {playlist.playlist_name} --- {playlist.username}</t5>
+                                        </div>
                                                 </Col></Row>
                                     })}
                                 </Row>
