@@ -23,6 +23,7 @@ const Landing = () => <h2>Dashboard</h2>
 
 class App extends React.Component
 {
+        
     //Initial State Initialization
     componentDidMount()
     {
@@ -51,7 +52,7 @@ class App extends React.Component
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
 
                     </div>
-                    <MediaPlayer selectedAudio={this.props.selectedAudio}/>
+                    <MediaPlayer/>
                </BrowserRouter> 
             </div>)
     }
@@ -59,8 +60,7 @@ class App extends React.Component
 
 function mapStateToProps(state) {
     return { 
-      auth: state.auth_reducer,
-      selectedAudio: state.selected_audio_reducer
+      auth: state.auth_reducer
      };
 }
 

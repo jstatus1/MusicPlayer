@@ -24,7 +24,7 @@ class SimpleAudioContainer extends React.Component
                     {
                         (this.state.mouse_in)?
                         <div className="playbutton">
-                            <a onClick={() => this.props.selectSong(this.props.song)}>
+                            <a onClick={() => {this.props.selectSong(null); this.props.selectSong(this.props.song)}}>
                                 <i class="bi bi-play-circle-fill"></i>
                                 {/* <i class="bi bi-pause-circle-fill"></i> */}
 
@@ -37,7 +37,7 @@ class SimpleAudioContainer extends React.Component
 
 
                 <div className="audio_description">
-                    <t5 className="song_heading truncate">{this.props.song.title}</t5>
+                    <t5 className="song_heading">{this.props.song.title}</t5>
                     <div className="playableTile__usernameHeadingContainer">
                         <t6>{this.props.song.username}</t6>
                     </div>
