@@ -16,9 +16,9 @@ import Upload from './components/Upload/upload'
 import ProfileEdit from './components/profile/profileedit'
 import DropZone from './components/Upload/drop-zone'
 import MediaPlayer from './components/MediaPlayer/mediaplayer'
-import CreatePlaylist from './components/Playlists/CreatePlaylist'
+import MakePlaylist from './components/Playlists/MakePlaylist'
 import Home from './components/Home/Home'
-import Reports_Users from './components/Reports/Reports_Users'
+import Reports from './components/Reports/Reports'
 //import Routes from './routes'
 
 const Dashboard = () => <h2>Dashboard</h2>
@@ -46,10 +46,10 @@ class App extends React.Component
                         <Route exact path="/home" component={Home}></Route>
                         <Route exact path="/upload" component={Upload}></Route>
                         <Route exact path="/drop_zone" component={DropZone}></Route>
-                        <Route exact path="/createPlaylist" component={CreatePlaylist}></Route>
+                        <Route exact path="/createPlaylist" component={MakePlaylist}></Route>
                         <Route exact path="/library" component={Library}></Route>
                         <Route exact path="/profileedit" component={ProfileEdit}></Route>
-                        <Route exact path="/reports" component={Reports_Users}></Route>
+                        <Route exact path="/reports" component={Reports}></Route>
                         {this.props.auth != null?  <Route exact path={`/${this.props.auth.username}`} component={ProfileEdit} />: null}
 
                     </div>

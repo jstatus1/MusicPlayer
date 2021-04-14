@@ -1,16 +1,19 @@
 import { React, useState, useEffect } from 'react'
-import { Form, Row, Col, Container, Button } from 'react-bootstrap'
+import { Form, Row, Col, Container, Button, Table } from 'react-bootstrap'
 import axios from 'axios'
 import './Reports.css'
+//import ReportTable from './ReportTable'
 
 
-const Reports_Users = () => {
+const Reports_Users = (props) => {
 
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [isMusician, setMusician] = useState(false);
-    const [songData, setSongData] = useState([]);
+    const [userData, setUserData] = useState([]);
+    const [searchIsClicked, setSearchIsClicked] = useState(false);
+
 
 
     const userSearch = (event) => {
@@ -18,11 +21,12 @@ const Reports_Users = () => {
         event.stopPropagation();
         event.preventDefault();
 
+        setSearchIsClicked(true);
+
         const queryInput = {
             username: username,
             firstName: firstName,
             lastName: lastName,
-            isMusician: isMusician
         }
 
         axios.get('http://localhost:5000/api/get/reports/users', {
@@ -31,10 +35,10 @@ const Reports_Users = () => {
         lastName: lastName,
         isMusician: isMusician}})
         .then((res) => {
-            setSongData(res.data);
-            console.log(songData);
+            setUserData(res.data);
+            console.log(userData);
         }).catch((error) => {
-            console.log(error);
+            console.log(error)
         })
 
         console.log(queryInput);
@@ -46,24 +50,8 @@ const Reports_Users = () => {
 
     return (
         <div>
-            <h2 style={{ "textAlign": "center", "paddingTop":"0.5em" }}>Generate Reports</h2>
 
-            <Row>
-                <Col md="3"></Col>
-                <Col>
-                    <div style={{"paddingTop":"1.5em"}}>
-                        <Row>
-                        <Col> <Button variant="danger" disabled>Users</Button> </Col>
-                        <Col> <Button variant="danger">Songs</Button> </Col>
-                        <Col> <Button variant="danger">Albums</Button> </Col>
-                        <Col><Button variant="danger">Playlists</Button> </Col>
-                        </Row>
-                    </div>
-                </Col>
-                <Col md="3"></Col>
-            </Row>
-
-            <Row>
+            <Row> {/* search form */}
                     <Container className="users-search-form">
                     <h5 style={{ "textAlign":"center", "paddingTop":"1em"}}>Search for Users</h5>
                     
@@ -103,42 +91,53 @@ const Reports_Users = () => {
                         <Row style={{"paddingBottom":"1em", "paddingTop":"1em"}}>
                             <Col md="5"/>
                             <Col md="auto">
-                                <Button variant="secondary">Reset</Button>
+                                <Button variant="secondary" onClick={() => window.location.reload()}>Reset</Button>
                             </Col>
                             
                             <Col>
                                 <Button variant="danger" type="submit">Search</Button>
+                                <t2 style={{ "paddingLeft":"1em"}}>{userData.length ? `${userData.length} User(s) found!` : ''}
+                                                                    {!userData.length && searchIsClicked ? 'No users found' : ''}
+                                                                    </t2>
                             </Col>
                         </Row>
                     </Form>
-                    
                     </Container>
-
             </Row>
 
-            <Container> {/* Results table */}
-                <Row>
-                    <Col style={{ "border":"1px solid black"}}>
-                        {songData.map(row => {
-                            return <div>
-                                {row.username}
-                            </div>
-                            })
-                        }
-                    
-                    </Col>
-                    <Col style={{ "border":"1px solid black"}}>
-                        {songData.first_name}
-                    </Col>
-                    <Col style={{ "border":"1px solid black"}}>
-                    
-                    </Col>
-                </Row>
+            <Container> {/* Results table */} 
+
+                <Table striped hover responsive bordered>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Musician?</th>
+                            <th>Social Media</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {userData.map(user => {
+                            return <tr>
+                                <td>{user.username}</td>
+                                <td>{user.first_name}</td>
+                                <td>{user.last_name}</td>
+                                <td>{String(user.isMusician) === 'undefined' ? '': String(user.isMusician)}</td>
+                                <td>
+                                <a href={String(user.socialmedia_fb)}>Facebook</a><t2> | </t2>
+                                <a href={String(user.socialmedia_tw)}>Twitter</a><t2> | </t2>
+                                <a href={String(user.socialmedia_in)}>Instagram</a>
+                                </td>
+                            </tr>
+                        })}
+                    </tbody>
+                </Table>
                 
             </Container>
 
 
-                
+            <div style={{ 'marginTop':'50px'}}/>
         </div>
     )
 }

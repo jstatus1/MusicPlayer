@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Container,Row, Col } from 'react-bootstrap'
 import SongBlock from '../SongBlock/SongBlock'
-import './CreatePlaylist.css'
+import './MakePlaylist.css'
 import axios from 'axios'
 
 
@@ -9,7 +9,7 @@ import axios from 'axios'
 
 
 
-const CreatePlaylist = () => {
+const MakePlaylist = () => {
 
     //const [   songData, setSongData] = useState({ name: '', musician: ''});
     const [selectedSong, setSelectedSong] = useState({ username: '', song_title: ''});
@@ -155,4 +155,4 @@ const CreatePlaylist = () => {
             
 }
 
-export default CreatePlaylist
+export default MakePlaylist
