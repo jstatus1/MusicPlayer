@@ -57,7 +57,7 @@ CREATE TABLE songs(
   album_id INT REFERENCES albums(album_id) ON DELETE SET NULL,
   duration TIME,
   release_date DATE,
-  song_image VARCHAR(200),
+  song_image VARCHAR(200) ,
   num_played BIGINT DEFAULT 0,
   publisher VARCHAR(30),
   ISRC VARCHAR(30),

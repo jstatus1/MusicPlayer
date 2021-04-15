@@ -3,7 +3,12 @@ import { React, useState, useEffect } from 'react'
 import { Form, Row, Col, Container, Button, Table } from 'react-bootstrap'
 import axios from 'axios'
 import './Reports.css'
-import Reports_Users from './Reports_Users'
+import Reports_Users from './tabs/Reports_Users'
+import Reports_Songs from './tabs/Reports_Songs'
+import Reports_Albums from './tabs/Reports_Albums'
+import Reports_Playlists from './tabs/Reports_Playlists'
+
+
 
 const Reports = () => {
 
@@ -39,9 +44,11 @@ const Reports = () => {
                 <Col md="auto" sm="auto"></Col>
             </Row>
 
-            {rUsers}
-
             <div className={rUsers? "visible" : "collapse"}><Reports_Users/></div>
+            <div className={rSongs? "visible" : "collapse"}><Reports_Songs/></div>
+            <div className={rAlbums? "visible" : "collapse"}><Reports_Albums/></div>
+            <div className={rPlaylists? "visible" : "collapse"}><Reports_Playlists/></div>
+
         </div>
     )
 }

@@ -1,16 +1,17 @@
 import { React, useState, useEffect } from 'react'
 import { Form, Row, Col, Container, Button, Table } from 'react-bootstrap'
 import axios from 'axios'
-import './Reports.css'
+import '../Reports.css'
 //import ReportTable from './ReportTable'
 
 
-const Reports_Users = (props) => {
+const Reports_Users = (props) => { 
 
     const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [first_name, setFirstName] = useState('');
+    const [last_name, setLastName] = useState('');
     const [isMusician, setMusician] = useState(false);
+    const [record_label, setRecordLabel] = useState('');
     const [userData, setUserData] = useState([]);
     const [searchIsClicked, setSearchIsClicked] = useState(false);
 
@@ -25,15 +26,18 @@ const Reports_Users = (props) => {
 
         const queryInput = {
             username: username,
-            firstName: firstName,
-            lastName: lastName,
+            first_name: first_name,
+            last_name: last_name,
+            record_label: record_label
         }
 
         axios.get('http://localhost:5000/api/get/reports/users', {
-        params:{username: username,
-        firstName: firstName,
-        lastName: lastName,
-        isMusician: isMusician}})
+        params:{
+            username: username,
+            first_name: first_name,
+            last_name: last_name,
+            isMusician: isMusician,
+            record_label: record_label}})
         .then((res) => {
             setUserData(res.data);
             console.log(userData);
@@ -52,7 +56,7 @@ const Reports_Users = (props) => {
         <div>
 
             <Row> {/* search form */}
-                    <Container className="users-search-form">
+                    <Container className="search-form">
                     <h5 style={{ "textAlign":"center", "paddingTop":"1em"}}>Search for Users</h5>
                     
                     <Form onSubmit={userSearch}>
@@ -77,13 +81,13 @@ const Reports_Users = (props) => {
                             <Col>
                                 <Form.Label>First Name</Form.Label>
                                 <Form.Control   type="text"
-                                                value={firstName}
+                                                value={first_name}
                                                 onChange={(e) => setFirstName(e.target.value)}></Form.Control>
                             </Col>
                             <Col>
                                 <Form.Label>Last Name</Form.Label>
                                 <Form.Control   type="text"
-                                                value={lastName}
+                                                value={last_name}
                                                 onChange={(e) => setLastName(e.target.value)}></Form.Control>
                             </Col>
                             <Col md="2"/>
