@@ -2,12 +2,30 @@ import React from 'react'
 import './SimpleAudioContainer.css'
 
 import {connect} from 'react-redux'
-import {selectSong} from '../../../store/actions'
+import * as action from '../../../store/actions'
 
 class SimpleAudioContainer extends React.Component
 {
     state={
-        mouse_in: false
+        mouse_in: false,
+        current_songPlaying: false
+    }
+
+
+    audioLogic()
+    {
+    
+        this.props.selectSong(this.props.song)
+        if(this.state.current_songPlaying)
+        {
+            
+            this.setState({current_songPlaying:false})
+            this.props.setAudio(false)
+        }else{
+            
+            this.setState({current_songPlaying:true})
+            this.props.setAudio(true)
+        }
     }
 
     render()
@@ -24,10 +42,11 @@ class SimpleAudioContainer extends React.Component
                     {
                         (this.state.mouse_in)?
                         <div className="playbutton">
-                            <a onClick={() => {this.props.selectSong(null); this.props.selectSong(this.props.song)}}>
-                                <i class="bi bi-play-circle-fill"></i>
-                                {/* <i class="bi bi-pause-circle-fill"></i> */}
-
+                            <a onClick={() => this.audioLogic()}>
+                                {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
+                                    <i class="bi bi-pause-circle-fill"></i>:
+                                    <i class="bi bi-play-circle-fill"></i>
+                                }
                             </a>
                          </div>:null
 
@@ -47,6 +66,14 @@ class SimpleAudioContainer extends React.Component
     }
 }
 
+function mapStateToProps(state) {
+    return { 
+      selectedAudio: state.selected_audio_reducer,
+      audioSetting: state.set_audio_reducer,
+      previousAudio: state.set_previous_audio_reducer
+     };
+}
 
 
-export default connect(null, {selectSong}) (SimpleAudioContainer)
+
+export default connect(mapStateToProps, action) (SimpleAudioContainer)

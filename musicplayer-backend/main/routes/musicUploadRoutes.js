@@ -128,6 +128,7 @@ module.exports = app => {
                                     metadata.explicit_content,
                                     metadata.buy_link,
                                     metadata.album_title,
+                                    metadata.duration,
                                     s3_audio_key,
                                     s3_audio_image_key
                                 ]
@@ -136,8 +137,8 @@ module.exports = app => {
                                 await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
                                                     release_date,song_image,publisher
                                                     ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                                    explicit_content,buy_link,album_title,s3_audio_key,s3_image_key)
-                                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+                                                    explicit_content,buy_link,album_title,duration,s3_audio_key,s3_image_key)
+                                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22)
                                                     ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                                     if (error) {
                                                         console.log(error);
@@ -204,6 +205,7 @@ module.exports = app => {
                                 metadata.explicit_content,
                                 metadata.buy_link,
                                 metadata.album_title,
+                                metadata.duration,
                                 s3_audio_key
                             ]
                             
@@ -211,8 +213,8 @@ module.exports = app => {
                             await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
                                                 release_date,publisher
                                                 ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                                explicit_content,buy_link,album_title,s3_audio_key)
-                                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
+                                                explicit_content,buy_link,album_title,duration,s3_audio_key)
+                                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
                                                 ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                                 if (error) {
                                                     console.log(error);
@@ -254,18 +256,6 @@ module.exports = app => {
         var metadata = JSON.parse(req.body.metadata)   
         var userId = req.user.uid
         var s3_audio_album_image_key = uuidv4();
-
-        //debugger zone
-        // for(let i = 0; i < musicFile.length; i++)
-        // {
-        //     console.log(musicFile[i].data)
-            
-        // }
-
-        
-        
-        //return res.send({message: 'done'});
-
 
         //if album has an image
         if(audio_image_File != undefined)
@@ -376,6 +366,7 @@ module.exports = app => {
                                                     metadata.explicit_content,
                                                     metadata.buy_link,
                                                     metadata.album_title,
+                                                    metadata.duration,
                                                     s3_audio_key,
                                                     albumData.rows[0].album_id
                                                 ]
@@ -384,8 +375,8 @@ module.exports = app => {
                                                 await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
                                                                     release_date,publisher
                                                                     ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                                                    explicit_content,buy_link,album_title,s3_audio_key,album_id)
-                                                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
+                                                                    explicit_content,buy_link,album_title,duration,s3_audio_key,album_id)
+                                                                    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
                                                                     ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                                                     if (error) {
                                                                         console.log(error);
@@ -518,6 +509,7 @@ module.exports = app => {
                                         metadata.explicit_content,
                                         metadata.buy_link,
                                         metadata.album_title,
+                                        metadata.duration,
                                         s3_audio_key,
                                         albumDataRes.rows[0].album_id
                                     ]
@@ -526,8 +518,8 @@ module.exports = app => {
                                     await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
                                                         release_date,publisher
                                                         ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                                        explicit_content,buy_link,album_title,s3_audio_key,album_id)
-                                                        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
+                                                        explicit_content,buy_link,album_title,duration,s3_audio_key,album_id)
+                                                        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
                                                         ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                                         
                                                         if (error) {
@@ -561,203 +553,6 @@ module.exports = app => {
 
         }
 
-
-
-        
-
-
-        // for(let i = 0; i < musicFile.length; i++)
-        // {
-        //     var basic_info = JSON.parse(req.body.basic_info[i])
-        //     var s3_audio_image_key = uuidv4()
-        //     var s3_audio_key = uuidv4()
-            
-        //     Params For AWS
-        //     const audio_params = {
-        //         Bucket: "musicplayer-song",
-        //         Body: musicFile[i].data,
-        //         Key: s3_audio_key,
-        //         ACL: "public-read"
-        //     };
-
-            
-        //     if(audio_image_File != undefined)
-        //     {
-        //         const audio_image_params = {
-        //             Bucket: "musicplayer-songart",
-        //             Body: audio_image_File.data,
-        //             Key: s3_audio_image_key,
-        //             ACL: "public-read"
-        //         };
-            
-        //         await s3.upload (audio_image_params, function (err, data) {
-        //             if (err) {
-        //             console.log("Error", err);
-        //             }
-        //         }).send(async (err,SongArtLink) => {
-        //             try{
-                        
-        //                 await s3.upload (audio_params, function (err, data) {
-        //                     if (err) {
-        //                     console.log("Error", err);
-        //                     deleteAudioImageFromS3(s3_audio_image_key)
-        //                     } if (data) {
-        //                     console.log("Upload Success", data.Location);
-        //                     }
-        //                 }).send(async (err,audio_link) => {
-        //                     try{
-        //                             TODO: include album id for front end and backend
-        //                             const songValue = [
-        //                                 basic_info.title,
-        //                                 basic_info.selected_genre,
-        //                                 audio_link.Location,
-        //                                 basic_info.description,
-        //                                 basic_info.caption,
-        //                                 userId,
-        //                                 metadata.release_date,
-        //                                 SongArtLink.Location,
-        //                                 metadata.publisher,
-        //                                 metadata.isrc,
-        //                                 metadata.composer,
-        //                                 metadata.release_title,
-        //                                 metadata.record_label,
-        //                                 metadata.barcode,
-        //                                 metadata.iswc,
-        //                                 metadata.p_line,
-        //                                 metadata.explicit_content,
-        //                                 metadata.buy_link,
-        //                                 metadata.album_title,
-        //                                 s3_audio_key,
-        //                                 s3_audio_image_key
-        //                             ]
-                                    
-        //                             TODO: UPDATE LENGTH
-        //                             await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
-        //                                                 release_date,song_image,publisher
-        //                                                 ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-        //                                                 explicit_content,buy_link,album_title,s3_audio_key,s3_image_key)
-        //                                                 VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
-        //                                                 ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
-        //                                                 if (error) {
-        //                                                     console.log(error);
-        //                                                     deleteAudioFromS3(s3_audio_key)
-        //                                                     deleteAudioImageFromS3(s3_audio_image_key)
-        //                                                     res.send({
-        //                                                         status: false,
-        //                                                         message: "Failed To Upload"
-        //                                                     })
-        //                                                 }else{
-        //                                                     res.send({
-        //                                                         status: true,
-        //                                                         message: "Successfully Uploaded"
-        //                                                     })
-        //                                                 }})
-        
-        //                     }catch(err)
-        //                     {
-
-        //                         res.send({
-        //                                     status: false,
-        //                                     message: "Server Is Down, Please Try Again Later"
-        //                                 })
-        //                     }
-        //                 });
-                        
-        
-        
-        //             }catch(err)
-        //             {
-        //                 console.log("Error Inserting Song To Database")
-        //             }
-                    
-        //         });
-        //         }else{
-                    
-        //         }
-
-        //         res.send({status: true, message: "Done"})
-        // }
-        return
-    
-        
-
-       
-
-        if(audio_image_File != undefined)
-        {
-            
-        
-        }else{
-            try{
-                    
-                await s3.upload (audio_params, function (err, data) {
-                    if (err) {
-                      console.log("Error", err);
-                    } if (data) {
-                      console.log("Upload Success", data.Location);
-                    }
-                  }).send(async (err,audio_link) => {
-                      try{
-                            //TODO: include album id for front end and backend
-                            const songValue = [
-                                basic_info.title,
-                                basic_info.selected_genre,
-                                audio_link.Location,
-                                basic_info.description,
-                                basic_info.caption,
-                                userId,
-                                metadata.release_date,
-                                metadata.publisher,
-                                metadata.isrc,
-                                metadata.composer,
-                                metadata.release_title,
-                                metadata.record_label,
-                                metadata.barcode,
-                                metadata.iswc,
-                                metadata.p_line,
-                                metadata.explicit_content,
-                                metadata.buy_link,
-                                metadata.album_title,
-                                s3_audio_key
-                            ]
-                            
-                            //TODO: UPDATE LENGTH
-                            await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
-                                                release_date,publisher
-                                                ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                                explicit_content,buy_link,album_title,s3_audio_key)
-                                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
-                                                ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
-                                                if (error) {
-                                                    console.log(error);
-                                                    deleteAudiosFromS3(s3_audio_key)
-                                                    res.send({
-                                                        status: false,
-                                                        message: "Failed To Upload"
-                                                    })
-                                                }else{
-                                                    res.send({
-                                                        status: true,
-                                                        message: "Successfully Uploaded"
-                                                    })
-                                                }})
-
-                      }catch(err)
-                      {
-                          res.send({
-                                    status: false,
-                                    message: "Server Is Down, Please Try Again Later"
-                                })
-                      }
-                  });
-                
-
-
-              }catch(err)
-              {
-                  console.log("Error Inserting Song To Database")
-              }
-        }
     }
 
     audio_image_File_To_Map = (audio_image_File) => {
@@ -855,6 +650,7 @@ module.exports = app => {
                                 metadata.explicit_content,
                                 metadata.buy_link,
                                 metadata.album_title,
+                                metadata.duration,
                                 s3_audio_key,
                                 s3_audio_album_image_key,
                                 SongArt.Location
@@ -864,8 +660,8 @@ module.exports = app => {
                             await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
                                                 release_date,publisher
                                                 ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                                explicit_content,buy_link,album_title,s3_audio_key, s3_image_key, song_image)
-                                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+                                                explicit_content,buy_link,album_title,duration,s3_audio_key, s3_image_key, song_image)
+                                                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22)
                                                 ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                                 if (error) {
                                                     console.log(error);
@@ -922,6 +718,7 @@ module.exports = app => {
                             metadata.explicit_content,
                             metadata.buy_link,
                             metadata.album_title,
+                            metadata.duration,
                             s3_audio_key
                         ]
                         
@@ -929,8 +726,8 @@ module.exports = app => {
                         await pool.query(`INSERT INTO songs(title,genre,song_link,description,caption,user_id,
                                             release_date,publisher
                                             ,ISRC,composer,release_title,record_label,barcode,ISWC,P_Line,
-                                            explicit_content,buy_link,album_title,s3_audio_key)
-                                            VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
+                                            explicit_content,buy_link,album_title,duration,s3_audio_key)
+                                            VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
                                             ON CONFLICT DO NOTHING`,songValue, async (error, result)=> {
                                             if (error) {
                                                 console.log(error);
@@ -963,13 +760,14 @@ module.exports = app => {
         return music_upload_single(req, res)
     });
 
-   //multiple upload
+   
 
-   //album upload
+    //album upload
     app.post('/api/album_audio_upload/', async (req, res) => {
         return album_upload(req, res)
     })
 
+    //multiple upload
     app.post('/api/mulitple_audio_upload/', async (req, res) => {
          multiple_upload(req, res).then(data=> {
              return res.send({

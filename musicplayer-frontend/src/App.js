@@ -29,8 +29,7 @@ class App extends React.Component
     {
         //Inital Authentication Fetch
         this.props.fetchUser();
-        
-       
+        this.props.fetchTracks();
     }
 
 
@@ -60,7 +59,8 @@ class App extends React.Component
 
 function mapStateToProps(state) {
     return { 
-      auth: state.auth_reducer
+      auth: state.auth_reducer,
+      fetch_track: state.fetch_track_reducer
      };
 }
 

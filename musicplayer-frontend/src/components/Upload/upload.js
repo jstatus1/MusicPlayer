@@ -75,7 +75,8 @@ class Upload extends React.Component
                     barcode: null,
                     iswc: null,
                     p_line: null,
-                    explicit_content: false
+                    explicit_content: false,
+                    duration: null
                 } 
     
                 let basic_info_song={

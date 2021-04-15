@@ -19,7 +19,16 @@ export default class SongForm extends React.Component
         p_line_toggle:false,
         iswc_toggle:false,
         create_album: this.props.metadata_upload.album,
-        is_valid_album_title: true
+        is_valid_album_title: true,
+        audio_url: null,
+        timeFormatNormal:true,
+        songDuration:null
+    }
+
+    componentDidMount()
+    {
+        
+        this.setState({audio_url:window.URL.createObjectURL(this.props.song)})
     }
 
     imageHandler = (e) => {
@@ -61,6 +70,16 @@ export default class SongForm extends React.Component
             </div>)
         }
             
+    }
+
+    
+
+    audioLoad = (e) => {
+        // (e.target.duration < 3600) ? this.setState({timeFormatNormal: false}) : this.setState({timeFormatNormal: false})
+        this.setState({songDuration:Math.ceil(e.target.duration)})
+        
+        this.props.song.metadata_song.duration = Math.ceil(e.target.duration)
+        this.props.updateSongData(this.props.id, this.props.song)
     }
 
     renderSongImage()
@@ -405,12 +424,14 @@ export default class SongForm extends React.Component
             this.setState({currentPage:"Metadata"})
             this.setState({is_valid_album_title:false})
         }
+
+        
     }
 
     render()
     {
         return(<React.Fragment>
-                    
+                    <audio className={`audio`+this.props.id} src={this.state.audio_url}  onLoadedMetadata={(e)=> {this.audioLoad(e)}}></audio>
                     <form className="card mt-5 mb-5">
 
                         {((this.state.create_album == false) || (this.state.create_album==true && this.props.id == 0))? 

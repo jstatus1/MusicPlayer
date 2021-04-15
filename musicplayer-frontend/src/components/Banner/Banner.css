@@ -1,0 +1,52 @@
+.Banner_Container
+{
+    background: linear-gradient(#e66465, #9198e5);
+}
+
+.Banner_Info
+{
+    background: rgba(0, 0, 0, 0.219);
+    color: white;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    margin-right: 300px;
+}
+
+.Banner_Container_Left
+{
+    height:100%;
+    display: flex;
+}
+
+.Banner_Album_Image
+{
+    width: 400px;
+    height: 400px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.Banner_Play
+{
+    color: #333;
+    border: 0;
+    font-size: 70px;
+    cursor: pointer;
+    background:none;
+}
+
+
+.Banner_Play:focus
+{
+    outline: 0;
+}
+
+.Banner_font_style
+{
+    background-color: rgba(0, 0, 0, 0.411);
+    margin:2px;
+    color:white;
+
+}

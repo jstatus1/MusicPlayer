@@ -55,7 +55,7 @@ CREATE TABLE songs(
   ft_musicians VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
   user_id INT REFERENCES users(uid) ON DELETE CASCADE,
   album_id INT REFERENCES albums(album_id) ON DELETE SET NULL,
-  duration TIME,
+  duration VARCHAR(20),
   release_date DATE,
   song_image VARCHAR(200),
   num_played BIGINT DEFAULT 0,

@@ -4,6 +4,7 @@ import './Library.css'
 
 //Pages
 import Overview from './LibraryPages/Overview'
+import Tracks from './LibraryPages/Tracks'
 
 class Library extends React.Component
 {
@@ -27,6 +28,11 @@ class Library extends React.Component
                     </section>
                 </React.Fragment>)
             case "tracks":
+                return(<React.Fragment>
+                    <section className="mt-5">
+                        <Tracks></Tracks>
+                    </section>
+                </React.Fragment>)
                 break;
             case "likes":
                 break;
