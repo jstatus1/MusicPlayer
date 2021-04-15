@@ -18,6 +18,7 @@ class App extends React.Component
         //Inital Authentication Fetch
         this.props.fetchUser();
         this.props.fetchTracks();
+        this.props.fetchPlayist();
     }
 
     
@@ -34,7 +35,8 @@ class App extends React.Component
 function mapStateToProps(state) {
     return { 
       auth: state.auth_reducer,
-      fetch_track: state.fetch_track_reducer
+      fetch_track: state.fetch_track_reducer,
+      fetch_playlist: state.fetch_playlists_reducer
      };
 }
 

@@ -60,6 +60,22 @@ module.exports = app => {
             return
         })
     }
+
+    deletePlaylistImageFromS3 = (key) => 
+    {
+        var params = {
+            Bucket: 'musicplayer-playlistart', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
+    }
+
     //logic for single upload
     music_upload_single = async (req, res) => 
     {
@@ -773,7 +789,72 @@ module.exports = app => {
              return res.send({
                  message:"Complete"
              })
-         })
-          
+         })  
+    })
+
+
+    app.post('/api/create/playlist/', async(req, res)=>{
+        let metadata = JSON.parse(req.body.playlist_metadata)
+        let userId = req.user.uid
+        let s3_playlist_image_key= uuidv4()
+        try{
+            let image = req.files.playlist_image
+            
+            let params = {
+                Bucket: "musicplayer-playlistart",
+                Body: image.data,
+                Key: s3_playlist_image_key,
+                ACL: "public-read"
+            };
+            await s3.upload(params, async(err, data)=> {
+                if(err)
+                {
+                    console.log("Failed to upload song to s3")
+                    return res.send({status: false, message: "Failed" })
+                }
+            }).send(async (err, ImageData) =>{
+                let queryData = [userId,
+                                metadata.name,
+                                metadata.isPublic,
+                                metadata.description,
+                                ImageData.Location,
+                                s3_playlist_image_key]
+                
+                pool.query(`INSERT INTO playlists(user_id,playlist_name,
+                            public_status,description,playlist_art,
+                            s3_playlist_image_key) VALUES ($1, $2, $3, $4, $5,$6) 
+                            ON CONFLICT DO NOTHING`, queryData, async(error, result)=> {
+                                if(error)
+                                {
+                                    deletePlaylistImageFromS3(s3_playlist_image_key)
+                                    console.log(error)
+                                    return res.send({message: "Server Is Down"})
+                                
+                                }else{
+                                    return res.send({message:"Success"})
+                                }
+                            })
+            
+            })
+        }catch(err){
+            let queryData = [userId,
+                metadata.name,
+                metadata.isPublic,
+                metadata.description]
+
+            pool.query(`INSERT INTO playlists(user_id,playlist_name,
+                        public_status,description) VALUES ($1, $2, $3, $4) 
+                        ON CONFLICT DO NOTHING`, queryData, async(error, result)=> {
+                            if(error)
+                            {
+                                
+                                console.log(error)
+                                return res.send({message: "Server Is Down"})
+                            
+                            }else{
+                                return res.send({message:"Success"})
+                            }
+                        })
+        }
     })
 }

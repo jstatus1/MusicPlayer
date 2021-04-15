@@ -101,7 +101,8 @@ CREATE TABLE playlists(
 	playlist_name varchar(100),
   public_status BOOLEAN,
   description VARCHAR(300),
-  playlist_art VARCHAR(200) DEFAULT '<insert image link here>'
+  playlist_art VARCHAR(200),
+  s3_playlist_image_key VARCHAR(200)
 );
 
 CREATE TABLE playlist_songs(
