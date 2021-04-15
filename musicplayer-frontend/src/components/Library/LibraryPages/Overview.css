@@ -17,3 +17,8 @@
 .wrapper::-webkit-scrollbar-thumb {
     background: #6c757d;
 }
+
+.sub_titles
+{
+    text-decoration: none;
+}

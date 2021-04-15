@@ -14,6 +14,7 @@ import Notification from '../components/Navbar/notifcations/notificaiton_page'
 import LibraryNav from '../components/Library/LibraryNav'
 import Overview from '../components/Library/LibraryPages/Overview'
 import Tracks from '../components/Library/LibraryPages/Tracks'
+import Playlist from '../components/Library/LibraryPages/Playlist'
 
 const Dashboard = () => <h2>Dashboard</h2>
 const Landing = () => <h2>Landing</h2>
@@ -22,9 +23,11 @@ const Landing = () => <h2>Landing</h2>
 const LibraryRoutes = ({ match }) => (
     <div>
         {/* note the addition of the exact property here */}
+        <LibraryNav></LibraryNav>
         <Route exact path={match.url} component={Overview}/>
         <Route exact path={match.url + "/overview"} component={Overview}/>
         <Route exact path={match.url + "/tracks"} component={Tracks}/>
+        <Route exact path={match.url + "/playlist"} component={Playlist}/>
     </div>
 )
 

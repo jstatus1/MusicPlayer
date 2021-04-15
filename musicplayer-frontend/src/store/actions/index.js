@@ -67,3 +67,42 @@ export const fetchTracks = () => async dispatch =>
         })
     }
 }
+
+export const fetchPlayist = () => async dispatch =>
+{
+    
+    let res = await axios.get('/api/get/Playist')   
+    
+    try{
+        dispatch({
+            type: "FETCH_PLAYLISTS",
+            payload: res.data
+        })
+    }catch(err)
+    {
+        dispatch({
+            type: "FETCH_PLAYLISTS",
+            payload: err
+        })
+    }
+}
+
+export const fetchAlbums = () => async dispatch =>
+{
+    
+    let res = await axios.get('/api/get/Albums')   
+    
+    try{
+        dispatch({
+            type: "FETCH_ALBUMS",
+            payload: res.data
+        })
+    }catch(err)
+    {
+        dispatch({
+            type: "FETCH_ALBUMS",
+            payload: err
+        })
+    }
+}
+

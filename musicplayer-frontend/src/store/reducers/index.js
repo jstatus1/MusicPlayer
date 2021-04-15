@@ -10,7 +10,9 @@ const rootReducer = combineReducers({
   selected_audio_reducer: SelectedAudioReducer,
   set_audio_reducer: SetAudioReducer,
   set_previous_audio_reducer: PreviousAudioReducer,
-  fetch_track_reducer: AudioReducer.TracksReducer
+  fetch_track_reducer: AudioReducer.TracksReducer,
+  fetch_playlists_reducer: AudioReducer.PlaylistsReducer,
+  fetch_albums_reducer: AudioReducer.AlbumsReducer
 })
 
 export default rootReducer;

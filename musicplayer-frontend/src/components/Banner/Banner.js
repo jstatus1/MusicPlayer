@@ -7,10 +7,7 @@ import * as action from '../../store/actions'
 
 class Banner extends React.Component
 {
-    state= {
-        totalAudio: null,
-        totalDurationSeconds: 0
-    }
+    
 
     secondsToHms(d) {
 
@@ -25,18 +22,6 @@ class Banner extends React.Component
         ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
     }
 
-
-    componentDidMount()
-    {
-        //calcuate duration
-        this.setState({totalAudio: this.props.fetch_track.length})
-        
-        this.props.fetch_track.map(data=>
-            {
-                this.setState({totalDurationSeconds:  this.state.totalDurationSeconds+data.duration})
-            })
-
-    }
 
 
   
@@ -60,9 +45,9 @@ class Banner extends React.Component
                              </div>
                         </div>
                         <div  className="Banner_Info  d-flex flex-column justify-content-center align-items-center">
-                            <h1>{this.state.totalAudio}</h1>
+                            <h1>{this.props.totalAudio}</h1>
                             <t5>Tracks</t5>
-                            <t4>{this.secondsToHms(this.state.totalDurationSeconds)}</t4>
+                            <t4>{this.secondsToHms(this.props.totalDurationSeconds)}</t4>
                         </div>
                     </div>
                     <div className="col-6  d-flex flex-row Banner_Album">
@@ -79,9 +64,7 @@ class Banner extends React.Component
 function mapStateToProps(state) {
     return { 
       selectedAudio: state.selected_audio_reducer,
-      audioSetting: state.set_audio_reducer,
-      previousAudio: state.set_previous_audio_reducer,
-      fetch_track: state.fetch_track_reducer
+      audioSetting: state.set_audio_reducer
      };
 }
 

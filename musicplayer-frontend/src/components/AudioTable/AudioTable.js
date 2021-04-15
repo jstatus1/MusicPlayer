@@ -39,12 +39,6 @@ class AudioTable extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return { 
-
-        fetch_track: state.fetch_track_reducer
-     };
-}
 
 
-export default connect(mapStateToProps, actions)(AudioTable)
+export default AudioTable

@@ -103,8 +103,7 @@ class AudioTable_Row extends PureComponent {
 function mapStateToProps(state) {
     return { 
         selectedAudio: state.selected_audio_reducer,
-        audioSetting: state.set_audio_reducer,
-        fetch_track: state.fetch_track_reducer
+        audioSetting: state.set_audio_reducer
      };
 }
 

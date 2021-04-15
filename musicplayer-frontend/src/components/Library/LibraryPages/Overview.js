@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 import SimpleAudioContainer from '../containers/SimpleAudioContainer'
 
@@ -33,7 +34,7 @@ class Overview extends React.Component
         return(<div>
            { (this.props.fetch_track)?
                 <div>
-                    <h2 className="sub_titles">Tracks</h2>
+                    <Link to="/Library/Tracks"><button className="btn sub_titles">Tracks</button></Link>
                     <div className="wrapper pb-4">
                         {this.renderSongItems()}
                     </div>
