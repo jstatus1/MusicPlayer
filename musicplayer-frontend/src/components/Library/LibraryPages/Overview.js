@@ -33,7 +33,7 @@ class Overview extends React.Component
         return(<div>
            { (this.props.fetch_track)?
                 <div>
-                    <h2 className="sub_titles" onClick={() => this.props.updateCurrentPage("tracks")}>Tracks</h2>
+                    <h2 className="sub_titles">Tracks</h2>
                     <div className="wrapper pb-4">
                         {this.renderSongItems()}
                     </div>

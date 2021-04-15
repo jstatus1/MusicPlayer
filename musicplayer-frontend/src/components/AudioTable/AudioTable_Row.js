@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
 
+import './AudioTable_Row.css'
+
 class AudioTable_Row extends PureComponent {
 
     state={
@@ -66,7 +68,33 @@ class AudioTable_Row extends PureComponent {
                     <td>{this.props.song.username}</td>
                     <td>{this.props.song.album_title}</td>
                     <td>{this.props.song.release_date}</td>
-                    <td>{this.secondsToHms(this.props.song.duration)}</td>
+                    {
+                        (this.state.mouse_in)?
+                        <td>
+                            <button className="btn AudioTable_Row_MoreButton dropdown-toggle" type="button" id="AudioTable_More_DropDown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="AudioTable_More_DropDown">
+                                <li><a class="dropdown-item" href="#">Add To Queue</a></li>
+                                <li><a class="dropdown-item" href="#">Go To Song Radio</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#">Go To Artist</a></li>
+                                <li><a class="dropdown-item" href="#">Go To Album</a></li>
+                                <li><a class="dropdown-item" href="#">Show Credits</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#">Save to Likes</a></li>
+                                <li><a class="dropdown-item" href="#">Add To Playlist</a></li>
+                                <li><a class="dropdown-item" href="#">Remove from This Playlist</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#">Delete Song</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#">Share</a></li>
+                            </ul>
+                        </td>:
+                            
+                        <td>{this.secondsToHms(this.props.song.duration)}</td>
+                    }
+                    
                 </tr>)
     }
 }

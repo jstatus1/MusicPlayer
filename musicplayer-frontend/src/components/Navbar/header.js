@@ -26,7 +26,7 @@ class Header extends Component {
     switch(this.props.auth)
     {
       case null:
-          return (<h1>Still Logging In...</h1>)
+          return 
       case false:
           return(
               <ul className="navbar-nav ms-auto">

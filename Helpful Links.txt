@@ -73,3 +73,12 @@ Waveform:
 https://css-tricks.com/making-an-audio-waveform-visualizer-with-vanilla-javascript/
 https://codepen.io/nfj525/pen/rVBaab
 https://codepen.io/bataimx/pen/abOEGyw
+https://codepen.io/tisonmuhammad/pen/BJROaL
+
+Animated Background Gradient
+https://codepen.io/quasimondo/pen/lDdrF
+https://codepen.io/JanickFischr/pen/BYvVqP
+
+
+React Routes:
+https://stackoverflow.com/questions/45785583/react-router-dom-routes-and-sub-routes

@@ -37,11 +37,15 @@ class Banner extends React.Component
             })
 
     }
+
+
   
 
     render()
     {
-        return(<div className="Banner_Container col-12 d-flex flex-row justify-content-around align-items-center">
+        return(<div className={`Banner_Container Banner_Gradient col-12 d-flex flex-row justify-content-around align-items-center ${(this.props.audioSetting)?null:"Paused"}`}>
+                { (this.props.selectedAudio!= null )?
+                    <React.Fragment>
                     <div className=" flex-column col-6 Banner_Container_Left justify-content-around" >
                         <div className="Banner_Title d-flex flex-row">
                              <button onClick={() => this.props.setAudio(!(this.props.audioSetting))} className="Banner_Play">
@@ -61,10 +65,14 @@ class Banner extends React.Component
                             <t4>{this.secondsToHms(this.state.totalDurationSeconds)}</t4>
                         </div>
                     </div>
-                    <div className="col-6  Banner_Album">
+                    <div className="col-6  d-flex flex-row Banner_Album">
+                        
                         <img className="Banner_Album_Image" src={this.props.selectedAudio.song_image}></img>
                     </div>
-                </div>)
+                    </React.Fragment>
+                    :null
+                }
+             </div>)
     }
 }
 
