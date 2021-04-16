@@ -9,6 +9,7 @@ import DropZone from '../components/Upload/drop-zone'
 import MediaPlayer from '../components/MediaPlayer/mediaplayer'
 import Home from '../components/Home/Home'
 import Notification from '../components/Navbar/notifcations/notificaiton_page'
+import Reports from '../components/Reports/Reports'
 
 //Library Imports
 import LibraryNav from '../components/Library/LibraryNav'
@@ -45,6 +46,10 @@ let Routes = () =>
                  <Route path="/library" component={LibraryRoutes}></Route>
                  <Route exact path="/profileedit" component={ProfileEdit}></Route>
                  <Route exact path="/notification" component={Notification}></Route>
+                 <Route exact path="/reports" component={Reports}></Route>
+                 <Route exact path="/profileedit" component={ProfileEdit}></Route>
+
+
              </div>
              <MediaPlayer/>
         </BrowserRouter> 

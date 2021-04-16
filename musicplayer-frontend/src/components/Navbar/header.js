@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import logo from './coogmusic.png';
+import "./style.css"
 
 //Component
 import ModalLogin from '../profile/Modal_Login'
@@ -55,18 +57,16 @@ class Header extends Component {
                         </Link>
                         
             </ul>
-              <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+              
             <ul className="navbar-nav ms-auto">
-                        <Link 
-                          className="nav-link" aria-current="page" to={this.props.auth ? '/Upgrade' : '/'}>
-                            Upgrade
-                        </Link>
+                        
                         <Link 
                           className="nav-link" aria-current="page" to={this.props.auth ? '/upload' : '/'}>
                             Upload
+                        </Link>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/reports' : '/'}>
+                            Reports
                         </Link>
               <li class="nav-item dropdown">
                 <div class="d-flex align-items-center">
@@ -78,7 +78,7 @@ class Header extends Component {
                   <ul class="dropdown-menu" aria-labelledby="profile_dropdown">
                    
                       <Link 
-                          className="dropdown-item" aria-current="page" to={`/${this.props.auth.username}`}>
+                          className="dropdown-item" aria-current="page" to={`/profileedit`}>
                             Profile
                       </Link>
                       <Link 
@@ -215,7 +215,7 @@ class Header extends Component {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
                   <Link 
                     className="navbar-brand" to={this.props.auth ? '/discovery' : '/'}>
-                      UH Sound Cloud
+                      <img class="logo-size" src={logo} alt="Logo"/>
                   </Link>
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

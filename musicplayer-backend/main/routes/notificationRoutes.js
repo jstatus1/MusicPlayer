@@ -6,10 +6,20 @@ module.exports = app => {
         pool.query(`SELECT * FROM notifications
                 WHERE receiver_id=$1 ORDER BY created_at`, [ req.query.id ],
                 (q_err, q_res) => {
-                  res.send({
-                    status: true,
-                    message: q_res.rows
-                })
+
+                  try{
+                      res.send({
+                        status: true,
+                        message: q_res.rows
+                    })
+                  }catch(err)
+                  {
+                      res.send({
+                        status: true,
+                        message: false
+                    })
+                  }
+                  
         })
     })
 

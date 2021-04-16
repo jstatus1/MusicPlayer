@@ -1,19 +1,20 @@
 import React from 'react'
 import {useState} from 'react'
 import { Form, Button, Row, Col, Container } from 'react-bootstrap'
+import logo from './uhcampus.jpg';
+import "./Homestyle.css"
 
 const Home = () => {
     
     return (
         <div>
             <Container>
+            <img class="logo" src={logo} alt="Logo"/>
                 <Row>
-                    <Col md="5"></Col>
-                    <Col md="2">
-                        <h2>Hello User</h2>
-                        <t5>See your music on the Library page</t5>
+                    <Col md="4"></Col>
+                    <Col md="5">
+                        <h2>Welcome to Coog Music!</h2>
                     </Col>
-                    <Col md="5"></Col>
                 </Row>
                 
             </Container>

@@ -1,34 +1,27 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import axios from 'axios'
 
 
 const Library = () => {
-
-
     const [songList, setSongList] = useState([]);
     const [albumList, setAlbumList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);
-    const [seconds, setSeconds] = useState(0);
 
-    const retrieveAllSongs = async () => {
+    useEffect(() => {
+        try {
+            const songRequest = axios.get('http://localhost:5000/api/get/allsongs')
+            .then(res => {
+                setSongList(res.data);
+                console.log('songList: ');
+                console.log(songList);
+            })
+            .catch(error => {
+                console.log('Error retrieving all songs from front end: ');
+                console.log(error);
+            })
+        } catch(err) { console.log(err); }
 
-            try {
-                const request = axios.get('http://localhost:5000/api/get/allsongs')
-                .then(res => {
-                    setSongList(res.data);
-                    console.log('songList: ');
-                    console.log(songList);
-                })
-                .catch(error => {
-                    console.log('Error retrieving all songs from front end: ');
-                    console.log(error);
-                })
-            } catch(err) { console.log(err); }
-
-    }
-        
-    const retrieveAllAlbums = async () => {
         try {
             const albumRequest = axios.get('http://localhost:5000/api/get/allalbums')
             .then(res => {
@@ -41,11 +34,9 @@ const Library = () => {
                 console.log(error);
             })
         } catch(err) { console.log(err); }
-    }
 
-    const retrieveAllPlaylists = async () => {
         try {
-            const request = axios.get('http://localhost:5000/api/get/allplaylists')
+            const playlistRequest = axios.get('http://localhost:5000/api/get/allplaylists')
             .then(res => {
                 setPlaylistList(res.data);
                 console.log('playlistList: ');
@@ -56,11 +47,8 @@ const Library = () => {
                 console.log(error);
             })
         } catch(err) { console.log(err); }
-    }
-
-    retrieveAllSongs();
-    retrieveAllAlbums();  
-    retrieveAllPlaylists();  
+    }, [null]);
+     
 
     return (
         <div>
@@ -71,15 +59,19 @@ const Library = () => {
                             <Container>
       
                                 <Row>
-                                <i>Below is actual data from DB</i>
+                                
                                 </Row>
                                 <Row>
                                     {songList.map(song => {
                                         return <Row><Col>
+                                        <div onClick={e => {
+                                            /* play song */
+                                        }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-play-fill" viewBox="0 0 16 16">
                                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V5.884z"/>
                                         </svg> 
                                             <t5> {song.song_title} --- {song.username}</t5>
+                                            </div>
                                                 </Col></Row>
                                     })}
                                 </Row>
@@ -91,9 +83,13 @@ const Library = () => {
                     <Col>
                         <h2>Albums</h2>
                             <Container>
-
+                                <Row>
+                                    <Col md="5">
+                                    <Button type="primary" size="sm" href="/createAlbum">Create Album</Button>
+                                    </Col>
+                                </Row>
                             <Row>
-                                <i>Below is actual data from DB</i>
+                                
                                 </Row>
                                 <Row>
                                 {albumList.map(album => {
@@ -117,19 +113,22 @@ const Library = () => {
                             
                                 <Row>
                                     <Col md="5">
-                                    <Button type="primary" size="sm" href="/CreatePlaylist">Create Playlist</Button>
+                                    <Button type="primary" size="sm" href="/createPlaylist">Create Playlist</Button>
                                     </Col>
                                 </Row>
                             <Row>
-                                <i>Below is actual data from DB</i>
+                                
                                 </Row>
                                 <Row>
                                 {playlistList.map(playlist => {
                                         return <Row><Col>
+                                        <div href="/createplaylist">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-play-fill" viewBox="0 0 16 16">
                                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V5.884z"/>
                                         </svg> 
+                                        
                                             <t5> {playlist.playlist_name} --- {playlist.username}</t5>
+                                        </div>
                                                 </Col></Row>
                                     })}
                                 </Row>
