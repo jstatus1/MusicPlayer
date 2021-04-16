@@ -28,7 +28,7 @@ const Reports_Albums = () => {
             last_name: last_name
         }
 
-        axios.get('http://localhost:5000/api/get/reports/albums', {
+        axios.get('/api/get/reports/albums', {
         params:{
             album_title: album_title,
             username: username,

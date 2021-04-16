@@ -33,7 +33,7 @@ const Reports_Songs = () => {
             record_label: record_label
         }
 
-        axios.get('http://localhost:5000/api/get/reports/songs', {
+        axios.get('/api/get/reports/songs', {
         params:{
             title: title,
             username: username,

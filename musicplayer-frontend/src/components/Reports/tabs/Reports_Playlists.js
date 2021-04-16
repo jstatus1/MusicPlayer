@@ -25,7 +25,7 @@ const Reports_Playlists = () => {
             last_name: last_name,
         }
 
-        axios.get('http://localhost:5000/api/get/reports/playlists', {
+        axios.get('/api/get/reports/playlists', {
         params:{
             playlist_name: playlist_name,
             username: username,

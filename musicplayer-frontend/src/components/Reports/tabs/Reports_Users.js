@@ -31,7 +31,7 @@ const Reports_Users = (props) => {
             record_label: record_label
         }
 
-        axios.get('http://localhost:5000/api/get/reports/users', {
+        axios.get('/api/get/reports/users', {
         params:{
             username: username,
             first_name: first_name,
