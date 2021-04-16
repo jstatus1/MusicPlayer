@@ -26,19 +26,24 @@ class Tracks extends React.Component
     componentDidMount()
     {
         this.props.fetchPlaylist()
-        this.fetchTrack.then(() => {
-            this.setState({totalAudio: this.props.fetch_track.length})
-            this.props.fetch_track.map(data=>
-                {
-                    this.setState({totalDurationSeconds:  this.state.totalDurationSeconds+data.duration})
-                })
-        })
+       
+        if(this.props.fetch_track != null)
+        {
+            this.fetchTrack.then(() => {
+                
+                this.props.fetch_track.map(data=>
+                    {
+                        this.setState({totalDurationSeconds:  this.state.totalDurationSeconds+data.duration})
+                    })
+            })
+        }
+        
     }
    
     render()
     {
         return(<React.Fragment>
-                <Banner totalAudio={this.state.totalAudio} totalDurationSeconds={this.state.totalDurationSeconds}></Banner>
+                <Banner totalAudio={(this.props.fetch_track)?this.props.fetch_track.length:0} totalDurationSeconds={this.state.totalDurationSeconds}></Banner>
                 <div className="col-12 ">
                     <AudioTable fetch_track={this.props.fetch_track} ></AudioTable>
                 </div>
