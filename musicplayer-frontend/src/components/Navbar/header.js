@@ -76,7 +76,7 @@ class Header extends Component {
                   <ul class="dropdown-menu" aria-labelledby="profile_dropdown">
                    
                       <Link 
-                          className="dropdown-item" aria-current="page" to={`/${this.props.auth.username}`}>
+                          className="dropdown-item" aria-current="page" to={`/profileedit`}>
                             Profile
                       </Link>
                       <Link 
