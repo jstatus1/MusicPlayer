@@ -10,7 +10,6 @@ import NotificationDropDown from './notifcations/notification_dropdown'
 import SeachBar from '../SearchBar/SearchBar'
 //Styling
 import './header.css'
-import { SelectedAudioReducer } from '../../store/reducers/current_audio_reducer';
 import SearchBar from '../SearchBar/SearchBar';
 
 

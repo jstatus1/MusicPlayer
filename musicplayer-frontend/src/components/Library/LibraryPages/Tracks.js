@@ -16,19 +16,13 @@ class Tracks extends React.Component
         totalDurationSeconds: 0
     }
 
-    fetchTrack = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            this.props.fetchTracks()
-          resolve(1);
-        }, 300);
-    });
+    
       
     componentDidMount()
     {
-        this.props.fetchPlaylist()
+        
        
-        if(this.props.fetch_track != null)
-        {
+        try{
             this.fetchTrack.then(() => {
                 
                 this.props.fetch_track.map(data=>
@@ -36,7 +30,12 @@ class Tracks extends React.Component
                         this.setState({totalDurationSeconds:  this.state.totalDurationSeconds+data.duration})
                     })
             })
+        }catch(err)
+        {
+            
         }
+            
+        
         
     }
    
