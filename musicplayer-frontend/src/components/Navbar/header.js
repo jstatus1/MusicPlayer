@@ -55,18 +55,16 @@ class Header extends Component {
                         </Link>
                         
             </ul>
-              <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+              
             <ul className="navbar-nav ms-auto">
-                        <Link 
-                          className="nav-link" aria-current="page" to={this.props.auth ? '/Upgrade' : '/'}>
-                            Upgrade
-                        </Link>
+                        
                         <Link 
                           className="nav-link" aria-current="page" to={this.props.auth ? '/upload' : '/'}>
                             Upload
+                        </Link>
+                        <Link 
+                          className="nav-link" aria-current="page" to={this.props.auth ? '/reports' : '/'}>
+                            Reports
                         </Link>
               <li class="nav-item dropdown">
                 <div class="d-flex align-items-center">
