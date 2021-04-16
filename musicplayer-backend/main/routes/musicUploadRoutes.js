@@ -1,16 +1,12 @@
 var AWS = require('aws-sdk');
-var fs = require('fs')
 const fileUpload = require('express-fileupload');
 const { v4: uuidv4 } = require('uuid');
-const { Iot } = require('aws-sdk');
 var pool = require('../db');
-const { response } = require('express');
 
 
 /*---------------------S3--------------------------------*/
 module.exports = app => {
 
-    const socket = require('../socket')
 
     app.use(fileUpload())
     AWS.config.update({region: 'us-east-2'});
