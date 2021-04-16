@@ -18,7 +18,7 @@ class App extends React.Component
         //Inital Authentication Fetch
         this.props.fetchUser();
         this.props.fetchTracks();
-        this.props.fetchPlayist();
+        this.props.fetchPlaylist();
     }
 
     

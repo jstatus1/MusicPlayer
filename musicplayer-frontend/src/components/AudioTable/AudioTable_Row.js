@@ -8,7 +8,8 @@ class AudioTable_Row extends PureComponent {
 
     state={
         mouse_in: false,
-        current_songPlaying: false
+        current_songPlaying: false,
+        renderPlaylists_toggle: false
     }
 
     secondsToHms(d) {
@@ -38,6 +39,11 @@ class AudioTable_Row extends PureComponent {
             this.setState({current_songPlaying:true})
             this.props.setAudio(true)
         }
+    }
+
+    renderPlaylistDropDown()
+    {
+
     }
 
 
@@ -83,7 +89,15 @@ class AudioTable_Row extends PureComponent {
                                 <li><a class="dropdown-item" href="#">Show Credits</a></li>
                                 <li><hr class="dropdown-divider"/></li>
                                 <li><a class="dropdown-item" href="#">Save to Likes</a></li>
-                                <li><a class="dropdown-item" href="#">Add To Playlist</a></li>
+                                <li>
+                                    <a class="dropdown-item" onClick={() => this.setState({renderPlaylists_toggle:true})}>
+                                    Add To Playlist</a>
+                                </li>
+                                
+
+
+
+
                                 <li><a class="dropdown-item" href="#">Remove from This Playlist</a></li>
                                 <li><hr class="dropdown-divider"/></li>
                                 <li><a class="dropdown-item" href="#">Delete Song</a></li>

@@ -68,7 +68,7 @@ export const fetchTracks = () => async dispatch =>
     }
 }
 
-export const fetchPlayist = () => async dispatch =>
+export const fetchPlaylist = () => async dispatch =>
 {
     
     let res = await axios.get('/api/get/user/playlists/')   
