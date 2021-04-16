@@ -58,6 +58,7 @@ require('./main/routes/musicUploadRoutes')(app);
 require('./main/routes/musicRetreivalRoutes')(app);
 require('./main/routes/authRoutes')(app);
 require('./main/routes/notificationRoutes')(app);
+require('./main/routes/searchRoutes')(app);
 /*--------------------- Routes --------------------------------*/
 
 

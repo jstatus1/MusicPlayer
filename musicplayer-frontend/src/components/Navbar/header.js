@@ -7,8 +7,11 @@ import "./style.css"
 //Component
 import ModalLogin from '../profile/Modal_Login'
 import NotificationDropDown from './notifcations/notification_dropdown'
+import SeachBar from '../SearchBar/SearchBar'
 //Styling
 import './header.css'
+import { SelectedAudioReducer } from '../../store/reducers/current_audio_reducer';
+import SearchBar from '../SearchBar/SearchBar';
 
 
 class Header extends Component {
@@ -47,17 +50,18 @@ class Header extends Component {
         return(
           <React.Fragment>
             <ul className="navbar-nav ">
-                        <Link 
-                          className="nav-link" aria-current="page" to={this.props.auth ? '/Home' : '/'}>
-                            Home
-                        </Link>
-                        <Link 
-                          className="nav-link" aria-current="page" to={this.props.auth ? '/Library' : '/'}>
-                            Library
-                        </Link>
-                        
+              <Link 
+                className="nav-link" aria-current="page" to={this.props.auth ? '/Home' : '/'}>
+                  Home
+              </Link>
+              <Link 
+                className="nav-link" aria-current="page" to={this.props.auth ? '/Library' : '/'}>
+                  Library
+              </Link> 
             </ul>
-              
+            <SearchBar></SearchBar>
+             
+            
             <ul className="navbar-nav ms-auto">
                         
                         <Link 
