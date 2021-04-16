@@ -1,8 +1,21 @@
 import React, { PureComponent } from 'react'
-
+import axios from 'axios'
 import './Search_UserInfo.css'
 
-export default class Search_UserInfo extends PureComponent {
+export default class Search_UserInfo extends PureComponent 
+{
+    state={
+        isFollowing:(!Number(this.props.data.currentlyfollows) == 0)
+    }
+
+    
+    FollowerLogic()
+    {
+        axios.post('/api/toggle/follows', {params:{"personToFollow":this.props.data.uid}}).then(()=> {
+            
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -17,10 +30,16 @@ export default class Search_UserInfo extends PureComponent {
                         <t6>{this.props.data.first_name } {this.props.data.lastname}</t6>
                         <t6>{this.props.data.record_label}</t6>
                         <div className="col-6">
-                            {(Number(this.props.data.currentlyfollows) == 0)?
-                                <button className="btn btn-outline-dark"> <i class="bi bi-person-plus-fill"> Follow</i></button>:
-                                <button className="btn btn-outline-dark"> <i class="bi bi-person-check-fill">Unfollow</i></button>
-                            }
+                            
+                                <button className="btn btn-outline-dark" onClick={()=> {this.FollowerLogic()}}>
+                                    {
+                                        (this.state.isFollowing)? <i class="bi bi-person-check-fill">Unfollow</i>:
+                                        <i class="bi bi-person-plus-fill"> Follow</i>
+                                        
+                                    }
+                                </button>
+                                
+                            
                         </div>
                     </div>
                 </div>
