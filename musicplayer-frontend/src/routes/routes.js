@@ -12,14 +12,16 @@ import Notification from '../components/Navbar/notifcations/notificaiton_page'
 import Reports from '../components/Reports/Reports'
 
 //Library Imports
+import Landing from '../components/Landing/Landing'
 import LibraryNav from '../components/Library/LibraryNav'
 import Overview from '../components/Library/LibraryPages/Overview'
 import Tracks from '../components/Library/LibraryPages/Tracks'
 import Playlist from '../components/Library/LibraryPages/Playlist'
 import Search from '../components/SearchBar/Search'
+import Settings from '../components/Settings/Settings'
+import SettingsNav from '../components/Settings/SettingsNav'
 
 const Dashboard = () => <h2>Dashboard</h2>
-const Landing = () => <h2>Landing</h2>
 
 
 const LibraryRoutes = ({ match }) => (
@@ -36,6 +38,15 @@ const LibraryRoutes = ({ match }) => (
 const SearchRoutes = ({ match }) => (
     <div>
         <Route exact path={match.url} component={Landing}/>
+        <Route exact path={match.url + "/:id"} render={props => <Search {...props.match.params} />}/>
+    </div>
+)
+
+const SettingsRoutes = ({ match }) => (
+    <div>
+        <h1>Settings</h1>
+        <SettingsNav></SettingsNav>
+        <Route exact path={match.url} component={Settings}/>
         <Route exact path={match.url + "/:id"} render={props => <Search {...props.match.params} />}/>
     </div>
 )
@@ -57,7 +68,7 @@ let Routes = () =>
                  <Route exact path="/reports" component={Reports}></Route>
                  <Route exact path="/profileedit" component={ProfileEdit}></Route>
                  <Route path="/search/" component={SearchRoutes}></Route>
-
+                 <Route path="/settings/" component={SettingsRoutes}></Route>
              </div>
              <MediaPlayer/>
         </BrowserRouter> 

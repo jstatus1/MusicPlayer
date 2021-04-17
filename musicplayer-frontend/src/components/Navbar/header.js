@@ -195,7 +195,7 @@ class Header extends Component {
                             Subscription
                       </Link>
                       <Link 
-                          className="dropdown-item" aria-current="page" to={`/${this.props.auth.username}`}>
+                          className="dropdown-item" aria-current="page" to={`/Settings`}>
                             Settings
                       </Link>
                       
