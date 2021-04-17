@@ -16,6 +16,8 @@ class AudioTable_Row extends PureComponent {
         showModalPlaylist: false
     }
 
+    
+
    
 
     secondsToHms(d) {
@@ -45,6 +47,11 @@ class AudioTable_Row extends PureComponent {
             this.setState({current_songPlaying:true})
             this.props.setAudio(true)
         }
+    }
+
+    componentDidMount()
+    {
+        
     }
 
 
