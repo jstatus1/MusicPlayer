@@ -82,3 +82,6 @@ https://codepen.io/JanickFischr/pen/BYvVqP
 
 React Routes:
 https://stackoverflow.com/questions/45785583/react-router-dom-routes-and-sub-routes
+
+S3 Nginx Overload:
+https://stackoverflow.com/questions/45486350/i-get-413-request-entity-too-large-when-uploading-video-file-to-amazon-s3
