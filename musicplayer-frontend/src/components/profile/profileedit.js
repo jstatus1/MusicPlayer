@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Container, } from 'react-bootstrap'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions'
+import { useHistory } from "react-router-dom"
 import "./profile.css"
 
-const ProfileEdit = () => {
-    const [old_username, setOldUsername] = useState('');
+const ProfileEdit = ({auth}) => {
+    
+    const [display, setDisplay] = useState([]);
+    const [old_username, setOldUsername] = useState(auth.username);
     const [new_username, setNewUsername] = useState('');
     const [old_password, setOldPassword] = useState('');
     const [new_password, setNewPassword] = useState('');
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [about_me, setAboutMe] = useState('');
+    const [first_name, setFirstName] = useState(auth.first_name);
+    const [last_name, setLastName] = useState(auth.last_name);
+    const [email, setEmail] = useState(auth.email);
+    const [about_me, setAboutMe] = useState(auth.about_me);
+    const [edit_profile, setEditProfile] = useState(false);
     const [account_updated, setUpdated] = useState(false);
-     
+    let history = useHistory();
+
+
+    useEffect(() => {
+        
+    })
+
 
     const updateAccount = (event) => {
 
@@ -31,19 +43,17 @@ const ProfileEdit = () => {
             about_me: about_me
         }
 
-        axios.post('/api/updateProfile', {
-        params:{
-            old_username: old_username,
-            new_username: new_username,
-            old_password: old_password,
-            new_password: new_password,
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            about_me: about_me
-        }})
+        console.log(queryInput)
+
+        axios.post('/api/updateProfile', {queryInput})
         .then((res) => {
-            if (res.status === true) { setUpdated(true); }
+            
+                console.log('User updated!')
+                setUpdated(true);
+                setEditProfile(false);
+                history.push("/")
+            
+            
         }).catch((error) => {
             console.log(error)
         })
@@ -52,85 +62,125 @@ const ProfileEdit = () => {
 
     return (
         <div>
-            <Container>
+            <div className={edit_profile ?  "display-on" : "display-off"}>
+            <h2 style={{ "textAlign": "center", "paddingTop":"0.5em", "paddingBottom":"1em" }}>Edit Profile</h2>
+            </div>
+            <div className={edit_profile ?  "display-off" : "display-on"}>
+            <h2 style={{ "textAlign": "center", "paddingTop":"0.5em", "paddingBottom":"1em" }}>Your Profile</h2>
+            </div>
+            <div  style={{"textAlign":"center"}}><img src={auth.profile_img_url} alt="null"/></div>
+            <Container style={{"paddingTop":"30px"}}>
             <Form onSubmit = {updateAccount}>
-                <Row>
-                <Col md="1"></Col>
+            <Row>
+                <Col md="3"></Col>
                 <Col md="3">
-                <Form.Label>Current Username</Form.Label>
-                <Form.Control type="text"
-                              value={old_username}
-                              onChange={(e) => setOldUsername(e.target.value)}></Form.Control>
+                <t4 style={{ "fontWeight":"bold"}}>Username</t4>
+                <div className={edit_profile ? "display-on" : "display-off"}>
+                    <Form.Control   type="text"
+                                    value={old_username}
+                                    onChange={(e) => setNewUsername(e.target.value)}></Form.Control>
+                </div>
+                <div className={edit_profile ? "display-off" : "display-on"}>
+                    <Form.Control type="text" readOnly plaintext defaultValue={old_username}/>
+                </div>
                 </Col>
-                <Col md="1"></Col>
+                
+                
+            </Row>
+            <div className={edit_profile ? "":"display-off"}>
+            <Row>
+                
+                <Col md="3"></Col>
                 <Col md="3">
-                <Form.Label>New Username</Form.Label>
-                <Form.Control type="text"
-                              value={new_username}
-                              onChange={(e) => setNewUsername(e.target.value)}></Form.Control>
-                </Col>
-                </Row>
-                <Row>
-                <Col md="1"></Col>
-                <Col md="3">
-                <Form.Label>Current Password</Form.Label>
+                <t4 style={{ "fontWeight":"bold"}}>Current Password</t4>
                 <Form.Control type="password"
                               value={old_password}
                               onChange={(e) => setOldPassword(e.target.value)}></Form.Control>
                 </Col>
-                <Col md="1"></Col>
                 <Col md="3">
-                <Form.Label>New Password</Form.Label>
+                <t4 style={{ "fontWeight":"bold"}}>New Password</t4>
                 <Form.Control type="password"
                               value={new_password}
                               onChange={(e) => setNewPassword(e.target.value)}></Form.Control>
+                
                 </Col>
             </Row>
+            </div>
+
             <Row>
-                <Col md="1"></Col>
+                <Col md="3"></Col>
                 <Col md="3">
-                <Form.Label>First Name</Form.Label>
+                <t4 style={{ "fontWeight":"bold"}}>First Name</t4>
+                <div className={edit_profile ? "display-on" : "display-off"}>
                 <Form.Control type="text"
                               value={first_name}
                               onChange={(e) => setFirstName(e.target.value)}></Form.Control>
+                </div>
+                <div className={edit_profile ? "display-off" : "display-on"}>
+                <Form.Control type="text" readOnly plaintext defaultValue={first_name}/>
+                </div>
                 </Col>
-                <Col md="1"></Col>
                 <Col md="3">
-                <Form.Label>Last Name</Form.Label>
+                
+                <t4 style={{ "fontWeight":"bold"}}>Last Name</t4>
+                <div className={edit_profile ? "display-on" : "display-off"}>
                 <Form.Control type="text"
                               value={last_name}
                               onChange={(e) => setLastName(e.target.value)}></Form.Control>
+                </div>
+                <div className={edit_profile ? "display-off" : "display-on"}>
+                <Form.Control type="text" readOnly plaintext defaultValue={last_name}/>
+                </div>
                 </Col>
             </Row>
             <Row>
-                <Col md="1"></Col>
-                <Col md="7">
-                <Form.Label>Email</Form.Label>
+                <Col md="3"></Col>
+                <Col md="6">
+                <t4 style={{ "fontWeight":"bold" }}>Email</t4>
+                <div className={edit_profile ? "display-on" : "display-off"}>
                 <Form.Control type="text"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}></Form.Control>
+                </div>
+                <div className={edit_profile ? "display-off" : "display-on"}>
+                <Form.Control type="text" readOnly plaintext defaultValue={email}/>
+                </div>
                 </Col>
             </Row>
             
             <Row>
-                <Col md="1"></Col>
+                <Col md="3"></Col>
                 <Col md="7">
-                <Form.Label>About Me</Form.Label>
+                <t4 style={{ "fontWeight":"bold"}}>About Me</t4>
                 </Col>
             </Row>
             <Row>
-                <Col md="1"></Col>
-                <Col md="7">
+                <Col md="3"></Col>
+                <Col md="6">
+                <div className={edit_profile ? "display-on" : "display-off"}>
                 <textarea class="about-me-textbox"
-                          onchange={(e) => setAboutMe(e.target.value)}></textarea>
+                          value={about_me}
+                          onChange={(e) => setAboutMe(e.target.value)}></textarea>
+                </div>
+                <div className={edit_profile ? "display-off" : "display-on about-me-textbox"}>
+                <Form.Control type="text" readOnly plaintext defaultValue={about_me}/>
+                </div>
                 </Col>
             </Row>
-            <Row>
-                <Col md="1"></Col>
-                <Col md="7">
-                <Button variant="primary" class="button-padding" type="submit">
-                    Save
-                </Button>
+            <Row style={{"paddingTop":"30px"}}>
+                <Col md="6"></Col>
+                <Col>
+                <div className={edit_profile ?  "display-off" : "display-on"}>
+                <Button variant="secondary" onClick={(e) => setEditProfile(true)}>Edit</Button>
+                </div>
+
+                <div className={edit_profile ?  "display-on" : "display-off"} style={{"marginRight":"1em"}}>
+                <Button variant="secondary" onClick={(e) => setEditProfile(false)}>Cancel</Button>
+                </div>
+
+                <div className={edit_profile ?  "display-on" : "display-off"}>
+                <Button variant="primary" class="button-padding" type="submit">Save</Button>
+                </div>
                 </Col>
             </Row>
             </Form>
@@ -139,4 +189,10 @@ const ProfileEdit = () => {
     )
 }
 
-export default ProfileEdit
+
+const mapStateToProps = state => ({
+    auth: state.auth_reducer
+});
+  
+
+export default connect(mapStateToProps, actions)(ProfileEdit)

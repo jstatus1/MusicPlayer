@@ -5,6 +5,7 @@ import { BrowserRouter, Route} from 'react-router-dom'
 import Header from '../components/Navbar/header'
 import Upload from '../components/Upload/upload'
 import ProfileEdit from '../components/profile/profileedit'
+import ProfileView from '../components/profile/ProfileView'
 import DropZone from '../components/Upload/drop-zone'
 import MediaPlayer from '../components/MediaPlayer/mediaplayer'
 import Home from '../components/Home/Home'
@@ -47,7 +48,9 @@ let Routes = () =>
                  <Route exact path="/profileedit" component={ProfileEdit}></Route>
                  <Route exact path="/notification" component={Notification}></Route>
                  <Route exact path="/reports" component={Reports}></Route>
+                 <Route exact path="/profileview" component={ProfileView}></Route>
                  <Route exact path="/profileedit" component={ProfileEdit}></Route>
+
 
 
              </div>

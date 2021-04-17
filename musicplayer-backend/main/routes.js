@@ -376,6 +376,10 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
                   res.json(q_res.rows);
                 });
   });
+
+  /* router.get('/api/get/userprofile', (req,res,next) {
+
+  } */
   
 
 module.exports = router
