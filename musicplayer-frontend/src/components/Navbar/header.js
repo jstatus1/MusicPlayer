@@ -7,7 +7,6 @@ import "./style.css"
 //Component
 import ModalLogin from '../profile/Modal_Login'
 import NotificationDropDown from './notifcations/notification_dropdown'
-import SeachBar from '../SearchBar/SearchBar'
 //Styling
 import './header.css'
 import SearchBar from '../SearchBar/SearchBar';

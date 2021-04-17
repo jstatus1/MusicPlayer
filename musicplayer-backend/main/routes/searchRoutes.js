@@ -1,4 +1,3 @@
-const { trimEnd } = require('lodash')
 var pool = require('../db')
 
 
@@ -7,7 +6,7 @@ module.exports = app => {
         console.log(req.query.value)
         
         pool.query(`SELECT * FROM USERS WHERE username=$1 
-        OR first_name=$1 OR last_name=$1 OR city=$1 `, [req.query.value]).then((data)=>{
+        OR first_name=$1 OR last_name=$1 OR city=$1 AND NOT uid=$2`, [req.query.value,req.user.uid]).then((data)=>{
            
             if(data.rows.length ==0)
             {
