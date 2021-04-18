@@ -1,29 +1,22 @@
 import React, { PureComponent } from 'react'
 import CreatePlaylistModal from './components/CreatePlaylistModal'
-
+import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../../../store/actions'
 
+
+import SimpleAudioContainerLG from '../containers/SimpleAudioContainer-lg'
 import './Playlist.css'
 
 class Playlist extends PureComponent {
 
+    
+
     renderPlaylistRow()
     {
         try{
-            return this.props.fetch_playlist.map((playlist) => {
-               return(<div className="col-3 playlist-album-art">
-                            <div className="d-flex flex-column justify-content-center align-items-center">
-                                <div className="col-12 mr-5">
-                                    <span  className="upload-artwork-img">
-                                        <img id="Playlist_Upload_Image" className="image" src={(playlist.playlist_art != null)?playlist.playlist_art:null}></img>
-                                    </span>
-                                </div>
-                                <div className="col-12 text-center">
-                                    <t6 >{playlist.playlist_name}</t6>
-                                </div>
-                            </div>
-                        </div>)
+            return this.props.fetch_playlist.map((playlist, index) => {
+               return(<SimpleAudioContainerLG id={index} playlist={playlist} link="/Library/Playlist"></SimpleAudioContainerLG>)
              })
         }catch(err)
         {

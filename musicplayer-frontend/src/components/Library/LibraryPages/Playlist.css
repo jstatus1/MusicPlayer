@@ -7,4 +7,10 @@
 .playlist-album-art
 {
     margin-bottom: 20px;
+    
+}
+
+.playlist-album-text
+{
+    text-decoration: none;
 }
