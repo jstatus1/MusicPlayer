@@ -1,13 +1,13 @@
 const passport = require('passport');
 var pool = require('../db')
 const bcrypt = require('bcryptjs')
-const LocalStrategy = require("passport-local").Strategy;
+var LocalStrategy = require('passport-local').Strategy
 var GoogleStrategy = require('passport-google-oauth20').Strategy
-const keys = require('../../config/keys')
+require('dotenv').config('../../.env')
 
 
-const authenticateUser = (email, password, done) => {
-  console.log(email, password);
+const authenticateUser2 = (email, password, done) => {
+  
   pool.query(
     `SELECT * FROM users WHERE email = $1`,
     [email],
@@ -15,7 +15,6 @@ const authenticateUser = (email, password, done) => {
       if (err) {
         throw err;
       }
-      console.log(results.rows);
 
       if (results.rows.length > 0) {
         const user = results.rows[0];
@@ -40,6 +39,23 @@ const authenticateUser = (email, password, done) => {
     }
   );
 };
+
+let findUserByEmail = (email) =>
+{
+  pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email],
+        (q_err, res)=> {
+          
+  
+          if(res.rows.length > 0)
+          { 
+              return res.rows[0]
+          }else
+          {
+            return null
+          }
+        
+        })
+}
 
 const InsertUser = async (profile, done)  => {
   const value = [profile.displayName, 
@@ -81,19 +97,37 @@ const InsertUser = async (profile, done)  => {
                         
 }
 
-//Local Sign Up
-passport.use(
-  new LocalStrategy(
-    { usernameField: "email", passwordField: "password" },
-    authenticateUser
-  )
+
+passport.use('local',
+  new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, async (email, password, done) => {
+    
+   await pool.query(`SELECT * FROM users WHERE email=$1 LIMIT 1`, [email],
+        (q_err, res)=> {
+          if(res.rows.length > 0)
+          { 
+               //   // Match password
+              bcrypt.compare(password, res.rows[0].password, (err, isMatch) => {
+                if (isMatch) {
+                  const user = res.rows[0];
+                  return done(null, user);
+                } else {
+                  return done(null,false,{message:{validPassword:false}});
+                }
+              });
+          }else
+          {
+            return null
+          }
+        })
+  })
 );
+
 
 //Google OAuth
 passport.use(
   new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
+    clientID: process.env.googleClientID,
+    clientSecret: process.env.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
   },
@@ -134,7 +168,6 @@ passport.deserializeUser((uid, done) => {
     {
       return done(null, false)
     }else{
-      console.log(`UID is ${results.rows[0].uid}`);
       return done(null, results.rows[0]);
     }
   });

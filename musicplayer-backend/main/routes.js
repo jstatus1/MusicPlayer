@@ -239,6 +239,143 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
       res.json(q_res.rows);
     })
   });
+
+  function searchFormLogic(prefixtable, varname, variable, $number) {
+    if (variable == 'nodata')
+      return `$` + $number + ` = ` + '$' + $number
+    else {
+      if (prefixtable != '') 
+        return prefixtable + `.` + varname + ` = $` + $number;
+      else       
+        return  varname + ` = $` + $number;
+    }
+  };
+
+  router.get('/api/get/reports/users', (req,res,next) => {
+    const username = req.query.username == '' ? 'nodata': req.query.username;
+    const first_name = req.query.first_name == '' ? 'nodata' : req.query.first_name;
+    const last_name = req.query.last_name == '' ? 'nodata' : req.query.last_name;
+    const isMusician = req.query.isMusician;
+    const record_label = req.query.record_label == '' ? 'nodata': req.query.record_label;
+ 
+    const values = [ username, first_name, last_name, isMusician ]
+    console.log(values);
+
+    const query = `SELECT username, musician, first_name, last_name, socialmedia_fb, record_label
+    socialmedia_tw, socialmedia_in, record_label, num_listeners 
+    FROM users 
+    WHERE ${searchFormLogic('','username', username, 1)} AND
+          ${searchFormLogic('','first_name',first_name,2)} AND
+          ${searchFormLogic('','last_name',last_name,3)} AND
+    musician = $4`;
+
+    console.log(query);
+
+    pool.query(query, values, (q_err, q_res) => {
+                  if(q_err)
+                  {
+                    console.log(q_err)
+                  }
+                  console.log(q_res.rows)
+                  res.json(q_res.rows);
+                });
+  });
+
+  router.get('/api/get/reports/songs', (req,res,next) => {
+    const title = req.query.title == '' ? 'nodata': req.query.title;
+    const username = req.query.username == '' ? 'nodata' : req.query.username;
+    const album_title = req.query.album_title == '' ? 'nodata' : req.query.album_title;
+    const first_name = req.query.first_name == '' ? 'nodata' : req.query.first_name;
+    const last_name = req.query.last_name == '' ? 'nodata' : req.query.last_name;
+    const record_label = req.query.record_label == '' ? 'nodata' : req.query.record_label;
+
+    const values = [ title, username, first_name, last_name, album_title ]
+    console.log(values);
+
+
+
+    const query = `SELECT S.title, U.username,  U.first_name, U.last_name, A.album_title, S.duration, S.release_date, S.record_label
+                  FROM  songs S, albums A, users U
+                  WHERE S.user_id = U.uid AND
+                        S.album_id = A.album_id AND
+                        ${searchFormLogic('S','title',title, 1)} AND
+                        ${searchFormLogic('U','username',username,2)} AND
+                        ${searchFormLogic('U','first_name',first_name,3)} AND
+                        ${searchFormLogic('U','last_name',last_name,4)} AND
+                        ${searchFormLogic('A','album_title',album_title,5)}`
+                        ;
+
+    console.log(query);
+
+    pool.query(query, values, (q_err, q_res) => {
+                  if(q_err)
+                  {
+                    console.log(q_err)
+                  }
+                  console.log(q_res.rows)
+                  res.json(q_res.rows);
+                });
+  });
+
+  router.get('/api/get/reports/albums', (req,res,next) => {
+    const album_title = req.query.album_title == '' ? 'nodata': req.query.album_title;
+    const username = req.query.username == '' ? 'nodata': req.query.username;
+    const first_name = req.query.first_name == '' ? 'nodata' : req.query.first_name;
+    const last_name = req.query.last_name == '' ? 'nodata' : req.query.last_name;
+    
+ 
+    const values = [ album_title, username, first_name, last_name ]
+    console.log(values);
+
+    const query = `select A.album_title, U.username, U.first_name, U.last_name, A.album_duration, A.release_date
+    from users U, albums A
+    where A.user_id = U.uid AND
+        ${searchFormLogic('A','album_title',album_title,1)} AND 
+        ${searchFormLogic('U','username',username,2)} AND
+        ${searchFormLogic('U','first_name',first_name,3)} AND
+        ${searchFormLogic('U','last_name',last_name,4)}`;
+
+    console.log(query);
+
+    pool.query(query, values, (q_err, q_res) => {
+                  if(q_err)
+                  {
+                    console.log(q_err)
+                  }
+                  console.log(q_res.rows)
+                  res.json(q_res.rows);
+                });
+  });
+
+  router.get('/api/get/reports/playlists', (req,res,next) => {
+    const playlist_name = req.query.playlist_name == '' ? 'nodata': req.query.playlist_name;
+    const username = req.query.username == '' ? 'nodata': req.query.username;
+    const first_name = req.query.first_name == '' ? 'nodata' : req.query.first_name;
+    const last_name = req.query.last_name == '' ? 'nodata' : req.query.last_name;
+    
+ 
+    const values = [ playlist_name, username, first_name, last_name ]
+    console.log(values);
+
+    const query = `select P.playlist_name, U.username, U.first_name, U.last_name
+    from playlists P, users U
+    where P.user_id = U.uid AND
+        ${searchFormLogic('P','playlist_name',playlist_name,1)} AND 
+        ${searchFormLogic('U','username',username,2)} AND
+        ${searchFormLogic('U','first_name',first_name,3)} AND
+        ${searchFormLogic('U','last_name',last_name,4)}`;
+
+    console.log(query);
+
+    pool.query(query, values, (q_err, q_res) => {
+                  if(q_err)
+                  {
+                    console.log(q_err)
+                  }
+                  console.log(q_res.rows)
+                  res.json(q_res.rows);
+                });
+  });
   
 
 module.exports = router
