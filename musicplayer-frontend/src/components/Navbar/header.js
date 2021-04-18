@@ -9,6 +9,7 @@ import ModalLogin from '../profile/Modal_Login'
 import NotificationDropDown from './notifcations/notification_dropdown'
 //Styling
 import './header.css'
+import SearchBar from '../SearchBar/SearchBar';
 
 
 class Header extends Component {
@@ -32,13 +33,13 @@ class Header extends Component {
       case false:
           return(
               <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
+                        <li className="nav-link">
                           <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal" >
                             Sign In
                           </button>
                           
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-link">
                           <button role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#SignInModal">Create Account</button>
                         </li>
               </ul>
@@ -47,17 +48,18 @@ class Header extends Component {
         return(
           <React.Fragment>
             <ul className="navbar-nav ">
-                        <Link 
-                          className="nav-link" aria-current="page" to={this.props.auth ? '/Home' : '/'}>
-                            Home
-                        </Link>
-                        <Link 
-                          className="nav-link" aria-current="page" to={this.props.auth ? '/Library' : '/'}>
-                            Library
-                        </Link>
-                        
+              <Link 
+                className="nav-link" aria-current="page" to={this.props.auth ? '/Home' : '/'}>
+                  Home
+              </Link>
+              <Link 
+                className="nav-link" aria-current="page" to={this.props.auth ? '/Library' : '/'}>
+                  Library
+              </Link> 
             </ul>
-              
+            <SearchBar></SearchBar>
+             
+            
             <ul className="navbar-nav ms-auto">
                         
                         <Link 
@@ -193,7 +195,7 @@ class Header extends Component {
                             Subscription
                       </Link>
                       <Link 
-                          className="dropdown-item" aria-current="page" to={`/${this.props.auth.username}`}>
+                          className="dropdown-item" aria-current="page" to={`/Settings`}>
                             Settings
                       </Link>
                       
@@ -211,24 +213,24 @@ class Header extends Component {
   render() {
     return(
       <React.Fragment>
-      <ModalLogin ></ModalLogin>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                  <Link 
-                    className="navbar-brand" to={this.props.auth ? '/discovery' : '/'}>
-                      <img class="logo-size" src={logo} alt="Logo"/>
-                  </Link>
-                  <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                  </button>
-                  <div className="collapse navbar-collapse " id="navbarSupportedContent">
+        <ModalLogin ></ModalLogin>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <Link 
+              className="navbar-brand" to={this.props.auth ? '/discovery' : '/'}>
+                <img class="logo-size" src={logo} alt="Logo"/>
+            </Link>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse " id="navbarSupportedContent">
 
 
-                    {this.renderContent()}
+              {this.renderContent()}
 
 
-                  </div>
-            </nav> 
-            </React.Fragment>)
+            </div>
+      </nav> 
+    </React.Fragment>)
       
     }
 }

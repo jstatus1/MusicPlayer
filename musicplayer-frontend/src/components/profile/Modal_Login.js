@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import  { Redirect } from 'react-router-dom'
 
 
 import './Modal_Login.css'
@@ -67,12 +68,14 @@ class ModalLogin extends React.Component
                     axios.post('/auth/login/callback', {
                         email: self.state.email,
                         password: self.state.password
+                    }).then(()=> {
+
                     }).catch(
                         error => {
                             console.log(error)
-                            
+                            window.location.reload();
                         }
-                    )  
+                    )
 
                 }else{
                     self.setState({validPassword: false})
@@ -198,7 +201,7 @@ class ModalLogin extends React.Component
                             }
                                        
                             
-                            <button type="button" class="btn btn-danger" onClick={e => {this.signInLogic()}}>Sign In</button>
+                            <button type="button" class="btn btn-danger" onClick={() => {this.signInLogic()}}>Sign In</button>
                             
                         </div> 
                     </div>

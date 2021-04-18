@@ -31,7 +31,7 @@ module.exports = app => {
   });
 
   app.post('/auth/login/callback', (req, res, next) => {
-    passport.authenticate('local')(req, res, next);
+    passport.authenticate('local')(req, res, next)
   });
 
 
