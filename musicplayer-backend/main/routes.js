@@ -258,7 +258,7 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
     const isMusician = req.query.isMusician;
     const record_label = req.query.record_label == '' ? 'nodata': req.query.record_label;
  
-    const values = [ username, first_name, last_name, isMusician ]
+    const values = [ username, first_name, last_name ]
     console.log(values);
 
     const query = `SELECT username, musician, first_name, last_name, socialmedia_fb, record_label
@@ -266,8 +266,7 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
     FROM users 
     WHERE ${searchFormLogic('','username', username, 1)} AND
           ${searchFormLogic('','first_name',first_name,2)} AND
-          ${searchFormLogic('','last_name',last_name,3)} AND
-    musician = $4`;
+          ${searchFormLogic('','last_name',last_name,3)}`;
 
     console.log(query);
 
