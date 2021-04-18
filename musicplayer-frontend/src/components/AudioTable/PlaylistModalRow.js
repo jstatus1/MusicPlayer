@@ -6,10 +6,24 @@ export default class PlaylistModalRow extends PureComponent {
 
     render() {
         return (
-            
-                <div className="col-4 PlaylistModalRow-Image-Container">
-                    <img className="PlaylistModalRow-Image-Image" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.RE1FRfmUdiYQikZZ251EQQHaHa%26pid%3DApi&f=1"></img>
-                </div>
+                <React.Fragment>
+                    <div className="PlaylistModalRow"> 
+                        <div className="d-flex flex-row">
+                            <div className="col-2 PlaylistModalRow-Image-Container ">
+                                <img className="PlaylistModalRow-Image-Image" src={this.props.playlist.playlist_art}></img>
+                            </div>
+                            <div className="col-6">
+                            <t6>{this.props.playlist.playlist_name}</t6>
+                                
+                            </div>
+                            <div className="col-4">
+                                <button>Add To Playlist</button>
+                            </div>
+                        </div>
+                    
+                        <hr></hr>
+                    </div>
+                </React.Fragment>
         )
     }
 }

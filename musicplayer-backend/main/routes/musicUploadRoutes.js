@@ -853,4 +853,38 @@ module.exports = app => {
                         })
         }
     })
+
+    app.post('/api/create/playlist_with_audio', async(req, res) => {
+        let playlist_name = req.body.title
+        let songId = req.body.songId
+        let isPublic = req.body.isPublic
+
+        //create playlist, then add the song to the playlist
+        await pool.query(`INSERT INTO playlists(user_id, playlist_name, public_status)
+        VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`, [req.user.uid, playlist_name, isPublic]).then(
+        async (CreatePlaylistData) => {
+            await pool.query(`SELECT MAX(playlist_id) AS playlist_id FROM playlists WHERE user_id=$1
+            and playlist_name=$2`, [req.user.uid, playlist_name]).then(async(pidData) => {
+                console.log(pidData.rows)
+                await pool.query(`INSERT INTO playlist_songs(playlist_id, song_id)
+                VALUES($1, $2) ON CONFLICT DO NOTHING`, [pidData.rows[0].playlist_id, songId]).then(
+                    async(psData)=>{
+                        return res.status(200).send(true)
+                    }
+                ).catch((err) => {
+                    console.log(err)
+                    return res.status(401).send(false)
+                })
+
+
+            }).catch((err) => {
+                console.log(err)
+                return res.status(401).send(false)
+            })
+
+        }).catch((err) => {
+           console.log(err)
+           return res.status(401).send({mesage: 'Server Is Down'})
+        })
+    })
 }

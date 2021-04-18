@@ -5,3 +5,13 @@
 }
 
 button.PlaylistModal_Label:focus {box-shadow:none !important;}
+
+.audioSelection-Image
+{
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+    background-image: linear-gradient(
+        135deg
+        ,#846170,#70929c);
+}

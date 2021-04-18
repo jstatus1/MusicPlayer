@@ -115,7 +115,8 @@ class AudioTable_Row extends PureComponent {
                     }
                     
                 </tr>
-                <PlaylistModal ></PlaylistModal>
+                
+                <PlaylistModal song={this.props.song} song_image={this.props.song.song_image}></PlaylistModal>
                 </React.Fragment>)
     }
 }

@@ -11,7 +11,7 @@ BEGIN
     (
         user_id
     )
-    VALUES( $1') 
+    VALUES( $1)) 
         using 
             NEW.uid;
 	
