@@ -891,9 +891,7 @@ module.exports = app => {
     app.post('/api/addAudio/playlist/', async(req, res)=> {
         let playlist_id = req.body.playlist_id
         let song_id = req.body.song_id
-        console.log("tacos:", [playlist_id,song_id])
-
-        return res.send(true)
+        
         await pool.query(`SELECT COUNT(*) FROM playlist_songs 
                           WHERE playlist_id=$1 AND song_id=$2`, [playlist_id, song_id]).then(
                                 async(psData)=>{

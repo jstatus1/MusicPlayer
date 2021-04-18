@@ -12,7 +12,6 @@ export default class PlaylistModalRow extends PureComponent
 
     addToPlaylistLogic()
     {   
-        return console.log(this.props.song.song_id)
         axios.post('/api/addAudio/playlist/', 
         {playlist_id: this.props.playlist.playlist_id, song_id: this.props.song.song_id})
         .then(res => {
