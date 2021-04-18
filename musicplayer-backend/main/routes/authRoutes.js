@@ -115,41 +115,42 @@ module.exports = app => {
       });
   })
 
-  function ProfileEditLogic(varname, variable, $number) {
-    if (variable === 'nodata') { return ' ' }
-    else {
-      return ` ` + varname + ` = $` + $number 
-    }
 
-  }
+
+  
   app.post('/api/updateProfile', async (req, res, next) => {
 
     console.log(req.body)
       let old_username = req.body.queryInput.old_username
-      let new_username = req.body.queryInput.new_username
-      let old_password = req.body.queryInput.old_password
-      let new_password = req.body.queryInput.new_password
-      let first_name = req.body.queryInput.first_name
-      let last_name = req.body.queryInput.last_name
-      let email = req.body.queryInput.email
-      let about_me = req.body.queryInput.about_me
+      let username = req.body.queryInput.username 
+      let new_password = req.body.queryInput.new_password 
+      let first_name = req.body.queryInput.first_name 
+      let last_name = req.body.queryInput.last_name 
+      let email = req.body.queryInput.email 
+      let about_me = req.body.queryInput.about_me 
 
-      let test_value = [old_username, new_username, old_password, new_password, first_name, last_name, email, about_me ]
+      let test_value = [username, new_password, first_name, last_name, email, about_me, old_username ]
       console.log(test_value)
+      let value = []
 
-      let hashedOldPassword =  await bcrypt.hash(old_password, 10);
       let hashedNewPassword =  await bcrypt.hash(new_password, 10);
+      let query = ``
 
-      let value = [old_username, new_username, hashedOldPassword, hashedNewPassword, first_name, last_name, email, about_me ]
-      let newquery = `UPDATE users 
-      SET ${ProfileEditLogic('username', new_username, 2)}, ${ProfileEditLogic('password', new_password, 4)},
-          ${ProfileEditLogic('first_name',first_name,5)}, ${ProfileEditLogic('last_name',last_name,6)},
-          ${ProfileEditLogic('email',email,7)}, ${ProfileEditLogic('about_me',about_me,8)}
-          WHERE username = $1 AND (password = $3 OR password is NULL)`
+      if (new_password !== null) {
+        value = [username, hashedNewPassword, first_name, last_name, email, about_me, old_username ]
+        query = `UPDATE users 
+                 SET username = $1, password = $2, first_name = $3, last_name = $4, email = $5, about_me = $6
+                 WHERE username = $7`
+      }
+      else {
+        value = [username, first_name, last_name, email, about_me, old_username ]
+        query = `UPDATE users 
+        SET username = $1, first_name = $2, last_name = $3, email = $4, about_me = $5
+        WHERE username = $6`
+      }
 
-      await console.log(newquery)
 
-      await pool.query(newquery,value, (q_err, q_res)=> {
+      await pool.query(query,value, (q_err, q_res)=> {
                               if(q_err) {
                                 console.log(q_err);
                                 res.status(401).send({status: false});
