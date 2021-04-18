@@ -887,4 +887,37 @@ module.exports = app => {
            return res.status(401).send({mesage: 'Server Is Down'})
         })
     })
+
+    app.post('/api/addAudio/playlist/', async(req, res)=> {
+        let playlist_id = req.body.playlist_id
+        let song_id = req.body.song_id
+        console.log([playlist_id,song_id])
+        await pool.query(`SELECT COUNT(*) FROM playlist_songs 
+                          WHERE playlist_id=$1 AND song_id=$2`, [playlist_id, song_id]).then(
+                                async(psData)=>{
+                                    if(Number(psData.rows[0].count))
+                                    {
+                                        //There is already a song here
+                                        return res.status(401).send(false)
+                                    }else{
+                                        //There is not a song here
+                                        await pool.query(`INSERT INTO playlist_songs(playlist_id, song_id)
+                                        VALUES($1, $2) ON CONFLICT DO NOTHING`, [playlist_id, song_id]).then(
+                                            async(psData)=>{
+                                                return res.status(200).send(true)
+                                            }
+                                        ).catch((err) => {
+                                            console.log(err)
+                                            return res.status(401).send(false)
+                                        })
+                                        
+                                    }
+                                }
+                            ).catch((err) => {
+                                console.log(err)
+                                return res.status(401).send(false)
+                            })
+        
+
+    })
 }

@@ -1,12 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
+import $ from "jquery";
 import axios from 'axios'
 
 import './PlaylistModal.css'
 
 
 import PlaylistModalRow from './PlaylistModalRow'
+
+
+
 class PlaylistModal extends PureComponent {
     
     state = {
@@ -14,7 +18,8 @@ class PlaylistModal extends PureComponent {
         song_image: this.props.song_image,
         isPublic: true,
         title: null,
-        isValid: true
+        isValid: true,
+        UploadSuccess: false
     }
 
     onClickFunction(e)
@@ -25,7 +30,7 @@ class PlaylistModal extends PureComponent {
     renderUsersPlaylist()
     {
         return this.props.fetch_playlist.map((playlist)=> {
-            return <PlaylistModalRow playlist={playlist}></PlaylistModalRow>
+            return <PlaylistModalRow song={this.props.song} playlist={playlist}></PlaylistModalRow>
         })
     }
     
@@ -51,6 +56,24 @@ class PlaylistModal extends PureComponent {
                 </div>)
     }
 
+
+    checkAlert(){
+        if(!this.state.UploadSuccess)
+        {
+            return <div class="alert alert-danger alert-dismissible fade show" role="alert">
+             <strong>Holy guacamole!</strong> {this.state.errMessage}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => this.setState({errMessage:null})}></button>
+            </div>
+        }else{
+            return <div class="alert alert-success alert-dismissible fade show" role="alert">
+             <strong>Great!</strong> {this.state.successMessage}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => this.setState({successMessage:null})}></button>
+            </div>
+        }
+    }
+
+    
+
     submitPlaylist()
     {
         if(this.state.title == null || this.state.title == "")
@@ -60,6 +83,12 @@ class PlaylistModal extends PureComponent {
 
         axios.post('/api/create/playlist_with_audio', 
             {title: this.state.title, songId: this.props.song.song_id, isPublic: this.state.isPublic})
+            .then((res) => {
+                if(res.data)
+                {
+                    
+                }     
+            })
     }
 
     renderCreatePlaylist()
@@ -92,7 +121,7 @@ class PlaylistModal extends PureComponent {
                     </div>
                 </div>
                 <hr></hr>
-                <button onClick={() => this.submitPlaylist()}> Save</button>
+                <button onClick={() => this.submitPlaylist()} data-bs-dismiss="modal"> Save</button>
         </div>)
     }
 
