@@ -28,7 +28,8 @@ class Banner extends React.Component
     {
         if(this.props.fetch_track)
             this.props.fetch_track.map((song) => {
-                this.setState({TotalDuration: this.state.TotalDuration+song.duration})
+                console.log(song.duration)
+                this.setState({TotalDuration: (song.duration + this.state.TotalDuration)})
             })
     }
 

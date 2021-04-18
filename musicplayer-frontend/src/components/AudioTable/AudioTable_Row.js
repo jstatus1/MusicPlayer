@@ -84,26 +84,26 @@ class AudioTable_Row extends PureComponent {
                                 <i class="bi bi-three-dots"></i>
                             </button>
                             <ul class="dropdown-menu dropend" aria-labelledby="AudioTable_More_DropDown">
-                                <li><a class="dropdown-item" href="#">Add To Queue</a></li>
+                                {/* <li><a class="dropdown-item" href="#">Add To Queue</a></li>
                                 <li><a class="dropdown-item" href="#">Go To Song Radio</a></li>
                                 <li><hr class="dropdown-divider"/></li>
                                 <li><a class="dropdown-item" href="#">Go To Artist</a></li>
                                 <li><a class="dropdown-item" href="#">Go To Album</a></li>
                                 <li><a class="dropdown-item" href="#">Show Credits</a></li>
                                 <li><hr class="dropdown-divider"/></li>
-                                <li><a class="dropdown-item" href="#">Save to Likes</a></li>
+                                <li><a class="dropdown-item" href="#">Save to Likes</a></li> */}
                                 <li> <a type="button" class="btn" data-bs-toggle="modal" data-bs-target={`#playlistModal${this.props.song.song_id}`} class="dropdown-item">Add To Playlist</a></li>
-                                <li><a class="dropdown-item" href="#">Remove from This Playlist</a></li>
+                                {/* <li><a class="dropdown-item" href="#">Remove from This Playlist</a></li> */}
+                                {/* <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#">Delete Song</a></li> */}
                                 <li><hr class="dropdown-divider"/></li>
-                                <li><a class="dropdown-item" href="#">Delete Song</a></li>
-                                <li><hr class="dropdown-divider"/></li>
-                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                {/* <li><a class="dropdown-item" href="#">Share</a></li> */}
                             </ul>
 
-                            <ul class="dropdown-menu dropend" aria-labelledby="AudioTable_More_DropDown">
+                            {/* <ul class="dropdown-menu dropend" aria-labelledby="AudioTable_More_DropDown">
                                 <li><a class="dropdown-item" href="#">Add To Queue</a></li>
                                 <li><a class="dropdown-item" href="#">Go To Song Radio</a></li>
-                            </ul>
+                            </ul> */}
                         </td>:
                             
                         <td>{this.secondsToHms(this.props.song.duration)}</td>

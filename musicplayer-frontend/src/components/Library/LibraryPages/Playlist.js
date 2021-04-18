@@ -10,8 +10,6 @@ import './Playlist.css'
 
 class Playlist extends PureComponent {
 
-    
-
     renderPlaylistRow()
     {
         try{
