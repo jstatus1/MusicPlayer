@@ -36,7 +36,7 @@ class PlaylistModal extends PureComponent {
     
     renderPlayistNav()
     {
-        return(<div className="container">
+        return(<div key={this.props.id} className="container" >
                     <div className="PlayistModal_Nav_Header d-flex flex-row justify-content-start">
                         <div className="library_header mt-4">
                             <div className="library_label_group">   
@@ -127,7 +127,7 @@ class PlaylistModal extends PureComponent {
 
 
     render() {
-        return (<div class="modal fade" id="playlistModal" tabindex="-1" aria-labelledby="playlistModalLabel" aria-hidden="false">
+        return (<div class="modal fade" id={`playlistModal`+this.props.id} tabindex="-1" aria-labelledby="playlistModalLabel" aria-hidden="false">
                 <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 

@@ -14,7 +14,7 @@ export default class SimpleAudioContainerLg extends PureComponent {
     render() {
         return (<div className="col-3 playlist-album-art"  key={this.props.id}>
                 <div className="d-flex flex-column justify-content-center align-items-center">
-                    <Link to={this.props.link + `/${this.props.playlist.playlist_name}`}><div className="col-12 " onMouseEnter={() => this.setState({mouse_in:true})} onMouseLeave={() => this.setState({mouse_in:false})}>
+                    <Link to={this.props.link + `/${this.props.playlist.playlist_name}/${this.props.playlist.playlist_id}`}><div className="col-12 " onMouseEnter={() => this.setState({mouse_in:true})} onMouseLeave={() => this.setState({mouse_in:false})}>
                         <span  className="upload-artwork-img">
                             <img id="Playlist_Upload_Image" className="image" src={(this.props.playlist.playlist_art != null)?this.props.playlist.playlist_art:null}></img>
                         </span>

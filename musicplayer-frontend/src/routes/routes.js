@@ -20,7 +20,7 @@ import Playlist from '../components/Library/LibraryPages/Playlist'
 import Search from '../components/SearchBar/Search'
 import Settings from '../components/Settings/Settings'
 import SettingsNav from '../components/Settings/SettingsNav'
-
+import PlaylistDisplayPage from '../components/Library/LibraryPages/components/PlaylistDisplayPage'
 const Dashboard = () => <h2>Dashboard</h2>
 
 
@@ -31,9 +31,17 @@ const LibraryRoutes = ({ match }) => (
         <Route exact path={match.url} component={Overview}/>
         <Route exact path={match.url + "/overview"} component={Overview}/>
         <Route exact path={match.url + "/tracks"} component={Tracks}/>
-        <Route exact path={match.url + "/playlist"} component={Playlist}/>
+        <Route path={match.url + "/playlist"} component={PlaylistRoutes}/>
     </div>
 )
+
+const PlaylistRoutes = ({ match }) => (
+    <div>
+        <Route exact path={match.url} component={Playlist}/>
+        <Route exact path={match.url + "/:playlist_name/:playlist_id"} render={props => <PlaylistDisplayPage {...props.match.params} />}/>
+    </div>
+)
+
 
 const SearchRoutes = ({ match }) => (
     <div>

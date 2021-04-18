@@ -49,11 +49,6 @@ class AudioTable_Row extends PureComponent {
         }
     }
 
-    componentDidMount()
-    {
-        
-    }
-
 
     render() {
         return(<React.Fragment>
@@ -97,7 +92,7 @@ class AudioTable_Row extends PureComponent {
                                 <li><a class="dropdown-item" href="#">Show Credits</a></li>
                                 <li><hr class="dropdown-divider"/></li>
                                 <li><a class="dropdown-item" href="#">Save to Likes</a></li>
-                                <li> <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#playlistModal" class="dropdown-item">Add To Playlist</a></li>
+                                <li> <a type="button" class="btn" data-bs-toggle="modal" data-bs-target={`#playlistModal${this.props.song.song_id}`} class="dropdown-item">Add To Playlist</a></li>
                                 <li><a class="dropdown-item" href="#">Remove from This Playlist</a></li>
                                 <li><hr class="dropdown-divider"/></li>
                                 <li><a class="dropdown-item" href="#">Delete Song</a></li>
@@ -113,10 +108,10 @@ class AudioTable_Row extends PureComponent {
                             
                         <td>{this.secondsToHms(this.props.song.duration)}</td>
                     }
-                    
+                    <PlaylistModal id={this.props.song.song_id} song={this.props.song} song_image={this.props.song.song_image}></PlaylistModal>
                 </tr>
                 
-                <PlaylistModal song={this.props.song} song_image={this.props.song.song_image}></PlaylistModal>
+                
                 </React.Fragment>)
     }
 }

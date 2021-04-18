@@ -7,7 +7,9 @@ import * as action from '../../store/actions'
 
 class Banner extends React.Component
 {
-    
+    state={
+        TotalDuration: 0
+    }
 
     secondsToHms(d) {
 
@@ -22,6 +24,13 @@ class Banner extends React.Component
         ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
     }
 
+    componentDidMount()
+    {
+        if(this.props.fetch_track)
+            this.props.fetch_track.map((song) => {
+                this.setState({TotalDuration: this.state.TotalDuration+song.duration})
+            })
+    }
 
 
   
@@ -47,7 +56,7 @@ class Banner extends React.Component
                         <div  className="Banner_Info  d-flex flex-column justify-content-center align-items-center">
                             <h1>{this.props.totalAudio}</h1>
                             <t5>Tracks</t5>
-                            <t4>{this.secondsToHms(this.props.totalDurationSeconds)}</t4>
+                            <t4>{this.secondsToHms(this.state.TotalDuration)}</t4>
                         </div>
                     </div>
                     <div className="col-6  d-flex flex-row Banner_Album">
