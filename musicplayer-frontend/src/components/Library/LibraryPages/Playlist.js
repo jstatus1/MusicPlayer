@@ -4,14 +4,15 @@ import CreatePlaylistModal from './components/CreatePlaylistModal'
 import { connect } from 'react-redux'
 import * as actions from '../../../store/actions'
 
+import './Playlist.css'
+
 class Playlist extends PureComponent {
 
     renderPlaylistRow()
     {
         try{
             return this.props.fetch_playlist.map((playlist) => {
-                console.log(playlist)
-               return(<div className="col-3">
+               return(<div className="col-3 playlist-album-art">
                             <div className="d-flex flex-column justify-content-center align-items-center">
                                 <div className="col-12 mr-5">
                                     <span  className="upload-artwork-img">
@@ -23,7 +24,7 @@ class Playlist extends PureComponent {
                                 </div>
                             </div>
                         </div>)
-            })
+             })
         }catch(err)
         {
             return null
@@ -33,17 +34,17 @@ class Playlist extends PureComponent {
     render() {
         return (<React.Fragment>
                 
-                <div className="d-flex col-12 flex-column align-items-center">
-                <div>
-                    <h6>Hear your own playlists and the playlists you’ve liked: </h6>
-                </div>
+                <div className="d-flex flex-row  mt-5 d-flex justify-content-between">
                     <div>
-                        <button className="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#CreatePlaylistModal"><i class="bi bi-plus-circle-fill"></i> New Playlist</button>
+                        <h6>Hear your own playlists and the playlists you’ve liked: </h6>
+                    </div>
+                    <div>
+                        <button  data-bs-toggle="modal" data-bs-target="#CreatePlaylistModal"><i class="bi bi-plus-circle-fill"></i> New Playlist</button>
                     </div>
                 </div>
-                <div className="Playlist_Container container mt-5">
-                    <div className="d-flex flex-row"> 
-                         {this.renderPlaylistRow()}
+                <div className="Playlist_Container container mt-5 mb-5">
+                    <div className="row">
+                        {this.renderPlaylistRow()}
                     </div>
                 </div>
                 <CreatePlaylistModal></CreatePlaylistModal>
