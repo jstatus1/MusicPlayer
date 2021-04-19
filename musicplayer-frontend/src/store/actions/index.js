@@ -52,7 +52,7 @@ export let setAudio = (setting) =>
 export const fetchTracks = () => async dispatch =>
 {
     
-    let res = await axios.get('/api/get/tracks')   
+    let res = await axios.get('/api/get/user/tracks')   
     
     try{
         dispatch({

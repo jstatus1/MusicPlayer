@@ -18,14 +18,11 @@ class Tracks extends React.Component
             totalAudio: null,
             totalDurationSeconds: 0
         }
-        this.props.fetchTracks()
     }
    
 
     componentDidMount()
-    {
-        
-       
+    {  
         try{
             this.fetchTrack.then(() => {
                 
@@ -37,10 +34,7 @@ class Tracks extends React.Component
         }catch(err)
         {
             
-        }
-            
-        
-        
+        }  
     }
    
     render()

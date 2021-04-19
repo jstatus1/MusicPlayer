@@ -18,12 +18,6 @@ class Banner extends React.Component
 
         
     }
-
-    componentDidMount()
-    {
-        
-    }
-    
     
 
     secondsToHms(d) {
@@ -67,7 +61,7 @@ class Banner extends React.Component
                     </div>
                     <div className="col-6  d-flex flex-row Banner_Album">
                         
-                        <img className="Banner_Album_Image" src={this.props.selectedAudio.song_image}></img>
+                        <img className="Banner_Album_Image" src={this.props.selectedAudio.song_image || this.props.selectedAudio.album_art}></img>
                     </div>
                     </React.Fragment>
                     :null

@@ -5,6 +5,9 @@ import { Form, Button, Row, Col, Container } from 'react-bootstrap'
 import logo from './uhcampus.jpg';
 import "./Homestyle.css"
 
+
+import ExploreSongs from './ExploreSongs'
+
 const Home = () => {
     
     return (
@@ -33,10 +36,10 @@ const Home = () => {
                 <Row>
                     
                 </Row>
-                
+                <ExploreSongs></ExploreSongs>
             </Container>
             
-
+           
         </div>
     )
 }
