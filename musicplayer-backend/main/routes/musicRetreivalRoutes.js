@@ -247,7 +247,25 @@ module.exports = app => {
 
 
     app.delete('/api/delete/albumById', async(req, res) => {
+        let album_id = req.query.album_id
+        let user_id = req.query.user_id
+        let s3_album_image_key= req.query.s3_album_image_key
 
+        console.log([album_id,user_id,s3_album_image_key])
+        if(user_id != req.user.uid)
+            return res.status(401).send({message: "This is Not Your Property!!"})
+        
+        
+        deleteAlbumImageFromS3(s3_album_image_key)
+        
+        await pool.query(`DELETE FROM albums 
+        WHERE album_id=$1 and user_id=$2`, [album_id, user_id])
+            .then((q_res) => {
+            console.log("Removed Playlist ID: ", album_id)
+            return res.status(200).send(true)
+            }).catch(err => {
+                return res.status(401).send({message: "This Item Is Already Removed!!"})
+            })
     })
 
     
