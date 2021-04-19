@@ -49,8 +49,6 @@ export default class SimpleAudioContainerLg extends PureComponent {
             default:
                 break;
         }
-            
-
     }
 
     render() {

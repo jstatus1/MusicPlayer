@@ -33,7 +33,7 @@ const LibraryRoutes = ({ match }) => (
         <LibraryNav></LibraryNav>
         <Route exact path={match.url} component={Overview}/>
         <Route exact path={match.url + "/overview"} component={Overview}/>
-        <Route exact path={match.url + "/tracks"} component={Tracks}/>
+        <Route exact path={match.url + "/tracks"} render={props => <DisplaySongsPage {...props.match.params} type="Tracks"/>}/>
         <Route path={match.url + "/playlists"} component={PlaylistRoutes}/>
         <Route path={match.url + "/albums"} component={AlbumRoutes}/>
     </div>
@@ -88,6 +88,7 @@ let Routes = () =>
                  <Route exact path="/profileview" component={ProfileView}></Route>
                  <Route path="/search/" component={SearchRoutes}></Route>
                  <Route path="/settings/" component={SettingsRoutes}></Route>
+                
              </div>
              <MediaPlayer/>
         </BrowserRouter> 

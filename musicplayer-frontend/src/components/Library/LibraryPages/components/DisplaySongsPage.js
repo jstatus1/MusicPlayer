@@ -13,7 +13,8 @@ export default class DisplaySongsPage extends PureComponent
         super(props)
         this.state={
             playlist: [],
-            album: []
+            album: [],
+            tracks: []
         }
 
 
@@ -33,6 +34,12 @@ export default class DisplaySongsPage extends PureComponent
             axios.get('/api/get/AlbumById', {params:{album_id: this.props.album_id}})
             .then((response) => {
                 this.setState({album: response.data})
+            })
+        }else if (this.props.type == "Tracks")
+        {
+            axios.get('/api/get/user/tracks')
+            .then((response) => {
+                this.setState({tracks: response.data})
             })
         }
     }
@@ -55,6 +62,14 @@ export default class DisplaySongsPage extends PureComponent
                 <AudioTable fetch_track={this.state.album} ></AudioTable>
             </div>
         </React.Fragment>)
+        }else if(this.props.type == "Tracks")
+        {
+            return(<React.Fragment>
+                <Banner fetch_track={this.state.tracks} intro="true"></Banner>
+                <div className="col-12 ">
+                    <AudioTable fetch_track={this.state.tracks} ></AudioTable>
+                </div>
+            </React.Fragment>)
         }
     }
 

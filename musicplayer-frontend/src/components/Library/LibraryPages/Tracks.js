@@ -23,9 +23,7 @@ class Tracks extends React.Component
    
 
     componentDidMount()
-    {
-        
-       
+    {  
         try{
             this.fetchTrack.then(() => {
                 
@@ -37,10 +35,7 @@ class Tracks extends React.Component
         }catch(err)
         {
             
-        }
-            
-        
-        
+        }  
     }
    
     render()

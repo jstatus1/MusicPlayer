@@ -35,7 +35,6 @@ class AudioTable_Row extends PureComponent {
 
     audioLogic()
     {
-        console.log(this.props.audioSetting)
         this.props.selectSong(this.props.song)
         if(this.state.current_songPlaying)
         {

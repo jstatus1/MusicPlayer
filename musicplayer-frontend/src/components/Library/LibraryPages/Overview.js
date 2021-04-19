@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import {Link} from 'react-router-dom'
 
 import SimpleAudioContainer from '../containers/SimpleAudioContainer'
@@ -23,7 +22,7 @@ class Overview extends React.Component
     {
         try{
             return this.props.fetch_track.map((song, index) => {
-                return (<SimpleAudioContainer id={index} song={song} link="tracks" type="track"></SimpleAudioContainer>)
+                return (<SimpleAudioContainer id={index} song={song} link="library/tracks" type="track"></SimpleAudioContainer>)
             }) 
         }catch(err)
         {
@@ -36,7 +35,7 @@ class Overview extends React.Component
     {
         try{
             return this.props.fetch_playlist.map((song, index) => {
-                return (<SimpleAudioContainer id={index} song={song} link="playlist" type="playlist"></SimpleAudioContainer>)
+                return (<SimpleAudioContainer id={index} song={song} link="playlists" type="playlist"></SimpleAudioContainer>)
             })
         }catch(err)
         {
@@ -49,7 +48,7 @@ class Overview extends React.Component
     {
         try{
             return this.props.fetch_album.map((song, index) => {
-                return (<SimpleAudioContainer id={index} song={song} link="album" type="album"></SimpleAudioContainer>)
+                return (<SimpleAudioContainer id={index} song={song} link="albums" type="album"></SimpleAudioContainer>)
             }) 
         }catch(err)
         {

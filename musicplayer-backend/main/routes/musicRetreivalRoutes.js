@@ -5,7 +5,7 @@ module.exports = app => {
     //join songs on id and take all the column from songs and id
     
     //Tracks
-    app.get('/api/get/tracks', (req, res) => {
+    app.get('/api/get/user/tracks', (req, res) => {
         var user_id = req.user.uid
         
         pool.query(`SELECT songs.*, users.username 
