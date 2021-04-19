@@ -53,6 +53,22 @@ class SimpleAudioContainer extends React.Component
         }
     }
 
+    displayLogic()
+    {
+        return(<>
+                <div className="deleteButton">
+                    
+                </div>
+                <div className="playbutton">
+                <a onClick={() => this.audioLogic()}>
+                    {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
+                        <i class="bi bi-pause-circle-fill"></i>:
+                        <i class="bi bi-play-circle-fill"></i>
+                    }
+                        </a>
+                    </div></>)
+    }
+
     render()
     {
         return(
@@ -65,17 +81,10 @@ class SimpleAudioContainer extends React.Component
                         </span>
                     </Link>
                     {
-                        (this.state.mouse_in)?
-                        <div className="playbutton">
-                            <a onClick={() => this.audioLogic()}>
-                                {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
-                                    <i class="bi bi-pause-circle-fill"></i>:
-                                    <i class="bi bi-play-circle-fill"></i>
-                                }
-                            </a>
-                         </div>:null
-
+                        (this.state.mouse_in)?this.displayLogic():null
                     }
+
+
                 </div>
 
                 <div className="audio_description">
