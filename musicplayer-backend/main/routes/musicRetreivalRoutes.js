@@ -76,17 +76,14 @@ module.exports = app => {
     })
 
 
-    app.get('/api/get/Album/songs', async(req, res) =>{
+    app.get('/api/get/AlbumById', async(req, res) =>{
         var album_id = req.query.album_id
-        console.log(album_id)
-        
-        await pool.query(`select a.*, b.*, c.username 
+        await pool.query(`select a.*, b.*, c.username
                             from songs a 
                             left join albums b on a.album_id=b.album_id
-                            left join users c on a.user_id=b.user_id
+                            left join users c on c.uid = a.user_id
                             WHERE a.album_id=$1`, [album_id])
                     .then((q_res) => {
-                        console.log(q_res.rows)
                         res.send(q_res.rows)
                     }).catch((error) => {
                         console.log(error)

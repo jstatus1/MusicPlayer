@@ -30,7 +30,7 @@ export default class DisplaySongsPage extends PureComponent
             })
         }else if(this.props.type == "Album")
         {
-            axios.get('/api/get/Album/songs', {params:{album_id: this.props.album_id}})
+            axios.get('/api/get/AlbumById', {params:{album_id: this.props.album_id}})
             .then((response) => {
                 this.setState({album: response.data})
             })

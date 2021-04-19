@@ -19,7 +19,7 @@ class Playlist extends PureComponent {
     {
         try{
             return this.props.fetch_playlist.map((playlist, index) => {
-               return(<SimpleAudioContainerLG id={index} playlist={playlist} link="/Library/Playlist" type="Playlist"></SimpleAudioContainerLG>)
+               return(<SimpleAudioContainerLG id={index} playlist={playlist} link="/Library/Playlists" type="Playlist"></SimpleAudioContainerLG>)
              })
         }catch(err)
         {

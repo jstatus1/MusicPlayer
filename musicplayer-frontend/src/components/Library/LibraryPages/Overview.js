@@ -23,7 +23,7 @@ class Overview extends React.Component
     {
         try{
             return this.props.fetch_track.map((song, index) => {
-                return (<SimpleAudioContainer id={index} song={song} type="basic"></SimpleAudioContainer>)
+                return (<SimpleAudioContainer id={index} song={song} link="tracks" type="track"></SimpleAudioContainer>)
             }) 
         }catch(err)
         {
@@ -36,7 +36,7 @@ class Overview extends React.Component
     {
         try{
             return this.props.fetch_playlist.map((song, index) => {
-                return (<SimpleAudioContainer id={index} song={song} type="playlist"></SimpleAudioContainer>)
+                return (<SimpleAudioContainer id={index} song={song} link="playlist" type="playlist"></SimpleAudioContainer>)
             })
         }catch(err)
         {
@@ -49,7 +49,7 @@ class Overview extends React.Component
     {
         try{
             return this.props.fetch_album.map((song, index) => {
-                return (<SimpleAudioContainer id={index} song={song} type="album"></SimpleAudioContainer>)
+                return (<SimpleAudioContainer id={index} song={song} link="album" type="album"></SimpleAudioContainer>)
             }) 
         }catch(err)
         {

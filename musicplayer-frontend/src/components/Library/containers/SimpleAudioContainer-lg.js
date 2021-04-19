@@ -44,10 +44,8 @@ export default class SimpleAudioContainerLg extends PureComponent {
         switch(this.props.type){
             case "Album":
                 return this.renderAlbum()
-                break;
             case "Playlist":
                 return this.renderPlaylist()
-                break;
             default:
                 break;
         }
