@@ -102,7 +102,7 @@ $$
 -------------------------------------------------------------------------
 
 CREATE TRIGGER new_follower_trigger
-AFTER INSERT ON follows
+BEFORE INSERT ON follows
 FOR EACH ROW
 EXECUTE PROCEDURE new_follower_notification()
 
