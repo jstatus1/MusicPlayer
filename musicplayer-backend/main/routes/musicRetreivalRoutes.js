@@ -8,6 +8,7 @@ module.exports = app => {
     
     //S3 Delete Function
     deleteAudioFromS3 = (key) => {
+        if(key== null || key == '' || key == undefined) return
         var params = {
             Bucket: 'musicplayer-song', 
             Key: key
@@ -22,6 +23,7 @@ module.exports = app => {
     }
 
     deleteAudioImageFromS3 = (key) => {
+        if(key== null || key == '' || key == undefined) return
         var params = {
             Bucket: 'musicplayer-songart', 
             Key: key
@@ -37,6 +39,7 @@ module.exports = app => {
 
     deleteAlbumImageFromS3 = (key) => 
     {
+        if(key== null || key == '' || key == undefined) return
         var params = {
             Bucket: 'musicplayer-album-art', 
             Key: key
@@ -52,6 +55,7 @@ module.exports = app => {
 
     deletePlaylistImageFromS3 = (key) => 
     {
+        if(key== null || key == '' || key == undefined) return
         var params = {
             Bucket: 'musicplayer-playlistart', 
             Key: key
@@ -213,6 +217,36 @@ module.exports = app => {
                   }).catch(err => {
                       return res.status(401).send({message: "This Item Is Already Removed!!"})
                   })
+
+    })
+
+
+
+    app.delete('/api/delete/playlistById', async(req, res)=> {
+        let playlist_id = req.query.playlist_id
+        let user_id = req.query.user_id
+        let s3_playlist_image_key= req.query.s3_playlist_image_key
+
+        console.log([playlist_id,user_id,s3_playlist_image_key])
+        if(user_id != req.user.uid)
+            return res.status(401).send({message: "This is Not Your Property!!"})
+        
+        
+        deletePlaylistImageFromS3(s3_playlist_image_key)
+        
+        await pool.query(`DELETE FROM playlists 
+        WHERE playlist_id=$1 and user_id=$2`, [playlist_id, user_id])
+            .then((q_res) => {
+            console.log("Removed Playlist ID: ", playlist_id)
+            return res.status(200).send(true)
+            }).catch(err => {
+                return res.status(401).send({message: "This Item Is Already Removed!!"})
+            })
+
+    })
+
+
+    app.delete('/api/delete/albumById', async(req, res) => {
 
     })
 

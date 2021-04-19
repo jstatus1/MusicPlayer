@@ -82,9 +82,22 @@ class SimpleAudioContainer extends React.Component
                 })
                     
                 break
-            // case "playlist":
-            //     this.setState({link: `${this.props.link}/${this.props.song.playlist_name}/${this.props.song.playlist_id}`})
-            //     break
+            case "playlist":
+                
+                await axios.delete('/api/delete/playlistById',
+                { params:{playlist_id: this.props.song.playlist_id, 
+                  user_id: this.props.song.user_id,
+                  s3_playlist_image_key: this.props.song.s3_playlist_image_key
+                }})
+                .then(response => {
+                    if(response.data)
+                    {
+                        this.props.fetchPlaylist()
+                    }
+                }).then(() => {
+                    this.props.removeFromArray(this.props.song, "Playlists")
+                })
+                break
             // case "album":
             //     this.setState({link: `${this.props.link}/${this.props.song.album_title}/${this.props.song.album_id}`})
             //     break

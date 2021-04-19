@@ -29,16 +29,25 @@ export default class ExploreSongs extends PureComponent {
                 this.setState({songs:tempArray})
                 break;
             case "Albums":
-                index = this.state.albums.indexOf(song);
-                if (index > -1) {
-                    this.state.albums.splice(index, 1);
+                for(let i = 0; i < this.state.albums.length; i++)
+                {
+                    if(song != this.state.albums[i])
+                    {
+                        tempArray.push(this.state.albums[i])
+                    }
                 }
+                this.setState({albums:tempArray})
                 break;
             case "Playlists":
-                index = this.state.playlists.indexOf(song);
-                if (index > -1) {
-                    this.state.playlists.splice(index, 1);
+                console.log("Delete")
+                for(let i = 0; i < this.state.playlists.length; i++)
+                {
+                    if(song != this.state.playlists[i])
+                    {
+                        tempArray.push(this.state.playlists[i])
+                    }
                 }
+                this.setState({playlists:tempArray})
                 break;
         }
     }
@@ -86,7 +95,9 @@ export default class ExploreSongs extends PureComponent {
         try{
             return this.state.playlists.map((song, index) => {
                 return (<div className="col-3" key={index}>
-                    <SimpleAudioContainer id={index} song={song} link="library/playlists" type="playlist"></SimpleAudioContainer>
+                    <SimpleAudioContainer id={index} song={song} link="library/playlists" type="playlist" removeFromArray={this.removeFromArray.bind(this)}>
+
+                    </SimpleAudioContainer>
                     </div>)
             }) 
         }catch(err)
@@ -100,7 +111,9 @@ export default class ExploreSongs extends PureComponent {
         try{
             return this.state.albums.map((song, index) => {
                 return (<div className="col-3" key={index}>
-                    <SimpleAudioContainer id={index} song={song} link="library/albums" type="album"></SimpleAudioContainer>
+                    <SimpleAudioContainer id={index} song={song} link="library/albums" type="album" removeFromArray={this.removeFromArray.bind(this)}>
+
+                    </SimpleAudioContainer>
                 </div>)
             }) 
         }catch(err)
