@@ -92,5 +92,17 @@ module.exports = app => {
     })
 
 
+    app.get('/api/get/allSongs', async(req, res)=> {
+        await pool.query(`select songs.*, users.username from songs
+        left join users on songs.user_id = users.uid`)
+                    .then((q_res) => {
+                        res.send(q_res.rows)
+                    }).catch((error) => {
+                        console.log(error)
+                        res.status(401).send(false)
+                    })
+    })
+
+
     
 }

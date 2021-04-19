@@ -26,5 +26,5 @@ export const SetAudioReducer = (setting=null, action) => {
         return action.payload
     }
 
-    return 
+    return  false
 }

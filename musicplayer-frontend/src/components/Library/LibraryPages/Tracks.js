@@ -18,7 +18,6 @@ class Tracks extends React.Component
             totalAudio: null,
             totalDurationSeconds: 0
         }
-        this.props.fetchTracks()
     }
    
 

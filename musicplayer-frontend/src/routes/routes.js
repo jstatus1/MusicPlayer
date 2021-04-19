@@ -90,8 +90,9 @@ let Routes = () =>
                  <Route path="/settings/" component={SettingsRoutes}></Route>
                 
              </div>
-             <MediaPlayer/>
+            
         </BrowserRouter> 
+        <MediaPlayer/>
      </div>)
 }
 
