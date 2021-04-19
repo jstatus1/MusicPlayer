@@ -67,7 +67,7 @@ let Routes = () =>
              <div className="container">
                  <Header/>
                  <Route exact path="/" component={Landing}/>
-                 <Route exact path="/discovery" component={Dashboard}/>
+                 <Route exact path="/discovery" component={Home}/>
                  <Route exact path="/home" component={Home}></Route>
                  <Route exact path="/upload" component={Upload}></Route>
                  <Route exact path="/drop_zone" component={DropZone}></Route>
