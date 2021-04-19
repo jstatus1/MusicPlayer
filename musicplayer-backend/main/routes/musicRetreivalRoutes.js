@@ -1,6 +1,70 @@
+var AWS = require('aws-sdk');
 var pool = require('../db');
 
 module.exports = app => {
+
+    AWS.config.update({region: 'us-east-2'});
+    const s3 = new AWS.S3();
+    
+    //S3 Delete Function
+    deleteAudioFromS3 = (key) => {
+        var params = {
+            Bucket: 'musicplayer-song', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
+    }
+
+    deleteAudioImageFromS3 = (key) => {
+        var params = {
+            Bucket: 'musicplayer-songart', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
+    }
+
+    deleteAlbumImageFromS3 = (key) => 
+    {
+        var params = {
+            Bucket: 'musicplayer-album-art', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
+    }
+
+    deletePlaylistImageFromS3 = (key) => 
+    {
+        var params = {
+            Bucket: 'musicplayer-playlistart', 
+            Key: key
+          };
+        s3.deleteObject(params, (err, data) => {
+            if(err)
+            {
+                console.log(err)
+            }
+            return
+        })
+    }
+
 
     //join songs on id and take all the column from songs and id
     
@@ -103,6 +167,54 @@ module.exports = app => {
                     })
     })
 
+    app.get('/api/get/allAlbums', async(req, res)=> {
+        await pool.query(`select a.*, u.username from albums a
+        left join users u on a.user_id = u.uid`)
+                    .then((q_res) => {
+                        res.send(q_res.rows)
+                    }).catch((error) => {
+                        console.log(error)
+                        res.status(401).send(false)
+                    })
+    })
+
+    app.get('/api/get/allPlaylists', async(req, res)=> {
+        await pool.query(`select p.*, u.username from playlists p
+        left join users u on p.user_id = u.uid 
+        WHERE p.public_status = true`)
+                    .then((q_res) => {
+                        res.send(q_res.rows)
+                    }).catch((error) => {
+                        console.log(error)
+                        res.status(401).send(false)
+                    })
+    })
+
+
+
+    app.delete('/api/delete/trackById', async(req, res)=> {
+        let song_id = req.query.song_id
+        let song_owner_id = req.query.user_id
+        let s3_audio_key= req.query.s3_audio_key
+        let s3_image_key= req.query.s3_image_key
+
+        if(song_owner_id != req.user.uid)
+            return res.status(401).send({message: "This is Not Your Property!!"})
+        
+        deleteAudioFromS3(s3_audio_key)
+        deleteAudioImageFromS3(s3_image_key)
+        
+        
+        await pool.query(`DELETE FROM songs 
+                          WHERE song_id=$1 and user_id=$2`, [song_id, song_owner_id])
+                  .then((q_res) => {
+                    console.log("Removed Song ID: ", song_id)
+                     return res.status(200).send(true)
+                  }).catch(err => {
+                      return res.status(401).send({message: "This Item Is Already Removed!!"})
+                  })
+
+    })
 
     
 }

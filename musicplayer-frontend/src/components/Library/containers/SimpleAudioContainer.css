@@ -68,6 +68,17 @@
     font-size: 60px;
 }
 
+.deleteButton
+{
+    color: rgba(255, 0, 0, 0.753);
+    position: absolute;
+    z-index: 100;
+    font-size: 30px;
+    text-align: center;
+    top:-2.2em;
+    left: 4.3em;
+}
+
 
 
 @-webkit-keyframes Gradient {

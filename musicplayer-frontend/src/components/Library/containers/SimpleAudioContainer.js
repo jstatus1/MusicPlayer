@@ -3,6 +3,7 @@ import './SimpleAudioContainer.css'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as action from '../../../store/actions'
+import axios from 'axios'
 
 class SimpleAudioContainer extends React.Component
 {
@@ -12,12 +13,18 @@ class SimpleAudioContainer extends React.Component
         this.state={
             mouse_in: false,
             current_songPlaying: false,
-            link: '/Library/Overview'
+            link: '/Library/Overview',
+            authorityToDelete: false
         }
     }
 
     componentDidMount()
     {
+        if(this.props.song.user_id == this.props.auth.uid)
+        {
+            this.setState({authorityToDelete:true})
+        }
+
         switch(this.props.type)
         {
             case "track":
@@ -53,12 +60,52 @@ class SimpleAudioContainer extends React.Component
         }
     }
 
+    deleteLogic = async () =>
+    {
+        switch(this.props.type)
+        {
+            case "track":
+                await axios.delete('/api/delete/trackById',
+                { params:{song_id: this.props.song.song_id, 
+                  user_id: this.props.song.user_id,
+                  s3_audio_key: this.props.song.s3_audio_key,
+                  s3_image_key: this.props.song.s3_image_key
+                }})
+                .then(response => {
+                    if(response.data)
+                    {
+                        console.log("Successfully Deleted This: " + this.props.song.song_id)
+                        this.props.fetchTracks()
+                    }
+                }).then(() => {
+                    this.props.removeFromArray(this.props.song, "Tracks")
+                })
+                    
+                break
+            // case "playlist":
+            //     this.setState({link: `${this.props.link}/${this.props.song.playlist_name}/${this.props.song.playlist_id}`})
+            //     break
+            // case "album":
+            //     this.setState({link: `${this.props.link}/${this.props.song.album_title}/${this.props.song.album_id}`})
+            //     break
+            default:
+                this.setState({link: `/Library/Overview`})
+                break;
+        }
+    }
+
+
     displayLogic()
     {
         return(<>
-                <div className="deleteButton">
-                    
-                </div>
+                {(this.state.authorityToDelete)?
+                    <div className="deleteButton">
+                        <a onClick={() => this.deleteLogic()}>
+                            <i class="bi bi-x-circle-fill"></i>
+                        </a> 
+                    </div>:null
+                }
+                
                 <div className="playbutton">
                 <a onClick={() => this.audioLogic()}>
                     {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
@@ -103,7 +150,8 @@ function mapStateToProps(state) {
     return { 
       selectedAudio: state.selected_audio_reducer,
       audioSetting: state.set_audio_reducer,
-      previousAudio: state.set_previous_audio_reducer
+      previousAudio: state.set_previous_audio_reducer,
+      auth: state.auth_reducer
      };
 }
 

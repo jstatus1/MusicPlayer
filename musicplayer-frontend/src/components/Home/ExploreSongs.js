@@ -12,6 +12,36 @@ export default class ExploreSongs extends PureComponent {
         playlists: []
     }
 
+    removeFromArray(song, type)
+    {
+        let index;
+        let tempArray = []
+        switch(type)
+        {
+            case "Tracks":
+                for(let i = 0; i < this.state.songs.length; i++)
+                {
+                    if(song != this.state.songs[i])
+                    {
+                        tempArray.push(this.state.songs[i])
+                    }
+                }
+                this.setState({songs:tempArray})
+                break;
+            case "Albums":
+                index = this.state.albums.indexOf(song);
+                if (index > -1) {
+                    this.state.albums.splice(index, 1);
+                }
+                break;
+            case "Playlists":
+                index = this.state.playlists.indexOf(song);
+                if (index > -1) {
+                    this.state.playlists.splice(index, 1);
+                }
+                break;
+        }
+    }
     
     componentDidMount()
     {
@@ -41,7 +71,8 @@ export default class ExploreSongs extends PureComponent {
             return this.state.songs.map((song, index) => {
                 return (
                          <div className="col-3" key={index}>
-                                <SimpleAudioContainer id={index} song={song} link="library/tracks" type="track"></SimpleAudioContainer>
+                                <SimpleAudioContainer id={index} song={song} link="library/tracks" type="track" removeFromArray={this.removeFromArray.bind(this)}>
+                                </SimpleAudioContainer>
                         </div>)
             }) 
         }catch(err)
