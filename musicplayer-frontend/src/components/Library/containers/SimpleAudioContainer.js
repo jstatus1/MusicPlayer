@@ -16,11 +16,18 @@ class SimpleAudioContainer extends React.Component
             link: '/Library/Overview',
             authorityToDelete: false
         }
-        this.props.fetchUser()
+        
+    }
+
+    componentDidUpdate()
+    {
+        window.localStorage.setItem('Coog-User', JSON.stringify(this.props.auth))
     }
 
     componentDidMount()
     {
+        let CoogUser = window.localStorage.getItem('Coog-User', JSON.stringify(this.props.auth)) 
+        let CoogUserUID = JSON.parse(CoogUser) 
         try
         {
             if(this.props.song.user_id == this.props.auth.uid)
@@ -30,7 +37,11 @@ class SimpleAudioContainer extends React.Component
             
         }catch(error)
         {
-
+            
+            if(this.props.song.user_id == CoogUserUID.uid)
+            {
+                this.setState({authorityToDelete:true})
+            }
         }
         
 
