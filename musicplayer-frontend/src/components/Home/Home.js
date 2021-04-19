@@ -11,7 +11,7 @@ const Home = () => {
         <div>
             <Container>
                 <div style={{"paddingTop":"20px"}}/>
-            <Row><Col md="4"><img class="logo" src={logo} alt="Logo"/></Col></Row>
+            <Row><Col md="6"><img class="logo" src={logo} alt="Logo" style={{"width":"500px", "height":"250px"}}/></Col></Row>
                 <Row>
                     <Col md="3"></Col>
                     <Col md="6">
@@ -21,10 +21,11 @@ const Home = () => {
                             <br/>
                             Click <Link to="/upload">Upload</Link> to add new music!
                             <br/>
-                            Check out your <Link to="/MakePlaylist">playlists</Link> or other info about you by
-                            using the profile dropdown!
+                            Check out your <Link to="/MakePlaylist">playlists</Link>
                             <br/>
-                            Your notifications can be viewed by cliking the bell on the navbar!
+                            Update your About Me section in your <Link to="/profileedit">Profile</Link>!
+                            <br/>
+                            Your notifications can be viewed by clicking the bell on the navbar!
                         </t2>
                         </div>
                     </Col>
