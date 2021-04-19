@@ -15,8 +15,10 @@ class App extends React.Component
     //Initial State Initialization
     componentDidMount()
     {
+
         //Inital Authentication Fetch
         this.props.fetchUser();
+        window.localStorage.setItem('Coog-User', JSON.stringify(this.props.auth))
         this.props.fetchTracks();
         this.props.fetchPlaylist();
     }
