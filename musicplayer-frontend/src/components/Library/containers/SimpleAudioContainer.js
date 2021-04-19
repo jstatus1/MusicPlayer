@@ -16,11 +16,13 @@ class SimpleAudioContainer extends React.Component
             link: '/Library/Overview',
             authorityToDelete: false
         }
-        this.props.fetchUser()
+        
     }
+
 
     componentDidMount()
     {
+        
         try
         {
             if(this.props.song.user_id == this.props.auth.uid)
@@ -30,7 +32,7 @@ class SimpleAudioContainer extends React.Component
             
         }catch(error)
         {
-
+            
         }
         
 
