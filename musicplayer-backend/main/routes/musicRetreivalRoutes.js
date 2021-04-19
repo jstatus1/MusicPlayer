@@ -32,6 +32,7 @@ module.exports = app => {
                 res.send(data.rows)
             }
         ).catch(error=> {
+            res.status(401).send([])
             console.log(error)
         })
     })
@@ -53,6 +54,17 @@ module.exports = app => {
                         res.send(q_res.rows)
                     }).catch((error) => {
                         console.log(error)
+                        res.status(401).send(false)
+                    })
+    })
+
+    
+    app.get('/api/get/users/Albums', async(req, res)=> {
+        await pool.query(`SELECT *
+        FROM albums WHERE user_id=$1`, [req.user.uid])
+                    .then((q_res) => {
+                        res.send(q_res.rows)
+                    }).catch((error) => {
                         res.status(401).send(false)
                     })
     })

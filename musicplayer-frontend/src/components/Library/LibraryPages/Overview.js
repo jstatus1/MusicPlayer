@@ -11,14 +11,12 @@ import "./Overview.css"
 
 class Overview extends React.Component
 {
-    
-    
-
-    componentDidMount()
+    constructor(props)
     {
-
+        super(props);
+        this.props.fetchTracks()
     }
-
+    
     renderSongItems()
     {
        
