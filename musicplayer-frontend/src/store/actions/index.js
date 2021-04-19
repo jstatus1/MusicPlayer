@@ -90,7 +90,7 @@ export const fetchPlaylist = () => async dispatch =>
 export const fetchAlbums = () => async dispatch =>
 {
     
-    let res = await axios.get('/api/get/Albums')   
+    let res = await axios.get('/api/get/users/Albums')   
     
     try{
         dispatch({

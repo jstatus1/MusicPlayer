@@ -97,12 +97,11 @@ BEGIN
 	END LOOP;
 RETURN NULL;
 END;
-$$
 
 -------------------------------------------------------------------------
 
 CREATE TRIGGER new_follower_trigger
-BEFORE INSERT ON follows
+AFTER INSERT ON follows
 FOR EACH ROW
 EXECUTE PROCEDURE new_follower_notification()
 
@@ -162,7 +161,7 @@ $$
 -------------------------------------------------------------------------
 
 CREATE TRIGGER unfollowed_notification_trigger
-BEFORE DELETE ON follows
+AFTER DELETE ON follows
 FOR EACH ROW
 EXECUTE PROCEDURE unfollowed_notification();
 
