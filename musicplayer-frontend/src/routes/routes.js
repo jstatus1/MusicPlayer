@@ -23,7 +23,7 @@ import Albums from '../components/Library/LibraryPages/Albums'
 import Search from '../components/SearchBar/Search'
 import Settings from '../components/Settings/Settings'
 import SettingsNav from '../components/Settings/SettingsNav'
-import PlaylistDisplayPage from '../components/Library/LibraryPages/components/PlaylistDisplayPage'
+import DisplaySongsPage from '../components/Library/LibraryPages/components/DisplaySongsPage'
 const Dashboard = () => <h2>Dashboard</h2>
 
 
@@ -42,14 +42,14 @@ const LibraryRoutes = ({ match }) => (
 const PlaylistRoutes = ({ match }) => (
     <div>
         <Route exact path={match.url} component={Playlist}/>
-        <Route exact path={match.url + "/:playlist_name/:playlist_id"} render={props => <PlaylistDisplayPage {...props.match.params} />}/>
+        <Route exact path={match.url + "/:playlist_name/:playlist_id"} render={props => <DisplaySongsPage {...props.match.params} type="Playlist"/>}/>
     </div>
 )
 
 const AlbumRoutes = ({ match }) => (
     <div>
         <Route exact path={match.url} component={Albums}/>
-        <Route exact path={match.url + "/:playlist_name/:playlist_id"} render={props => <PlaylistDisplayPage {...props.match.params} />}/>
+        <Route exact path={match.url + "/:album_title/:album_id"} render={props => <DisplaySongsPage {...props.match.params} type="Album"/>}/>
     </div>
 )
 

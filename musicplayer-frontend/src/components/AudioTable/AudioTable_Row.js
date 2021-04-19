@@ -58,7 +58,7 @@ class AudioTable_Row extends PureComponent {
                     <td><i class="bi bi-heart"></i></td>
                     <td>
                         <div className="AudioTable_Audio_Artwork">
-                        <img className="AudioTable_Audio_Image" src={this.props.song.song_image}></img>
+                        <img className="AudioTable_Audio_Image" src={this.props.song.song_image || this.props.song.album_art}></img>
                             {
                                 (this.state.mouse_in)?
                                 <div className="AudioTable_Playbutton">

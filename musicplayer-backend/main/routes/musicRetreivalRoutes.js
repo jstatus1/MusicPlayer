@@ -69,5 +69,24 @@ module.exports = app => {
                     })
     })
 
+
+    app.get('/api/get/Album/songs', async(req, res) =>{
+        var album_id = req.query.album_id
+        console.log(album_id)
+        
+        await pool.query(`select *
+                            from songs a 
+                            left join albums b on a.album_id=b.album_id
+                            WHERE a.album_id=$1`, [album_id])
+                    .then((q_res) => {
+                        console.log(q_res.rows)
+                        res.send(q_res.rows)
+                    }).catch((error) => {
+                        console.log(error)
+                        res.status(401).send(false)
+                    })
+    })
+
+
     
 }

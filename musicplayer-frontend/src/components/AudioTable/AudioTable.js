@@ -1,9 +1,6 @@
 import React from 'react'
 import "./AudioTable.css"
 
-import { connect } from 'react-redux'
-import * as actions from '../../store/actions'
-
 import AudioTableRow from './AudioTable_Row'
 
 class AudioTable extends React.Component {
