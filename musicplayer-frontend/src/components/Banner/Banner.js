@@ -3,13 +3,28 @@ import "./Banner.css"
 
 import {connect} from 'react-redux'
 import * as action from '../../store/actions'
+import { Redirect } from 'react-router';
 
 
 class Banner extends React.Component
 {
-    state={
-        TotalDuration: 0
+    constructor(props)
+    {
+        super(props);
+
+        this.state={
+            TotalDuration: 0
+        }
+
+        
     }
+
+    componentDidMount()
+    {
+        
+    }
+    
+    
 
     secondsToHms(d) {
 
@@ -23,16 +38,6 @@ class Banner extends React.Component
         return (d < 3600)? ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2) :
         ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
     }
-
-    componentDidMount()
-    {
-        if(this.props.fetch_track)
-            this.props.fetch_track.map((song) => {
-                console.log(song.duration)
-                this.setState({TotalDuration: (song.duration + this.state.TotalDuration)})
-            })
-    }
-
 
   
 

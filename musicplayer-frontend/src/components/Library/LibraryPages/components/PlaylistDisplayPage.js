@@ -15,7 +15,6 @@ export default class PlaylistDisplayPage extends PureComponent
     {
         axios.get('/api/get/playlistById', {params:{playlistId: this.props.playlist_id}})
         .then((response) => {
-            console.log(response.data)
             this.setState({playlist: response.data})
         })
     }
