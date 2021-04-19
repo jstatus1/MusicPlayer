@@ -25,7 +25,12 @@
     width: 100%;
     height: 100%;
     object-fit:cover;
+    background-image: linear-gradient(
+        135deg
+        ,#846170,#70929c);
 }
+
+
 
 .song_heading
 {
@@ -63,3 +68,40 @@
     font-size: 60px;
 }
 
+
+
+@-webkit-keyframes Gradient {
+    0% {
+    background-position: 0% 50%
+    }
+  50% {
+  background-position: 100% 50%
+  }
+  100% {
+  background-position: 0% 50%
+  }
+  }
+  
+  @-moz-keyframes Gradient {
+    0% {
+    background-position: 0% 50%
+    }
+  50% {
+  background-position: 100% 50%
+  }
+  100% {
+  background-position: 0% 50%
+  }
+  }
+  
+  @keyframes Gradient {
+    0% {
+    background-position: 0% 50%
+    }
+  50% {
+  background-position: 100% 50%
+  }
+  100% {
+  background-position: 0% 50%
+  }
+}

@@ -34,7 +34,7 @@ const LibraryRoutes = ({ match }) => (
         <Route exact path={match.url} component={Overview}/>
         <Route exact path={match.url + "/overview"} component={Overview}/>
         <Route exact path={match.url + "/tracks"} component={Tracks}/>
-        <Route path={match.url + "/playlist"} component={PlaylistRoutes}/>
+        <Route path={match.url + "/playlists"} component={PlaylistRoutes}/>
         <Route path={match.url + "/albums"} component={AlbumRoutes}/>
     </div>
 )

@@ -15,26 +15,74 @@ class Overview extends React.Component
     {
         super(props);
         this.props.fetchTracks()
+        this.props.fetchAlbums()
+        this.props.fetchPlaylist()
     }
     
-    renderSongItems()
+    renderTrackItems()
     {
-       
-        return this.props.fetch_track.map((song, index) => {
-            return (<SimpleAudioContainer id={index} song={song}></SimpleAudioContainer>)
-        }) 
+        try{
+            return this.props.fetch_track.map((song, index) => {
+                return (<SimpleAudioContainer id={index} song={song} type="basic"></SimpleAudioContainer>)
+            }) 
+        }catch(err)
+        {
+
+        }
+        
+    }
+
+    renderPlaylistItems()
+    {
+        try{
+            return this.props.fetch_playlist.map((song, index) => {
+                return (<SimpleAudioContainer id={index} song={song} type="playlist"></SimpleAudioContainer>)
+            })
+        }catch(err)
+        {
+
+        }
+         
+    }
+
+    renderAlbumItems()
+    {
+        try{
+            return this.props.fetch_album.map((song, index) => {
+                return (<SimpleAudioContainer id={index} song={song} type="album"></SimpleAudioContainer>)
+            }) 
+        }catch(err)
+        {
+            
+        }
         
     }
    
 
     render()
     {
-        return(<div>
+        return(<div className="container Overview-Container">
            { (this.props.fetch_track)?
                 <div>
                     <Link to="/Library/Tracks"><button className="btn sub_titles">Tracks</button></Link>
                     <div className="wrapper pb-4">
-                        {this.renderSongItems()}
+                        {this.renderTrackItems()}
+                    </div>
+                </div>:null
+            }
+            { (this.props.fetch_track)?
+                <div>
+                    <Link to="/Library/Albums"><button className="btn sub_titles">Albums</button></Link>
+                    <div className="wrapper pb-4">
+                        {this.renderAlbumItems()}
+                    </div>
+                </div>:null
+            }
+            { (this.props.fetch_track)?
+                <div>
+                    <Link to="/Library/Playlists"><button className="btn sub_titles">Playlists</button></Link>
+                    <div className="wrapper pb-4">
+                        {this.renderPlaylistItems()}
                     </div>
                 </div>:null
             }
@@ -44,7 +92,9 @@ class Overview extends React.Component
 
 function mapStateToProps(state) {
     return { 
-      fetch_track: state.fetch_track_reducer
+        fetch_track: state.fetch_track_reducer,
+        fetch_playlist: state.fetch_playlists_reducer,
+        fetch_album: state.fetch_albums_reducer
      };
 }
 

@@ -26,8 +26,12 @@ module.exports = app => {
     app.get('/api/get/user/playlists/', (req, res) => {
         var user_id = req.user.uid
         
-        pool.query(`SELECT *
-        FROM playlists WHERE user_id=$1`,[user_id]).then(
+        
+
+        pool.query(`select a.*, b.username 
+        from playlists a 
+        left join users b on a.user_id=b.uid
+        WHERE a.user_id=$1`,[user_id]).then(
             data => {
                 res.send(data.rows)
             }
@@ -60,8 +64,10 @@ module.exports = app => {
 
     
     app.get('/api/get/users/Albums', async(req, res)=> {
-        await pool.query(`SELECT *
-        FROM albums WHERE user_id=$1`, [req.user.uid])
+        await pool.query(`select a.*, b.username 
+                            from albums a 
+                            left join users b on a.user_id=b.uid
+                            WHERE a.user_id=$1;`, [req.user.uid])
                     .then((q_res) => {
                         res.send(q_res.rows)
                     }).catch((error) => {
@@ -74,9 +80,10 @@ module.exports = app => {
         var album_id = req.query.album_id
         console.log(album_id)
         
-        await pool.query(`select *
+        await pool.query(`select a.*, b.*, c.username 
                             from songs a 
                             left join albums b on a.album_id=b.album_id
+                            left join users c on a.user_id=b.user_id
                             WHERE a.album_id=$1`, [album_id])
                     .then((q_res) => {
                         console.log(q_res.rows)

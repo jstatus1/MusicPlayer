@@ -36,9 +36,8 @@ class SimpleAudioContainer extends React.Component
                     
                     <span class="sc-artwork sc-artwork-placeholder-3  
                     image__full g-opacity-transition"  aria-role="img">
-                        <img className="audio_image" src={this.props.song.song_image}></img>
+                        <img className="audio_image" src={this.props.song.song_image || this.props.song.album_art || this.props.song.playlist_art}></img>
                     </span>
-
                     {
                         (this.state.mouse_in)?
                         <div className="playbutton">
@@ -51,16 +50,15 @@ class SimpleAudioContainer extends React.Component
                          </div>:null
 
                     }
-                    
                 </div>
 
-
                 <div className="audio_description">
-                    <t5 className="song_heading">{this.props.song.title}</t5>
+                    <t5 className="song_heading">{this.props.song.title || this.props.song.album_title || this.props.song.playlist_name}</t5>
                     <div className="playableTile__usernameHeadingContainer">
                         <t6>{this.props.song.username}</t6>
                     </div>
                 </div>
+
             </div>
         )
     }
