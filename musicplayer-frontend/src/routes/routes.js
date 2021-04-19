@@ -41,14 +41,14 @@ const LibraryRoutes = ({ match }) => (
 
 const PlaylistRoutes = ({ match }) => (
     <div>
-        <Route exact path={match.url} component={Albums}/>
+        <Route exact path={match.url} component={Playlist}/>
         <Route exact path={match.url + "/:playlist_name/:playlist_id"} render={props => <PlaylistDisplayPage {...props.match.params} />}/>
     </div>
 )
 
 const AlbumRoutes = ({ match }) => (
     <div>
-        <Route exact path={match.url} component={Playlist}/>
+        <Route exact path={match.url} component={Albums}/>
         <Route exact path={match.url + "/:playlist_name/:playlist_id"} render={props => <PlaylistDisplayPage {...props.match.params} />}/>
     </div>
 )
