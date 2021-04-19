@@ -76,7 +76,6 @@ let Routes = () =>
                  <Route exact path="/notification" component={Notification}></Route>
                  <Route exact path="/reports" component={Reports}></Route>
                  <Route exact path="/profileview" component={ProfileView}></Route>
-                 <Route exact path="/profileedit" component={ProfileEdit}></Route>
                  <Route path="/search/" component={SearchRoutes}></Route>
                  <Route path="/settings/" component={SettingsRoutes}></Route>
              </div>

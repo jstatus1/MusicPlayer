@@ -33,6 +33,8 @@ class Header extends Component {
       case false:
           return(
               <ul className="navbar-nav ms-auto">
+                
+
                         <li className="nav-link">
                           <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal" >
                             Sign In
@@ -42,6 +44,8 @@ class Header extends Component {
                         <li className="nav-link">
                           <button role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#SignInModal">Create Account</button>
                         </li>
+
+                        
               </ul>
           )
       default:
@@ -216,9 +220,10 @@ class Header extends Component {
         <ModalLogin ></ModalLogin>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link 
-              className="navbar-brand" to={this.props.auth ? '/discovery' : '/'}>
+              className="navbar-brand" to={this.props.auth ? '/home' : '/'}>
                 <img class="logo-size" src={logo} alt="Logo"/>
             </Link>
+
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
