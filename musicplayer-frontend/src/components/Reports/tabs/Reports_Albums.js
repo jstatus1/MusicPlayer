@@ -168,9 +168,9 @@ const Reports_Albums = ({auth}) => {
 
             <Modal show={showModal} onHide={(e) => handleClose()}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Operation Completed</Modal.Title>
+                    <Modal.Title>Album Deleted</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Album has been deleted</Modal.Body>
+                <Modal.Body>B-but that was my favorite mixtape!</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
                     <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>

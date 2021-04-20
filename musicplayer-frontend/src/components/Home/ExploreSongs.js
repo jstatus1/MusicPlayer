@@ -79,7 +79,7 @@ export default class ExploreSongs extends PureComponent {
         try{
             return this.state.songs.map((song, index) => {
                 return (
-                         <div className="col-3" key={index}>
+                         <div className="col-3" style={{"paddingBottom":"0.7em"}} key={index}>
                                 <SimpleAudioContainer id={index} song={song} link="library/tracks" type="track" removeFromArray={this.removeFromArray.bind(this)}>
                                 </SimpleAudioContainer>
                         </div>)
@@ -94,7 +94,7 @@ export default class ExploreSongs extends PureComponent {
     {
         try{
             return this.state.playlists.map((song, index) => {
-                return (<div className="col-3" key={index}>
+                return (<div className="col-3" style={{"paddingBottom":"0.7em"}} key={index}>
                     <SimpleAudioContainer id={index} song={song} link="library/playlists" type="playlist" removeFromArray={this.removeFromArray.bind(this)}>
 
                     </SimpleAudioContainer>
@@ -110,7 +110,7 @@ export default class ExploreSongs extends PureComponent {
     {
         try{
             return this.state.albums.map((song, index) => {
-                return (<div className="col-3" key={index}>
+                return (<div className="col-3" style={{"paddingBottom":"0.7em"}} key={index}>
                     <SimpleAudioContainer id={index} song={song} link="library/albums" type="album" removeFromArray={this.removeFromArray.bind(this)}>
 
                     </SimpleAudioContainer>
@@ -125,8 +125,8 @@ export default class ExploreSongs extends PureComponent {
     render() {
         return (<React.Fragment>
                         <div className="row Explore-Items">
-                            <div class="container ">
-                                <h2>Latest Hits:</h2>
+                        <h2 style={{ "paddingBottom":"1em"}}>Latest Hits</h2>
+                            <div class="container latest-box">
                                 <div className="row vertical-scrollable">
                                         {this.renderLatestHits()}
                                 </div>
@@ -134,8 +134,9 @@ export default class ExploreSongs extends PureComponent {
                         </div>
                         
                         <div className="row Explore-Items">
-                            <div class="container ">
-                                <h2>Latest Playlists:</h2>
+                        <h2 style={{ "paddingBottom":"1em"}}>Latest Playlists</h2>
+
+                            <div class="container latest-box">
                                 <div className="row vertical-scrollable Explore-Items-Container">
                                     {this.renderLatestPlaylist()}
                                 </div>
@@ -143,8 +144,9 @@ export default class ExploreSongs extends PureComponent {
                         </div>
 
                         <div className="row Explore-Items">
-                            <div class="container ">
-                                <h2>Latest Album Releases:</h2>
+                        <h2 style={{ "paddingBottom":"1em"}}>Latest Albums</h2>
+
+                            <div class="container latest-box">
                                 <div className="row vertical-scrollable">
                                     {this.renderLatestAlbum()}
                                 </div>

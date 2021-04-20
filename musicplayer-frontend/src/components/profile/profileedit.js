@@ -193,9 +193,9 @@ const ProfileEdit = ({auth}) => {
 
             <Modal show={showModal} onHide={(e) => handleClose()}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Operation Completed</Modal.Title>
+                    <Modal.Title>Profile Updated!</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Playlist has been deleted</Modal.Body>
+                <Modal.Body>Your profile information has been updated</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
                     <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>

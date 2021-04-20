@@ -170,9 +170,9 @@ const Reports_Users = ({auth}) => {
 
             <Modal show={showModal} onHide={(e) => handleClose()}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Operation Completed!</Modal.Title>
+                    <Modal.Title>User Deleted</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>User has been deleted</Modal.Body>
+                <Modal.Body>Banished!</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
                     <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>

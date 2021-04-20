@@ -169,9 +169,9 @@ const Reports_Playlists = ({auth}) => {
 
             <Modal show={showModal} onHide={(e) => handleClose()}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Operation Completed!</Modal.Title>
+                    <Modal.Title>Playlist Deleted</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>User profile has been updated</Modal.Body>
+                <Modal.Body>Another fire playlist bites the dust</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
                     <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>
