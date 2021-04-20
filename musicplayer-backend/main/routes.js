@@ -404,6 +404,83 @@ router.post('/api/posts/userprofiletodb', (req, res, next) => {
         }})
                             
   })
+
+  router.get('/api/delete/user', async (req,res,next) => {
+    const username = req.query.username;
+    const first_name = req.query.first_name;
+    const last_name = req.query.last_name;
+    
+    const values = [ username, first_name, last_name ]
+    console.log(values)
+
+    const query = `DELETE FROM users WHERE username = $1 
+                   AND first_name = $2 AND last_name = $3`
+
+    console.log(query)
+
+    await pool.query(query, values, (q_err, q_res)=> {
+      if(q_err) {
+        console.log(q_err);
+        res.status(401).send({ status: false });
+      }
+      else {
+        
+        res.send({status: true}) 
+        }})
+                            
+  })
+
+  router.get('/api/delete/album', async (req,res,next) => {
+    const album_title = req.query.album_title;
+    const username = req.query.username;
+    const first_name = req.query.first_name;
+    const last_name = req.query.last_name;
+    
+    const values = [ album_title, username, first_name, last_name ]
+    console.log(values)
+
+    const query = `DELETE FROM albums WHERE album_title = $1 
+                   AND user_id = (SELECT uid FROM users WHERE username = $2 AND first_name = $3 AND last_name = $4)`
+
+    console.log(query)
+
+    await pool.query(query, values, (q_err, q_res)=> {
+      if(q_err) {
+        console.log(q_err);
+        res.status(401).send({ status: false });
+      }
+      else {
+        
+        res.send({status: true}) 
+        }})
+                            
+  })
+
+  router.get('/api/delete/playlist', async (req,res,next) => {
+    const playlist_name = req.query.playlist_name;
+    const username = req.query.username;
+    const first_name = req.query.first_name;
+    const last_name = req.query.last_name;
+    
+    const values = [ playlist_name, username, first_name, last_name ]
+    console.log(values)
+
+    const query = `DELETE FROM playlists WHERE playlist_name = $1 
+                   AND user_id = (SELECT uid FROM users WHERE username = $2 AND first_name = $3 AND last_name = $4)`
+
+    console.log(query)
+
+    await pool.query(query, values, (q_err, q_res)=> {
+      if(q_err) {
+        console.log(q_err);
+        res.status(401).send({ status: false });
+      }
+      else {
+        
+        res.send({status: true}) 
+        }})
+                            
+  })
   
 
 module.exports = router
