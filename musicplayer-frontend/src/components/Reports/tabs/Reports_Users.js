@@ -134,7 +134,6 @@ const Reports_Users = ({auth}) => {
                             <th>Username</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Musician?</th>
                             <th>Social Media</th>
                         </tr>
                     </thead>
@@ -148,7 +147,6 @@ const Reports_Users = ({auth}) => {
                                 <td>{user.username}</td>
                                 <td>{user.first_name}</td>
                                 <td>{user.last_name}</td>
-                                <td>{String(user.isMusician) === 'undefined' ? '': String(user.isMusician)}</td>
                                 <td>
                                 <a href={String(user.socialmedia_fb)}>Facebook</a><t2> | </t2>
                                 <a href={String(user.socialmedia_tw)}>Twitter</a><t2> | </t2>
