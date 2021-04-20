@@ -143,13 +143,21 @@ class SimpleAudioContainer extends React.Component
                 }
                 
                 <div className="playbutton">
-                <a onClick={() => this.audioLogic()}>
-                    {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
-                        <i class="bi bi-pause-circle-fill"></i>:
-                        <i class="bi bi-play-circle-fill"></i>
-                    }
-                        </a>
-                    </div></>)
+                    <a onClick={() => this.audioLogic()}>
+                        {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
+                            <i class="bi bi-pause-circle-fill"></i>:
+                            <i class="bi bi-play-circle-fill"></i>
+                        }
+                    </a>
+                </div>
+                
+                <div className="likeButton">
+                    <i class="bi bi-heart-fill"></i>
+                </div>
+                <div className="addToPlaylistButton">
+                    <i class="bi bi-three-dots"></i>
+                </div>
+                </>)
     }
 
     render()

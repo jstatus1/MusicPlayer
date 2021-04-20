@@ -1,7 +1,21 @@
+.navbar{
+ background-color: black  !important;
+ 
+}
+
+.nav-link{
+  color: white !important;
+}
+
 .notification_box
 {
     position: relative;
     display: inline-block;
+}
+
+.SearchBar
+{
+  margin-left: 400px;
 }
 
 

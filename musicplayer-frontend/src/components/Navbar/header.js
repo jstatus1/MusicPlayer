@@ -36,7 +36,7 @@ class Header extends Component {
                 
 
                         <li className="nav-link">
-                          <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#SignInModal" >
+                          <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#SignInModal" >
                             Sign In
                           </button>
                           
@@ -61,7 +61,11 @@ class Header extends Component {
                   Library
               </Link> 
             </ul>
+
+            <div className="SearchBar">
             <SearchBar></SearchBar>
+            </div>
+            
              
             
             <ul className="navbar-nav ms-auto">
@@ -134,7 +138,7 @@ class Header extends Component {
     return(
       <React.Fragment>
         <ModalLogin ></ModalLogin>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light">
             <Link 
               className="navbar-brand" to={this.props.auth ? '/home' : '/'}>
                 <img class="logo-size" src={logo} alt="Logo"/>

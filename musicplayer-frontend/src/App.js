@@ -20,6 +20,7 @@ class App extends React.Component
         this.props.fetchUser();
         this.props.fetchTracks();
         this.props.fetchPlaylist();
+        localStorage.setItem('Coog-MusicPlayer-State', true)
     }
 
     
