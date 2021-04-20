@@ -24,7 +24,6 @@ import Search from '../components/SearchBar/Search'
 import Settings from '../components/Settings/Settings'
 import SettingsNav from '../components/Settings/SettingsNav'
 import DisplaySongsPage from '../components/Library/LibraryPages/components/DisplaySongsPage'
-const Dashboard = () => <h2>Dashboard</h2>
 
 
 const LibraryRoutes = ({ match }) => (
@@ -73,9 +72,11 @@ const SettingsRoutes = ({ match }) => (
 let Routes = () =>
 {
     return(<div>
+        
         <BrowserRouter>
-             <div className="container">
+             <div >
                  <Header/>
+                 <div className="container">
                  <Route exact path="/" component={Landing}/>
                  <Route exact path="/discovery" component={Home}/>
                  <Route exact path="/home" component={Home}></Route>
@@ -88,7 +89,7 @@ let Routes = () =>
                  <Route exact path="/profileview" component={ProfileView}></Route>
                  <Route path="/search/" component={SearchRoutes}></Route>
                  <Route path="/settings/" component={SettingsRoutes}></Route>
-                
+                 </div>
              </div>
             
         </BrowserRouter> 

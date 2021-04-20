@@ -79,6 +79,28 @@
     left: 4.3em;
 }
 
+.addToPlaylistButton
+{
+    color: rgba(255, 255, 255, 0.993);
+    position: absolute;
+    z-index: 100;
+    font-size: 30px;
+    text-align: center;
+    top:2.1em;
+    left: 3.8em;
+}
+
+
+.likeButton
+{
+    color: rgba(255, 255, 255, 0.993);
+    position: absolute;
+    z-index: 100;
+    font-size: 30px;
+    text-align: center;
+    top:2.1em;
+    left: 3.8em;
+}
 
 
 @-webkit-keyframes Gradient {
