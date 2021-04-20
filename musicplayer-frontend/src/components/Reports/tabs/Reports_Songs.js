@@ -29,7 +29,7 @@ const Reports_Songs = ({auth}) => {
     }
 
     const handleHome = (event) => {
-        history.push("/");
+        history.push("/home");
     }
     
     const songSearch = (event) => {
@@ -63,7 +63,7 @@ const Reports_Songs = ({auth}) => {
         }})
         .then((res) => {
             setSongData(res.data);
-            console.log(songData);
+            //console.log(songData);
         }).catch((error) => {
             console.log(error)
         })
@@ -143,7 +143,7 @@ const Reports_Songs = ({auth}) => {
                         <Row style={{"paddingBottom":"1em", "paddingTop":"1em"}}>
                             <Col md="5"/>
                             <Col md="auto">
-                                <Button variant="secondary" onClick={() => window.location.reload()}>Reset</Button>
+                                <Button variant="secondary" onClick={() => handleHome()}>Go to Home</Button>
                             </Col>
                             
                             <Col>

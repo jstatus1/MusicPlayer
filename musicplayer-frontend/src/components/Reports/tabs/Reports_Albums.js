@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import { Form, Row, Col, Container, Button, Table } from 'react-bootstrap'
+import { Form, Row, Col, Container, Button, Table, Modal } from 'react-bootstrap'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import * as actions from '../../../store/actions'
@@ -16,8 +16,17 @@ const Reports_Albums = ({auth}) => {
     const [date_published, setDatePublished] = useState('');
     const [searchIsClicked, setSearchIsClicked] = useState(false);
     const [albumData, setAlbumData] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
     let history = useHistory();
 
+    const handleClose = (event) => {
+        setShowModal(false);
+    }
+
+    const handleHome = (event) => {
+        history.push("/home");
+    }
 
     const albumSearch = (event) => {
 
@@ -59,7 +68,7 @@ const Reports_Albums = ({auth}) => {
             }})
             .then((res) => {
                 console.log('Album deleted!')
-                history.push('/');
+                setShowModal(true)
             })
     }
 
@@ -109,7 +118,7 @@ const Reports_Albums = ({auth}) => {
                         <Row style={{"paddingBottom":"1em", "paddingTop":"1em"}}>
                             <Col md="5"/>
                             <Col md="auto">
-                                <Button variant="secondary" onClick={() => window.location.reload()}>Reset</Button>
+                                <Button variant="secondary" onClick={() => handleHome()}>Go to Home</Button>
                             </Col>
                             
                             <Col>
@@ -156,6 +165,17 @@ const Reports_Albums = ({auth}) => {
                 </Table>
                 
             </Container>
+
+            <Modal show={showModal} onHide={(e) => handleClose()}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Operation Completed</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Album has been deleted</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
+                    <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>
+                </Modal.Footer>
+            </Modal>
 
 
             <div style={{ 'marginTop':'50px'}}/>

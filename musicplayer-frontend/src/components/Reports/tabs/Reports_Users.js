@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import { Form, Row, Col, Container, Button, Table } from 'react-bootstrap'
+import { Form, Row, Col, Container, Button, Table, Modal } from 'react-bootstrap'
 import axios from 'axios'
 import '../Reports.css'
 import { connect } from 'react-redux'
@@ -18,8 +18,17 @@ const Reports_Users = ({auth}) => {
     const [record_label, setRecordLabel] = useState('');
     const [userData, setUserData] = useState([]);
     const [searchIsClicked, setSearchIsClicked] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
     let history = useHistory();
 
+    const handleClose = (event) => {
+        setShowModal(false);
+    }
+
+    const handleHome = (event) => {
+        history.push("/home");
+    }
 
 
     const userSearch = (event) => {
@@ -65,7 +74,7 @@ const Reports_Users = ({auth}) => {
             }})
             .then((res) => {
                 console.log('Song deleted!')
-                history.push('/');
+                setShowModal(true)
             })
     }
     
@@ -109,7 +118,7 @@ const Reports_Users = ({auth}) => {
                         <Row style={{"paddingBottom":"1em", "paddingTop":"1em"}}>
                             <Col md="5"/>
                             <Col md="auto">
-                                <Button variant="secondary" onClick={() => window.location.reload()}>Reset</Button>
+                                <Button variant="secondary" onClick={() => handleHome()}>Go to Home</Button>
                             </Col>
                             
                             <Col>
@@ -158,6 +167,17 @@ const Reports_Users = ({auth}) => {
                 </Table>
                 
             </Container>
+
+            <Modal show={showModal} onHide={(e) => handleClose()}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Operation Completed!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>User has been deleted</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
+                    <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>
+                </Modal.Footer>
+            </Modal>
 
 
             <div style={{ 'marginTop':'50px'}}/>

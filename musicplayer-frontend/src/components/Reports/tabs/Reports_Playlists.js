@@ -23,7 +23,7 @@ const Reports_Playlists = ({auth}) => {
     }
 
     const handleHome = (event) => {
-        history.push("/");
+        history.push("/home");
     }
 
     const playlistSearch = (event) => {
@@ -117,7 +117,7 @@ const Reports_Playlists = ({auth}) => {
                         <Row style={{"paddingBottom":"1em", "paddingTop":"1em"}}>
                             <Col md="5"/>
                             <Col md="auto">
-                                <Button variant="secondary" onClick={() => window.location.reload()}>Reset</Button>
+                                <Button variant="secondary" onClick={() => handleHome()}>Go to Home</Button>
                             </Col>
                             
                             <Col>
@@ -160,7 +160,6 @@ const Reports_Playlists = ({auth}) => {
                                 <td>{playlist.last_name}</td>
                             </tr>
                             
-                            return null
                             
                         })}
                     </tbody>
@@ -170,9 +169,9 @@ const Reports_Playlists = ({auth}) => {
 
             <Modal show={showModal} onHide={(e) => handleClose()}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Operation Completed</Modal.Title>
+                    <Modal.Title>Operation Completed!</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Song has been deleted</Modal.Body>
+                <Modal.Body>User profile has been updated</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={(e) => handleClose()}>Close</Button>
                     <Button variant="danger" onClick={(e) => handleHome()}>Go to Home</Button>
