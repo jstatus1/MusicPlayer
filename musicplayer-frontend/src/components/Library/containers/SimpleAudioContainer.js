@@ -130,6 +130,27 @@ class SimpleAudioContainer extends React.Component
         }
     }
 
+    moreFeatureLogic()
+    {
+        switch(this.props.type)
+        {
+            case "track":
+               return(<ul class="dropdown-menu dropend" aria-labelledby="trackDropdownExtra">
+                            <t6>Add To Playlist</t6>
+                            <t6>Add To Playlist</t6>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>)
+            case "playlist":
+                
+                break;
+            case "album":
+                
+                break
+            default:
+                break;
+        }
+    }
 
     displayLogic()
     {
@@ -154,8 +175,9 @@ class SimpleAudioContainer extends React.Component
                 <div className="likeButton">
                     <i class="bi bi-heart-fill"></i>
                 </div>
-                <div className="addToPlaylistButton">
-                    <i class="bi bi-three-dots"></i>
+                <div className="addToPlaylistButton dropdown" >
+                    <Link className=" buttonStyle" role="button" id="trackDropdownExtra" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></Link>
+                    {this.moreFeatureLogic()}
                 </div>
                 </>)
     }

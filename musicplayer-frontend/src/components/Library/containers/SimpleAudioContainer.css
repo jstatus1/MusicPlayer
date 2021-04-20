@@ -58,7 +58,7 @@
 
 .playbutton
 {
-    color: pink;
+    color: rgb(0, 0, 0);
     position: absolute;
     text-align: center;
     top:-.05em;
@@ -70,38 +70,62 @@
 
 .deleteButton
 {
-    color: rgba(255, 0, 0, 0.753);
+    color: rgba(2, 2, 2, 0.753);
     position: absolute;
     z-index: 100;
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
-    top:-2.2em;
-    left: 4.3em;
+    top:-3.1em;
+    left: 6.5em;
 }
 
 .addToPlaylistButton
 {
-    color: rgba(255, 255, 255, 0.993);
+    color: rgba(5, 5, 5, 0.993);
     position: absolute;
     z-index: 100;
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
-    top:2.1em;
-    left: 3.8em;
+    top:3em;
+    left: 6em;
 }
 
 
 .likeButton
 {
-    color: rgba(255, 255, 255, 0.993);
+    color: rgba(0, 0, 0, 0.993);
     position: absolute;
     z-index: 100;
-    font-size: 30px;
+    font-size: 15px;
     text-align: center;
-    top:2.1em;
-    left: 3.8em;
+    top:4em;
+    left: 6.5em;
 }
 
+.buttonStyle
+{
+    color:inherit;
+    text-decoration: none !important;
+    
+}
+
+.buttonStyle:hover{
+    color: inherit;
+}
+
+.dropdown-item-mini
+{
+    height: 20px !important;
+}
+
+
+
+.dropdown-menu li> a {
+    line-height: 100px;
+    height: 100px;
+    padding-top: 0;
+    padding: 0;
+}
 
 @-webkit-keyframes Gradient {
     0% {

@@ -78,7 +78,7 @@ class Header extends Component {
                           className="nav-link" aria-current="page" to={this.props.auth ? '/reports' : '/'}>
                             Reports
                         </Link>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown ">
                 <div class="d-flex align-items-center">
                 <img className="avatar_image_navbar" src={this.props.auth.avatar === null ? this.props.auth.profile_img_url : this.props.auth.avatar} alt={() => this.setState({avatar_img: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fdownload_87237.png&f=1&nofb=1"})}/>
 
@@ -87,8 +87,7 @@ class Header extends Component {
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="profile_dropdown">
                    
-                      <Link 
-                          className="dropdown-item" aria-current="page" to={`/profileedit`}>
+                      <Link className="dropdown-item" aria-current="page" to={`/profileedit`}>
                             Profile
                       </Link>
                       
@@ -98,7 +97,7 @@ class Header extends Component {
               </li>
 
 
-              <li className="nav-item dropdown">
+              <li className="nav-item dropdown dropleft">
                 <div>
                     <a class="nav-link" id="notification_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <span class="material-icons">
@@ -114,7 +113,7 @@ class Header extends Component {
               </li>
 
               
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown dropleft">
                 <a class="nav-link " id="profile_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <span class="material-icons">
                     drag_indicator
