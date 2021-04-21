@@ -63,17 +63,35 @@ class MediaPlayer extends React.Component
         }   
     }
 
-    updateProgress = (e) => {
+    updateProgress = (e) => 
+    {
         this.setState({currentDuration: this.secondsToHms(e.target.currentTime)})
         let progress = document.querySelector(".mediaplayer_progress")
 
         progress.style.width = `${((e.target.currentTime)/(e.target.duration))*100}%`
     }
 
-    
 
-    
+    setProgress = (e) => {
 
+        let audio = document.getElementById('audio');
+        let width = e.target.clientWidth
+        let clickX =e.nativeEvent.offsetX
+        
+      
+        audio.currentTime = (clickX/width) * audio.duration
+       
+    }
+
+    nextSong()
+    {
+
+    }
+
+    prevSong()
+    {
+
+    }
     
     renderAudio()
     {
@@ -81,7 +99,10 @@ class MediaPlayer extends React.Component
         return(<div class="mediaplayer_container col-12 ">
                 <section role="contentinfo" aria-label="miniplayer" class="playControls__inner  d-flex flex-row justify-content-center align-items-center">
                     <audio id="audio" onTimeUpdate={e=> {this.updateProgress(e)}} 
-                            src={this.props.selectedAudio.song_link} onLoadedMetadata={e=>{this.audioLoad(e)}}>
+                            src={this.props.selectedAudio.song_link} 
+                            onLoadedMetadata={e=>{this.audioLoad(e)}}
+                            onEnded={() => this.nextSong()}
+                    >
 
                     </audio>
                     
@@ -101,9 +122,9 @@ class MediaPlayer extends React.Component
                     </div>
                     <div className="col-4 d-flex flex-row  align-items-center">
                         <t6 className="mediaplayer_timer">{this.state.currentDuration}</t6>
-                        <div class="mediaplayer_progress_container" id="mediaplayer_progress_container">
+                        <div class="mediaplayer_progress_container" id="mediaplayer_progress_container" onClick={e=> {this.setProgress(e)}}>
                             
-                            <div class="mediaplayer_progress" id="mediaplayer_progress"></div>
+                            <div class="mediaplayer_progress" id="mediaplayer_progress" ></div>
                             
                         </div>
                         <t6 className="mediaplayer_timer">{this.state.songDuration}</t6>
