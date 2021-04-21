@@ -10,7 +10,8 @@ class MediaPlayer extends React.Component
     state ={
         songDuration: null,
         currentDuration: null,
-        timeFormatNormal: true
+        timeFormatNormal: true,
+        isMuted: false
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -92,6 +93,26 @@ class MediaPlayer extends React.Component
     {
 
     }
+
+    toggleVolume()
+    {
+        let audio = document.getElementById('audio');
+
+        if(this.state.isMuted)
+        {
+            this.setState({isMuted: false})
+            audio.muted = false
+        }else{
+            this.setState({isMuted: true})
+            audio.muted = true
+        }
+    }
+
+    changeVolume(e)
+    {
+        let audio = document.getElementById('audio')
+        audio.volume = e.target.value
+    }
     
     renderAudio()
     {
@@ -118,7 +139,26 @@ class MediaPlayer extends React.Component
                         <button><i class="bi bi-skip-forward-fill"></i></button>
                         <button><i class="bi bi-shuffle"></i></button>
                         <button><i class="bi bi-arrow-repeat"></i></button>
-                        <button><i class="bi bi-volume-down-fill"></i></button>
+                       
+                        <div className="dropdown">
+                            <div class="dropdown-content">
+                                <div className="slider-wrapper">
+                                    <input type="range"
+                                           min="0" 
+                                           max="1" 
+                                           step=".01" 
+                                           defaultValue=".5" 
+                                           orient="veritical"
+                                           onChange={(e) => this.changeVolume(e)}/>
+                                </div> 
+                            </div>
+                            <button id="volumeButton" onClick={()=> this.toggleVolume()}  type="button"  className="dropbtn">
+                                { (this.state.isMuted)?
+                                        <i class="bi bi-volume-mute-fill"></i>
+                                        :
+                                        <i class="bi bi-volume-down-fill"></i>}
+                            </button>
+                        </div>
                     </div>
                     <div className="col-4 d-flex flex-row  align-items-center">
                         <t6 className="mediaplayer_timer">{this.state.currentDuration}</t6>
@@ -164,7 +204,23 @@ class MediaPlayer extends React.Component
                     <button><i class="bi bi-skip-forward-fill"></i></button>
                     <button><i class="bi bi-shuffle"></i></button>
                     <button><i class="bi bi-arrow-repeat"></i></button>
-                    <button><i class="bi bi-volume-down-fill"></i></button>
+                   
+                    <div class="btn-group dropup">
+                        <button id="dropdownMenuButton1" onClick={()=> this.toggleVolume()}  type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        { (this.state.isMuted)?
+                                <i class="bi bi-volume-mute-fill"></i>
+                                :
+                                <i class="bi bi-volume-down-fill"></i>}
+                        </button>
+                        {/* <ul class="dropdown-menu" aria-labelledby="volumeButton">
+                            <input type="range" class="vranger"/>
+                        </ul> */}
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="col-4 d-flex flex-row  align-items-center">
                         <t6 className="mediaplayer_timer">{this.state.currentDuration}</t6>
