@@ -13,9 +13,9 @@ class SimpleAudioContainer extends React.Component
         super(props)
         this.state={
             mouse_in: false,
-            current_songPlaying: false,
             link: '/Library/Overview',
-            authorityToDelete: false
+            authorityToDelete: false,
+            isPlaying: (JSON.parse(localStorage.getItem("isPlaying")))
         }
         
     }
@@ -58,18 +58,10 @@ class SimpleAudioContainer extends React.Component
 
     audioLogic()
     {
-    
         this.props.selectSong(this.props.song)
-        if(this.state.current_songPlaying)
-        {
-            
-            this.setState({current_songPlaying:false})
-            this.props.setAudio(false)
-        }else{
-            
-            this.setState({current_songPlaying:true})
-            this.props.setAudio(true)
-        }
+        localStorage.setItem("isPlaying", !(JSON.parse(localStorage.getItem("isPlaying"))))
+        this.setState({isPlaying: !(this.state.isPlaying)})
+
     }
 
     deleteLogic = async () =>
@@ -166,7 +158,8 @@ class SimpleAudioContainer extends React.Component
                 
                 <div className="playbutton">
                     <a onClick={() => this.audioLogic()}>
-                        {(this.props.selectedAudio == this.props.song && this.props.audioSetting)?
+                        {(this.props.selectedAudio.song_id == this.props.song.song_id && 
+                        JSON.parse(localStorage.getItem('isPlaying')))?
                             <i class="bi bi-pause-circle-fill"></i>:
                             <i class="bi bi-play-circle-fill"></i>
                         }
@@ -219,7 +212,6 @@ class SimpleAudioContainer extends React.Component
 function mapStateToProps(state) {
     return { 
       selectedAudio: state.selected_audio_reducer,
-      audioSetting: state.set_audio_reducer,
       previousAudio: state.set_previous_audio_reducer,
       auth: state.auth_reducer
      };

@@ -39,13 +39,6 @@ export const selectSong = (song) =>  {
     
 }
 
-export let setAudio = (setting) => 
-{
-    return {
-        type: 'AUDIO_SETTING',
-        payload: setting
-    }
-} 
 
 
 
