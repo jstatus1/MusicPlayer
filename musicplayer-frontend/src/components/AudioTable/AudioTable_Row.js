@@ -14,8 +14,7 @@ class AudioTable_Row extends PureComponent {
         current_songPlaying: false,
         renderPlaylists_toggle: false,
         mouse_in_playlist:false,
-        showModalPlaylist: false,
-        propertyOf: false
+        showModalPlaylist: false
     }
 
     
@@ -34,28 +33,6 @@ class AudioTable_Row extends PureComponent {
 
         }
         
-    }
-
-    deleteSong()
-    {
-        
-        try{
-            axios.delete('/api/delete/trackById', 
-            {params:{song_id:this.props.song.song_id, 
-                     user_id:this.props.song.user_id,
-                     s3_audio_key: this.props.song.s3_audio_key,
-                     s3_image_key: this.props.song.s3_image_key
-                    }})
-            .then(()=> {
-                this.props.removeSong(this.props.song)
-            })
-            .catch(err=> {
-
-            })
-        }catch(err)
-        {
-
-        }
     }
    
 
@@ -88,31 +65,7 @@ class AudioTable_Row extends PureComponent {
     }
 
 
-    componentDidMount()
-    {   
-        //check if this property belongs to the current user
-        let uid = JSON.parse(localStorage.getItem("User")).uid
-        switch(this.props.type)
-        {
-            case "Track":
-                if(uid == this.props.song.user_id)
-                    this.setState({propertyOf: true})
-                break;
-            case "Tracks":
-                if(uid == this.props.song.user_id)
-                    this.setState({propertyOf: true})
-                break;
-            case "Album":
-                if(uid == this.props.song.user_id)
-                    this.setState({propertyOf: true})
-                break;
-            case "Playlist":
-                if(uid == this.props.song.user_id)
-                    this.setState({propertyOf: true})
-                break;
-        }
-        
-    }
+    
 
     render() {
         return(<React.Fragment>
@@ -163,7 +116,7 @@ class AudioTable_Row extends PureComponent {
                                 */}
                                  
                                  {
-                                    (this.state.propertyOf)? <><li onClick={()=> {this.deleteSong()}}><a class="dropdown-item" ><i class="bi bi-trash"></i> Delete Song</a></li></>:null  
+                                    (this.props.type == "Track")? <><li><a class="dropdown-item" >Delete Song</a></li><li><hr class="dropdown-divider"/></li></>:null  
                                  }
                                   {
                                     (this.props.type == "Playlist")? <><li onClick={()=>{ this.removeSongFromPlaylist()}}><a class="dropdown-item" >
