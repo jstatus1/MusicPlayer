@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
-import axios from 'axios'
 
 import './AudioTable_Row.css'
 
@@ -18,22 +17,7 @@ class AudioTable_Row extends PureComponent {
     }
 
     
-    removeSongFromPlaylist()
-    {
-        try{
-            axios.delete('/api/delete/songFromPlaylist', {params:{playlist_id:this.props.playlist_id, song_id:this.props.song.song_id}})
-            .then(()=> {
-                this.props.removeSong(this.props.song)
-            })
-            .catch(err=> {
 
-            })
-        }catch(err)
-        {
-
-        }
-        
-    }
    
 
     secondsToHms(d) {
@@ -65,8 +49,6 @@ class AudioTable_Row extends PureComponent {
     }
 
 
-    
-
     render() {
         return(<React.Fragment>
         <tr key={this.props.id} className="AudioTable_Row  align-item-center" 
@@ -92,7 +74,7 @@ class AudioTable_Row extends PureComponent {
                     </td>
                     <td>{this.props.song.title}</td>
                     <td>{this.props.song.username}</td>
-                    <td>{this.props.song.album_title || "------"}</td>
+                    <td>{this.props.song.album_title}</td>
                     <td>{this.props.song.release_date}</td>
                     {
                         (this.state.mouse_in)?
@@ -109,21 +91,11 @@ class AudioTable_Row extends PureComponent {
                                 <li><a class="dropdown-item" href="#">Show Credits</a></li>
                                 <li><hr class="dropdown-divider"/></li>
                                 <li><a class="dropdown-item" href="#">Save to Likes</a></li> */}
-                                <li> <a type="button" class="btn" data-bs-toggle="modal" data-bs-target={`#playlistModal${this.props.song.song_id}`} class="dropdown-item">
-                                <i class="bi bi-plus-square-fill"></i> Add To Playlist</a></li>
+                                <li> <a type="button" class="btn" data-bs-toggle="modal" data-bs-target={`#playlistModal${this.props.song.song_id}`} class="dropdown-item">Add To Playlist</a></li>
                                 {/* <li><a class="dropdown-item" href="#">Remove from This Playlist</a></li> */}
-                                {/*
-                                */}
-                                 
-                                 {
-                                    (this.props.type == "Track")? <><li><a class="dropdown-item" >Delete Song</a></li><li><hr class="dropdown-divider"/></li></>:null  
-                                 }
-                                  {
-                                    (this.props.type == "Playlist")? <><li onClick={()=>{ this.removeSongFromPlaylist()}}><a class="dropdown-item" >
-                                        <i class="bi bi-file-x-fill"></i>  Remove From "{this.props.playlist_name}"</a></li></>:null  
-                                 }
-                                
-                                
+                                {/* <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#">Delete Song</a></li> */}
+                                <li><hr class="dropdown-divider"/></li>
                                 {/* <li><a class="dropdown-item" href="#">Share</a></li> */}
                             </ul>
 
