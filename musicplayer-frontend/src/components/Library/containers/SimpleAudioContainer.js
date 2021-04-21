@@ -14,8 +14,8 @@ class SimpleAudioContainer extends React.Component
         this.state={
             mouse_in: false,
             link: '/Library/Overview',
-            authorityToDelete: false,
-            isPlaying: (JSON.parse(localStorage.getItem("isPlaying")))
+            current_songPlaying: false,
+            authorityToDelete: false
         }
         
     }
@@ -59,9 +59,18 @@ class SimpleAudioContainer extends React.Component
     audioLogic()
     {
         this.props.selectSong(this.props.song)
-        localStorage.setItem("isPlaying", !(JSON.parse(localStorage.getItem("isPlaying"))))
-        this.setState({isPlaying: !(this.state.isPlaying)})
-
+        if(this.state.current_songPlaying)
+        {
+            //pause the music
+            localStorage.setItem("isPlaying", false)
+            this.setState({current_songPlaying:false})
+            this.props.setAudio(false)
+        }else{
+            //play the music
+            localStorage.setItem("isPlaying", true)
+            this.setState({current_songPlaying:true})
+            this.props.setAudio(true)
+        }
     }
 
     deleteLogic = async () =>
@@ -161,8 +170,7 @@ class SimpleAudioContainer extends React.Component
                         {(this.props.selectedAudio.song_id == this.props.song.song_id && 
                         JSON.parse(localStorage.getItem('isPlaying')))?
                             <i class="bi bi-pause-circle-fill"></i>:
-                            <i class="bi bi-play-circle-fill"></i>
-                        }
+                            <i class="bi bi-play-circle-fill"></i>}
                     </a>
                 </div>
                 

@@ -10,24 +10,20 @@ class MediaPlayer extends React.Component
     state ={
         songDuration: null,
         currentDuration: null,
-        timeFormatNormal: true,
-        isPlaying: false
+        timeFormatNormal: true
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.isPlaying !==  JSON.parse(localStorage.getItem("isPlaying"))) 
+
+        let audio = document.getElementById('audio');
+        
+        if(this.props.audioSetting || JSON.parse(localStorage.getItem('isPlaying')))
         {
-            let audio = document.getElementById('audio')
-            if(JSON.parse(localStorage.getItem("isPlaying")))
-            {
-                audio.play()
-                this.setState({isPlaying: true})
-            }else
-            {
-                audio.pause()
-                this.setState({isPlaying: false})
-            }
-            return
+            this.props.setAudio(true)
+            audio.play()
+        }else{
+            this.props.setAudio(false)
+            audio.pause()
         }
     }
 
@@ -57,19 +53,14 @@ class MediaPlayer extends React.Component
     }
 
     audioToggle = () =>  {
-        
-        let audio = document.getElementById('audio'); 
-        if(JSON.parse(localStorage.getItem("isPlaying")))
-        {
-            localStorage.setItem("isPlaying", false)
-            this.setState({isPlaying: false})
-            audio.pause()
-        }else {
-            console.log("Hey")
-            localStorage.setItem("isPlaying", true) 
-            this.setState({isPlaying: true})
-            audio.play()
-        } 
+
+        if (this.props.audioSetting){
+            this.props.setAudio(false)
+            localStorage.setItem('isPlaying', false)
+        }else{
+            this.props.setAudio(true)
+            localStorage.setItem('isPlaying', true) 
+        }   
     }
 
     updateProgress = (e) => {
@@ -97,9 +88,9 @@ class MediaPlayer extends React.Component
                     <div className="mediaplayer_navigation col-2 d-flex flex-row justify-content-end">
                         <button><i class="bi bi-skip-backward-fill"></i></button>
                         <button className="mediaplayer_btn_play" onClick={() => this.audioToggle()} >
-                            {this.state.isPlaying?
-                            <i class="bi bi-pause-circle-fill"></i>:
-                            <i class="bi bi-play-fill"></i>
+                            {(this.props.audioSetting)?
+                                <i class="bi bi-pause-circle-fill"></i>:
+                                <i class="bi bi-play-fill"></i>
                             }
                            
                         </button>
@@ -201,7 +192,8 @@ class MediaPlayer extends React.Component
 
 function mapStateToProps(state) {
     return { 
-      selectedAudio: state.selected_audio_reducer
+      selectedAudio: state.selected_audio_reducer,
+      audioSetting: state.set_audio_reducer
      };
 }
 
