@@ -29,7 +29,7 @@ class Header extends Component {
     switch(this.props.auth)
     {
       case null:
-          return 
+        return
       case false:
           return(
               <ul className="navbar-nav ms-auto">
@@ -122,7 +122,7 @@ class Header extends Component {
                 <ul class="dropdown-menu" aria-labelledby="profile_dropdown">
                         
                       
-                  <li><a class="dropdown-item" href="/api/logout">Sign Out</a></li>
+                  <li><a class="dropdown-item" onClick={()=> this.props.SigOutUser()}>Sign Out</a></li>
                 </ul>
               </li>
 

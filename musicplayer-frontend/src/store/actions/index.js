@@ -22,6 +22,25 @@ export const fetchUser = () => async dispatch =>
     }
 }
 
+export const SigOutUser = () => async dispatch =>
+{
+    
+    const res = await axios.get('/api/logout')   
+    
+    try{
+        dispatch({
+            type: "SIGN_OUT",
+            payload: false
+        })
+    }catch(err)
+    {
+        dispatch({
+            type: "SIGN_OUT",
+            payload: false
+        })
+    }
+}
+
 export const previousAudio = (song) =>  {
     return{
         type: 'PREVIOUS_AUDIO',
