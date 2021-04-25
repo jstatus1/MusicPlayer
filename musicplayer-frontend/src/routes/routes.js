@@ -7,6 +7,7 @@ import Upload from '../components/Upload/upload'
 import ProfileEdit from '../components/profile/profileedit'
 import ProfileView from '../components/profile/ProfileView'
 import DropZone from '../components/Upload/drop-zone'
+import MediaPlayer from '../components/MediaPlayer/mediaplayer'
 import Home from '../components/Home/Home'
 import Notification from '../components/Navbar/notifcations/notificaiton_page'
 import Reports from '../components/Reports/Reports'
@@ -39,7 +40,6 @@ const LibraryRoutes = ({ match }) => (
                      type="Track"/>}/>
         <Route path={match.url + "/playlists"} component={PlaylistRoutes}/>
         <Route path={match.url + "/albums"} component={AlbumRoutes}/>
-        
     </div>
 )
 
@@ -99,7 +99,7 @@ let Routes = () =>
              </div>
             
         </BrowserRouter> 
-       
+        <MediaPlayer/>
      </div>)
 }
 
