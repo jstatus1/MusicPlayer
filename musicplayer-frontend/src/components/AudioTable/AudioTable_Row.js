@@ -98,7 +98,7 @@ class AudioTable_Row extends PureComponent {
                 if(uid == this.props.song.user_id)
                     this.setState({propertyOf: true})
                 break;
-            case "Tracks":
+            case "User_Track":
                 if(uid == this.props.song.user_id)
                     this.setState({propertyOf: true})
                 break;

@@ -48,7 +48,7 @@ export default class DisplaySongsPage extends PureComponent
             .then((response) => {
                 this.setState({album: response.data})
             })
-        }else if (this.props.type == "Tracks")
+        }else if (this.props.type == "User_Track")
         {
             axios.get('/api/get/user/tracks')
             .then((response) => {
@@ -84,14 +84,20 @@ export default class DisplaySongsPage extends PureComponent
                 <AudioTable fetch_track={this.state.album} type={this.props.type}></AudioTable>
             </div>
         </React.Fragment>)
-        }else if(this.props.type == "Tracks")
+        }else if(this.props.type == "User_Track")
         {
             return(<React.Fragment>
-                <Banner fetch_track={this.state.tracks} intro="true"></Banner>
-                <div className="col-12 ">
-                    <AudioTable fetch_track={this.state.tracks} type={this.props.type}></AudioTable>
-                </div>
-            </React.Fragment>)
+                    <Banner fetch_track={this.state.tracks} intro="true"></Banner>
+                    <div className="col-12 ">
+                        <AudioTable fetch_track={this.state.tracks} type={this.props.type}></AudioTable>
+                    </div>
+                </React.Fragment>)
+        }else if(this.props.type == "Track")
+        {
+            <div>
+                <h1>Currently Listening To:</h1>
+                <h2>{this.props.title}</h2>
+            </div>
         }
     }
 

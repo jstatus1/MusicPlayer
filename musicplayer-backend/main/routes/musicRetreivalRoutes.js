@@ -109,6 +109,18 @@ module.exports = app => {
         })
     })
 
+    app.get('/api/get/songBysong_id', async(req, res) => {
+        await pool.query(`SELECT s.*, u.username FROM songs s left join users u 
+        ON s.user_id = u.uid where song_id=$1  limit 1`, [req.query.song_id])
+        .then((data)=> {
+            res.status(200).send(data.rows)
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(401).send('Failed To Grab Info Form Database')
+        })
+    })
+
 
     app.get('/api/get/playlistById', async(req, res) =>{
         var playlist_id = req.query.playlistId

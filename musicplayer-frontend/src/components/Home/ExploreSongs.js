@@ -81,7 +81,10 @@ export default class ExploreSongs extends PureComponent {
             return this.state.songs.map((song, index) => {
                 return (
                          <div className="col-3" style={{"paddingBottom":"0.7em"}} key={index}>
-                                <SimpleAudioContainer id={index} song={song} link="library/tracks" type="track" removeFromArray={this.removeFromArray.bind(this)}>
+                                <SimpleAudioContainer 
+                                        id={index} song={song}
+                                        link={`explore/tracks/${song.song_id}`} 
+                                        type="track" removeFromArray={this.removeFromArray.bind(this)}>
                                 </SimpleAudioContainer>
                         </div>)
             }) 

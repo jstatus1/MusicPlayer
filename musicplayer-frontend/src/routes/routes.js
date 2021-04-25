@@ -15,7 +15,6 @@ import Reports from '../components/Reports/Reports'
 import Landing from '../components/Landing/Landing'
 import LibraryNav from '../components/Library/LibraryNav'
 import Overview from '../components/Library/LibraryPages/Overview'
-import Tracks from '../components/Library/LibraryPages/Tracks'
 import Playlist from '../components/Library/LibraryPages/Playlist'
 import Albums from '../components/Library/LibraryPages/Albums'
 
@@ -24,6 +23,7 @@ import Settings from '../components/Settings/Settings'
 import SettingsNav from '../components/Settings/SettingsNav'
 import DisplaySongsPage from '../components/Library/LibraryPages/components/DisplaySongsPage'
 
+import ExploreTracks from '../components/Home/ExploreTracks'
 
 const LibraryRoutes = ({ match }) => (
     <div>
@@ -31,8 +31,12 @@ const LibraryRoutes = ({ match }) => (
         <LibraryNav></LibraryNav>
         <Route exact path={match.url} component={Overview}/>
         <Route exact path={match.url + "/overview"} component={Overview}/>
-        <Route exact path={match.url + "/tracks"} component={Tracks}/>
-        <Route exact path={match.url + "/:title/:song_id"} render={props => <DisplaySongsPage {...props.match.params} type="Tracks"/>}/>
+        <Route exact path={match.url + "/tracks"} 
+                     render={props => <DisplaySongsPage {...props.match.params} 
+                     type="User_Track"/>}/>
+        <Route exact path={match.url + "/:title/:song_id"} 
+                     render={props => <DisplaySongsPage {...props.match.params} 
+                     type="Track"/>}/>
         <Route path={match.url + "/playlists"} component={PlaylistRoutes}/>
         <Route path={match.url + "/albums"} component={AlbumRoutes}/>
         
@@ -78,18 +82,19 @@ let Routes = () =>
              <div >
                  <Header/>
                  <div className="container">
-                 <Route exact path="/" component={Landing}/>
-                 <Route exact path="/discovery" component={Home}/>
-                 <Route exact path="/home" component={Home}></Route>
-                 <Route exact path="/upload" component={Upload}></Route>
-                 <Route exact path="/drop_zone" component={DropZone}></Route>
-                 <Route path="/library" component={LibraryRoutes}></Route>
-                 <Route exact path="/profileedit" component={ProfileEdit}></Route>
-                 <Route exact path="/notification" component={Notification}></Route>
-                 <Route exact path="/reports" component={Reports}></Route>
-                 <Route exact path="/profileview" component={ProfileView}></Route>
-                 <Route path="/search/" component={SearchRoutes}></Route>
-                 <Route path="/settings/" component={SettingsRoutes}></Route>
+                    <Route exact path="/" component={Landing}/>
+                    <Route exact path="/discovery" component={Home}/>
+                    <Route exact path="/home" component={Home}></Route>
+                    <Route exact path="/explore/tracks/:song_id/" render={props => <ExploreTracks {...props.match.params}/>}></Route>
+                    <Route exact path="/upload" component={Upload}></Route>
+                    <Route exact path="/drop_zone" component={DropZone}></Route>
+                    <Route path="/library" component={LibraryRoutes}></Route>
+                    <Route exact path="/profileedit" component={ProfileEdit}></Route>
+                    <Route exact path="/notification" component={Notification}></Route>
+                    <Route exact path="/reports" component={Reports}></Route>
+                    <Route exact path="/profileview" component={ProfileView}></Route>
+                    <Route path="/search/" component={SearchRoutes}></Route>
+                    <Route path="/settings/" component={SettingsRoutes}></Route>
                  </div>
              </div>
             
