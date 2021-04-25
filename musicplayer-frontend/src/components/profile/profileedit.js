@@ -202,9 +202,9 @@ const ProfileEdit = ({auth}) => {
                                     onChange={(e) => setTwitter(e.target.value)}></Form.Control>
                     </div>
                     <div className={edit_profile ? "display-off" : "display-on"}>
-                        <a href={facebook}>{facebook}</a>
-                        <a href={instagram}>{instagram}</a>
-                        <a href={twitter}>{twitter}</a>
+                        <Row style={{"paddingBottom":"40px"}}><a href={facebook}>{facebook ? "Go to Facebook" : "`"}</a></Row>
+                        <Row style={{"paddingBottom":"40px"}}><a href={instagram}>{instagram ? "Go to Instagram" : "`"}</a></Row>
+                        <Row><a href={twitter}>{twitter ? "Go to Twitter":"`"}</a></Row>
 
 
                     </div>
