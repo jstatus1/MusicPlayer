@@ -1,25 +1,61 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
-{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;}
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 HelveticaNeue-Bold;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red5\green5\blue6;
 }
 {\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c99971\c0;\cssrgb\c1569\c1569\c1961\c6667;
 }
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\paperw11900\paperh16840\margl1440\margr1440\vieww17520\viewh10860\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0\fs32 \cf2 \cb3 \expnd0\expndtw0\kerning0
 Group 13 Music Player Project - CoogMusic\
 \pard\pardeftab720\sl360\sa320\partightenfactor0
 \cf2 Members: Edward Vo, Johnson Tran, Robert Green, Alvin Stilley, Andreas Kalos\
-We hosted our app in this link below (along with the database), so there's no need to run anything to test our app.\
+\
+
+\f1\b\fs48 \ul App Instructions\
+
+\f0\b0\fs32 \ulnone We hosted our app in this link below (along with the database), so there's no need to run anything to test our app.\
 Link:\'a0{\field{\*\fldinst{HYPERLINK "http://ec2-3-128-79-13.us-east-2.compute.amazonaws.com/"}}{\fldrslt http://ec2-3-128-79-13.us-east-2.compute.amazonaws.com/}}\
-Admin accounts will be the only ones having access to the 'Admin' columns in the Reports tab. Any other accounts will not see this feature; simply create a new account to see the limited version of the Reports tabl. We've set up an admin account for you below:\
+Admin accounts will be the only ones having access to the 'Admin' columns in the Reports tab. Any other accounts will not see this feature; simply create a new account to see the limited version of the Reports tab (as non-admin user). We've set up an admin account for you below:\
 \pard\pardeftab720\sl360\partightenfactor0
-\cf2 username: admin password: adminadmin123\
+\cf2 username: admin \
+password: adminadmin123\
 \
 Also apart of the zip file is our backup of our PostGres DB with data and the folder which contains all our code (front end, back end). Links to Github below:\
 \
 Production Github: https://github.com/jstatus1/UH-Music-Prod--2 \
 \
-Dev Github (shows everyone\'92s commit and contributions): {\field{\*\fldinst{HYPERLINK "https://github.com/jstatus1/MusicPlayer"}}{\fldrslt \cb4 \ul \ulc2 https://github.com/jstatus1/MusicPlayer}}\
+Dev Github: {\field{\*\fldinst{HYPERLINK "https://github.com/jstatus1/MusicPlayer"}}{\fldrslt \cb4 \ul \ulc2 https://github.com/jstatus1/MusicPlayer}}\cb4 \ul \ulc2 \
+\
+
+\f1\b\fs44 Code base explanation:\
+
+\fs34 \
+
+\f0\b0\fs30 \ulnone We advise to just inspect the app through the hosted link provided above, because attempting to run the app locally might not work with the following reasons: \
+\
+- There are secret and key files that are in our .gitignore and weren\'92t committed to Github that we chose not to share (due to containing sensitive info from our member\'92s environment that helped us build the app in development). Thus, lacking them might not help you run the app locally.\
+- The computer environment that you decided to test our app in might have missing or incompatible configurations, producing some bugs. This was the team\'92s issue when we tried to set up running the app on each of our member\'92s computers; we had to solve numerous bugs that was only local to a member\'92s specific computer environment).\
+\
+But if you must, below are instructions we hope to assist in your endeavor:\
+\
+We used React (front-end), Express (back-end), and PostGres (plus pgAdmin as the web interface) for database. Some frameworks, dependencies and tools we used for building the app include React-Bootstrap, CSS, Redux, Passport.js, AWS S3.\
+\
+There are 2 main folders: musicplayer-frontend and musicplayer-backend. Before running, make sure to run this command inside the root folder (one just outside of musicplayer-frontend and musicplay-backend folders) as well as running the command inside those 2 folders: \
+\
+npm install\
+\
+There might be some bugs initially and might crash the app, in which case: if the bug suggests to install certain dependencies due to missing components, please run the following command to install them on your local environment:\
+\
+nom install <insert-dependency-name-here>\
+\
+To start the front-end, go to front-end folder and type: npm start.\
+For back-end, same thing in back-end folder, then type: npm run devstart\
+\
+If run locally, there will be no data displayed on the app (and subsequently nothing shows up on reports) because it reads from your local version of our schema of the PostGres database. \
+
+\f1\b\fs44 \ul \
+
+\f0\b0\fs32 \cb3 \ulnone \
 }
